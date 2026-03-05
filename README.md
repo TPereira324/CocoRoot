@@ -27,7 +27,7 @@ A pasta ainda está em desenvolvimento e será atualizada com todos os elementos
 ## Tecnologias a serem utilizadas para o Desenvolvimento do Projeto
 
 - **Frontend:** HTML, CSS, JavaScript  
-- **Backend:** Node.js 
+- **Backend:** PHP 
 - **Base de Dados:** MySQL  
 - **Design:** Figma  
 - **Documentação da API:** Swagger  
