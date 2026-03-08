@@ -5,29 +5,23 @@ class Controller {
     }
 
     init() {
-        this.view.renderLogin();
         this.bindEvents();
     }
 
     bindEvents() {
-        const loginForm = document.getElementById('login-form');
-        if (loginForm) {
-            loginForm.addEventListener('submit', (e) => this.handleLogin(e));
+        const loginBtn = document.getElementById('btn-login');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                // Here you would normally show a login form or redirect
+                console.log('Botão Entrar clicado');
+            });
         }
-    }
 
-    handleLogin(event) {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const username = formData.get('username');
-        const password = formData.get('password');
-
-        const result = this.model.login(username, password);
-
-        if (result.success) {
-            this.view.displayMessage(`Login realizado com sucesso! Bem-vindo, ${result.user}.`);
-        } else {
-            this.view.displayMessage(result.message, true);
+        const registerBtn = document.getElementById('btn-register');
+        if (registerBtn) {
+            registerBtn.addEventListener('click', () => {
+                console.log('Botão Registar-me clicado');
+            });
         }
     }
 }

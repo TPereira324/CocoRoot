@@ -7,7 +7,35 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app">
+        <div class="welcome-screen">
+            <div class="side-image">
+                <!-- Placeholder for coconut image -->
+            </div>
+            <div class="welcome-content">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L9 9H15L12 2Z" fill="#3e5c32"/>
+                            <path d="M12 22C16.4183 22 20 18.4183 20 14C20 9.58172 16.4183 6 12 6C7.58172 6 4 9.58172 4 14C4 18.4183 7.58172 22 12 22Z" fill="#8b5a2b"/>
+                            <path d="M12 22C14.2091 22 16 20.2091 16 18H8C8 20.2091 9.79086 22 12 22Z" fill="#5d3a1a"/>
+                        </svg>
+                    </div>
+                    <h1 class="brand-name">CocoRoot</h1>
+                </div>
+                <p class="slogan">Gestão inteligente para os seus cultivos</p>
+                <ul class="features-list">
+                    <li>Monitorize as suas culturas em tempo real</li>
+                    <li>Receba alertas e dicas personalizadas</li>
+                    <li>Aprenda com outros agricultores</li>
+                </ul>
+                <div class="actions">
+                    <button id="btn-login" class="btn-primary">Entrar</button>
+                    <button id="btn-register" class="btn-secondary">Registar-me</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="models/Model.js"></script>
     <script src="views/View.js"></script>
