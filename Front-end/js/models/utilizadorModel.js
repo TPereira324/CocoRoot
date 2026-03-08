@@ -1,0 +1,4 @@
+class UtilizadorModel {
+    constructor() {
+    }
+}
