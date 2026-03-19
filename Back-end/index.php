@@ -22,6 +22,8 @@ include("conexao.php");
 		<input type="text" name="nome" placeholder="Nome" required>
 		<input type="email" name="email" placeholder="Email" required>
 		<input type="password" name="senha" placeholder="Senha" required>
+		<input type="text" name="nome_fazenda" placeholder="Nome da Fazenda (Opcional)">
+		<label><input type="checkbox" name="agricultor_iniciante" value="1"> Sou iniciante</label>
 		<button type="submit">Cadastrar</button>
 	</form>
 	<table width="600px" border="1">
@@ -32,7 +34,7 @@ include("conexao.php");
 		</tr>
 		<?php
 		if (!isset($_GET["busca"]) || empty($_GET["busca"])) {
-			?>
+		?>
 			<tr>
 				<td colspan="3">Digite o nome do usuário</td>
 			</tr>
@@ -42,20 +44,20 @@ include("conexao.php");
 			$sql_code = "SELECT * FROM utilizador WHERE ut_nome LIKE '%$pesquisa%' OR ut_email LIKE '%$pesquisa%' OR ut_id LIKE '%$pesquisa%'";
 			$sql_query = $mysqli->query($sql_code) or die("Erro ao consultar o banco de dados: " . $mysqli->error);
 			if ($sql_query->num_rows == 0) {
-				?>
+			?>
 				<tr>
 					<td colspan="3">Nenhum resultado encontrado...</td>
 				</tr>
 				<?php
 			} else {
 				while ($bancodedados = $sql_query->fetch_assoc()) {
-					?>
+				?>
 					<tr>
 						<td><?php echo $bancodedados["ut_id"]; ?></td>
 						<td><?php echo $bancodedados["ut_nome"]; ?></td>
 						<td><?php echo $bancodedados["ut_email"]; ?></td>
 					</tr>
-					<?php
+		<?php
 				}
 			}
 		}

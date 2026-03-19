@@ -16,6 +16,6 @@ class UtilizadorView {
     }
 
     displayMessage(message, isError = false) {
-        alert(message); // Por agora, usamos alert para mensagens simples
+        alert(message); 
     }
 }
