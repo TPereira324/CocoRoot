@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89ba35d9-7932-49ce-9b89-bc8b05d47c76" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/conexao.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,11 +17,12 @@
   </component>
   <component name="CopilotPersistence">
     <persistenceIdMap>
+      <entry key="_C:/Users/alexr/PhpstormProjects/CocoRoot/Back-end" value="3BAjLgzXhDO2WhuK3WiET3gjNKd" />
       <entry key="_C:/Users/tahaw/Projects/CocoRoot/Back-end" value="3AcD3es6TZOWxbME2SF1w3OnrsS" />
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="15" />
+    <option name="cachedIndexableFilesCount" value="10" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -38,12 +39,12 @@
     &quot;assignee&quot;: &quot;TPereira324&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/TPereira324/CocoRoot.git&quot;,
-    &quot;accountId&quot;: &quot;63a27d44-5a17-404d-8fa8-be0bd6cb872e&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/TPereira324/CocoRoot.git",
+    "accountId": "4ecc113d-6c71-4152-be13-0fd27288ee9a"
   }
-}</component>
+}]]></component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
@@ -69,7 +70,7 @@
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/tahaw/Projects/CocoRoot/Back-end",
+    "last_opened_file_path": "C:/Users/alexr/PhpstormProjects/CocoRoot/Back-end",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -77,6 +78,11 @@
     "nodejs_package_manager_path": "npm",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="SharedIndexes">
@@ -97,6 +103,7 @@
       <workItem from="1772882769522" duration="856000" />
       <workItem from="1772883806863" duration="813000" />
       <workItem from="1773100205826" duration="38000" />
+      <workItem from="1773938716573" duration="1032000" />
     </task>
     <servers />
   </component>
