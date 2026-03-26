@@ -44,6 +44,13 @@ class Router {
 
     private function normalizarPath(?string $path): string {
         if (!$path) return '/';
+        
+        // Remove o caminho base do script (ajuda a funcionar em subpastas automaticamente)
+        $basePath = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+        if ($basePath !== '/') {
+            $path = str_replace($basePath, '', $path);
+        }
+        
         return '/' . trim($path, '/');
     }
 
