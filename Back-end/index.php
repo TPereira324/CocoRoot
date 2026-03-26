@@ -1,42 +1,66 @@
 <?php
+include("conexao.php");
+?>
 
-use App\Config\Router;
-use App\Controller\UsuarioController;
-use App\Controller\ParcelaController;
-use App\Controller\SensorController;
-use App\Controller\TarefaController;
-use App\Controller\ForumController;
+<!DOCTYPE html>
+<html lang="en">
 
-// Carregar bootstrap (autoloader e configs base)
-require_once __DIR__ . '/config/bootstrap.php';
-require_once __DIR__ . '/config/router.php';
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sistema de Busca</title>
+</head>
 
-$router = new Router();
+<body>
+	<h1>Sistema de Busca de Utilizadores</h1>
+	<form action="" method="GET">
+		<input name="busca" value="<?php echo isset($_GET['busca']) ? $_GET['busca'] : ''; ?>"
+			placeholder="Digite o nome do usuário" type="text">
+		<button type="submit">Pesquisar</button>
+	</form>
+	<form action="registrar.php" method="POST">
+		<input type="text" name="nome" placeholder="Nome" required>
+		<input type="email" name="email" placeholder="Email" required>
+		<input type="password" name="senha" placeholder="Senha" required>
+		<button type="submit">Cadastrar</button>
+	</form>
+	<table width="600px" border="1">
+		<tr>
+			<th>ID</th>
+			<th>Nome</th>
+			<th>Email</th>
+		</tr>
+		<?php
+		if (!isset($_GET["busca"]) || empty($_GET["busca"])) {
+			?>
+			<tr>
+				<td colspan="3">Digite o nome do usuário</td>
+			</tr>
+			<?php
+		} else {
+			$pesquisa = $mysqli->real_escape_string($_GET["busca"]);
+			$sql_code = "SELECT * FROM utilizador WHERE ut_nome LIKE '%$pesquisa%' OR ut_email LIKE '%$pesquisa%' OR ut_id LIKE '%$pesquisa%'";
+			$sql_query = $mysqli->query($sql_code) or die("Erro ao consultar o banco de dados: " . $mysqli->error);
+			if ($sql_query->num_rows == 0) {
+				?>
+				<tr>
+					<td colspan="3">Nenhum resultado encontrado...</td>
+				</tr>
+				<?php
+			} else {
+				while ($bancodedados = $sql_query->fetch_assoc()) {
+					?>
+					<tr>
+						<td><?php echo $bancodedados["ut_id"]; ?></td>
+						<td><?php echo $bancodedados["ut_nome"]; ?></td>
+						<td><?php echo $bancodedados["ut_email"]; ?></td>
+					</tr>
+					<?php
+				}
+			}
+		}
+		?>
+	</table>
+</body>
 
-// --- ROTA RAIZ (HTML) ---
-$router->get('/', [UsuarioController::class, 'index']);
-
-// --- ROTAS DE UTILIZADOR ---
-$router->post('/api/usuario/registar', [UsuarioController::class, 'registar']);
-$router->post('/api/usuario/login', [UsuarioController::class, 'login']);
-$router->get('/api/usuario/perfil/{id}', [UsuarioController::class, 'perfil']);
-
-// --- ROTAS DE PARCELAS ---
-$router->post('/api/parcela/adicionar', [ParcelaController::class, 'adicionar']);
-$router->get('/api/parcela/listar/{id}', [ParcelaController::class, 'listar']); // ID do utilizador
-
-// --- ROTAS DE SENSORES ---
-$router->post('/api/sensor/leitura', [SensorController::class, 'registarLeitura']);
-$router->get('/api/sensor/parcela/{id}', [SensorController::class, 'listarPorParcela']);
-
-// --- ROTAS DE TAREFAS ---
-$router->post('/api/tarefa/adicionar', [TarefaController::class, 'adicionar']);
-$router->post('/api/tarefa/estado/{id}', [TarefaController::class, 'alternarEstado']);
-$router->get('/api/tarefa/listar/{id}', [TarefaController::class, 'listar']); // ID do utilizador
-
-// --- ROTAS DE FÓRUM ---
-$router->post('/api/forum/publicar', [ForumController::class, 'publicar']);
-$router->get('/api/forum/listar', [ForumController::class, 'listar']);
-
-// Disparar o roteamento
-$router->disparar();
+</html>
