@@ -31,7 +31,6 @@
                 </div>
 
                 <form id="register-form" class="login-form">
-                    <!-- Step 1: Nome -->
                     <div class="register-step" id="step-1">
                         <div class="input-group">
                             <label for="fullname">Nome completo</label>
@@ -45,7 +44,6 @@
                         </div>
                     </div>
 
-                    <!-- Step 2: Email -->
                     <div class="register-step hidden" id="step-2">
                         <div class="input-group">
                             <label for="email">E-mail</label>
@@ -57,21 +55,12 @@
                         </div>
                     </div>
 
-                    <!-- Step 3: Telefone -->
                     <div class="register-step hidden" id="step-3">
                         <div class="input-group">
                             <label for="phone">Número de telefone</label>
                             <input type="tel" id="phone" name="phone" placeholder="Digite o seu número de telefone"
                                 required>
                         </div>
-                        <div class="button-group">
-                            <button type="button" class="btn-primary next-step">Próximo</button>
-                            <button type="button" class="btn-secondary prev-step">Anterior</button>
-                        </div>
-                    </div>
-
-                    <!-- Step 4: Nome da Fazenda -->
-                    <div class="register-step hidden" id="step-4">
                         <div class="input-group">
                             <label for="farm_name">Nome da sua fazenda</label>
                             <input type="text" id="farm_name" name="farm_name"
@@ -83,8 +72,7 @@
                         </div>
                     </div>
 
-                    <!-- Step 5: Password -->
-                    <div class="register-step hidden" id="step-5">
+                    <div class="register-step hidden" id="step-4">
                         <div class="input-group">
                             <label for="password">Palavra-passe</label>
                             <input type="password" id="password" name="password" placeholder="Crie uma palavra-passe"
@@ -105,7 +93,6 @@
         </div>
     </div>
 
-    <!-- MVC Structure -->
     <script src="../js/models/utilizadorModel.js"></script>
     <script src="../js/views/utilizadorView.js"></script>
     <script src="../js/controllers/utilizadorController.js"></script>
