@@ -123,7 +123,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* Form Styles */
 .login-form {
     width: 100%;
     max-width: 380px;
@@ -206,4 +205,17 @@ body {
     justify-content: center;
     background: rgba(62, 92, 50, 0.12);
     color: #3e5c32;
+}
+
+.post-card {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.10);
+}
+
+.post-mini {
+    background: rgba(255, 255, 255, 0.95);
 }
