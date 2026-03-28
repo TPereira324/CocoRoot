@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CocoRoot - Smoke tests</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-white border-bottom py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="../index.html">
+                <img src="../image/logo.jpeg" alt="CocoRoot" width="32" height="32" style="object-fit: contain;">
+                <span class="fw-semibold">CocoRoot</span>
+            </a>
+            <div class="ms-auto d-flex gap-2">
+                <a class="btn btn-outline-success rounded-pill px-3" href="dashboard.html">Dashboard</a>
+                <a class="btn btn-outline-success rounded-pill px-3" href="comunidade.html">Comunidade</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+        <h1 class="h3">Smoke tests</h1>
+        <p class="text-muted">Open this page in a browser to validate the community data layer quickly.</p>
+
+        <div class="feature-card p-4">
+            <div id="results" class="vstack gap-2"></div>
+        </div>
+    </main>
+
+    <script src="../js/communityData.js"></script>
+    <script>
+        (function () {
+            const root = document.getElementById('results');
+            function addRow(ok, label, details) {
+                const row = document.createElement('div');
+                row.className = 'd-flex align-items-start justify-content-between gap-3 border rounded p-3';
+                const left = document.createElement('div');
+                const title = document.createElement('div');
+                title.className = ok ? 'fw-semibold text-success' : 'fw-semibold text-danger';
+                title.textContent = ok ? `PASS: ${label}` : `FAIL: ${label}`;
+                const meta = document.createElement('div');
+                meta.className = 'text-muted small';
+                meta.textContent = details || '';
+                left.append(title, meta);
+                const badge = document.createElement('span');
+                badge.className = ok ? 'badge text-bg-success' : 'badge text-bg-danger';
+                badge.textContent = ok ? 'OK' : 'ERR';
+                row.append(left, badge);
+                root.append(row);
+            }
+
+            try {
+                if (!window.CocoCommunityData) {
+                    addRow(false, 'CocoCommunityData is available', 'communityData.js did not load');
+                    return;
+                }
+                const api = window.CocoCommunityData;
+                addRow(true, 'CocoCommunityData is available');
+
+                const totals = api.getTotals();
+                addRow(typeof totals.posts === 'number' && typeof totals.replies === 'number', 'getTotals()', JSON.stringify(totals));
+
+                const q = api.queryPosts({ tab: 'recentes', q: '', sort: 'recent', offset: 0, limit: 3 });
+                addRow(Array.isArray(q.items) && q.items.length > 0, 'queryPosts() returns items', `items=${q.items.length}, total=${q.total}`);
+
+                const first = q.items[0];
+                const post = api.getPostById(first.id);
+                addRow(!!post && post.id === first.id, 'getPostById()', post ? post.title : '');
+
+                const before = api.getReplies(first.id).length;
+                const res = api.addReply(first.id, 'Smoke test reply', 'Test');
+                const after = api.getReplies(first.id).length;
+                addRow(res.ok === true && after === before + 1, 'addReply() increments replies', `before=${before}, after=${after}`);
+            } catch (e) {
+                addRow(false, 'Unexpected error', (e && e.message) || String(e));
+            }
+        })();
+    </script>
+</body>
+
+</html>

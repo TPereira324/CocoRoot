@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CocoRoot - Comunidade</title>
+    <meta name="description" content="Explore posts por abas e filtros.">
+    <meta property="og:title" content="Comunidade">
+    <meta property="og:description" content="Explore posts por abas e filtros.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body data-page="community">
+    <nav class="navbar navbar-expand-lg bg-white border-bottom py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="../index.html">
+                <img src="../image/logo.jpeg" alt="CocoRoot" width="32" height="32" style="object-fit: contain;">
+                <span class="fw-semibold">CocoRoot</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link active fw-semibold" aria-current="page" href="comunidade.html">Comunidade</a></li>
+                    <li class="nav-item"><a class="nav-link" href="principal.html">Início</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+        <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-3">
+            <div>
+                <h1 class="h3 m-0">Comunidade</h1>
+                <div class="text-muted">Explore posts por abas e encontre respostas rapidamente.</div>
+            </div>
+            <a class="btn btn-outline-success rounded-pill px-3" href="dashboard.html">Voltar ao Dashboard</a>
+        </div>
+
+        <ul class="nav nav-tabs" role="tablist" id="community-tabs">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" type="button" role="tab" data-tab="recentes">
+                    Recentes <span class="badge text-bg-light text-dark ms-1" data-count="recentes">0</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" type="button" role="tab" data-tab="em-alta">
+                    Em alta <span class="badge text-bg-light text-dark ms-1" data-count="em-alta">0</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" type="button" role="tab" data-tab="seguindo">
+                    Seguindo <span class="badge text-bg-light text-dark ms-1" data-count="seguindo">0</span>
+                </button>
+            </li>
+        </ul>
+
+        <div class="row g-3 align-items-end mt-1 mb-2">
+            <div class="col-12 col-lg-6">
+                <label class="form-label text-muted small" for="community-search">Buscar</label>
+                <input id="community-search" type="search" class="form-control" placeholder="Buscar posts">
+            </div>
+            <div class="col-12 col-lg-4">
+                <label class="form-label text-muted small" for="community-sort">Ordenação</label>
+                <select id="community-sort" class="form-select">
+                    <option value="recent">Mais recentes</option>
+                    <option value="replies">Mais respondidos</option>
+                </select>
+            </div>
+            <div class="col-12 col-lg-2 d-grid">
+                <button id="community-clear" class="btn btn-outline-secondary" type="button" disabled>Limpar</button>
+            </div>
+        </div>
+
+        <div id="community-banner" class="alert alert-danger" style="display:none;"></div>
+
+        <div id="community-list" class="vstack gap-3 mt-3" aria-live="polite"></div>
+
+        <div id="community-empty" class="text-muted text-center py-5" style="display:none;">
+            <div class="h5">Nenhum post encontrado</div>
+            <div class="mt-2">
+                <button class="btn btn-outline-success rounded-pill" type="button" id="community-empty-clear">Limpar filtros</button>
+            </div>
+        </div>
+
+        <div class="d-grid d-md-flex justify-content-md-center mt-3">
+            <button id="community-load-more" class="btn btn-success rounded-pill px-4" type="button">Carregar mais</button>
+        </div>
+    </main>
+
+    <script src="../js/communityData.js"></script>
+    <script src="../js/community.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

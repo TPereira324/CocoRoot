@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CocoRoot - Dashboard</title>
+    <meta name="description" content="Visão geral e atalhos para navegar na comunidade.">
+    <meta property="og:title" content="Dashboard">
+    <meta property="og:description" content="Visão geral e atalhos para navegar na comunidade.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-white border-bottom py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="../index.html">
+                <img src="../image/logo.jpeg" alt="CocoRoot" width="32" height="32" style="object-fit: contain;">
+                <span class="fw-semibold">CocoRoot</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                    <li class="nav-item"><a class="nav-link active fw-semibold" aria-current="page" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="comunidade.html">Comunidade</a></li>
+                    <li class="nav-item"><a class="nav-link" href="principal.html">Início</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+        <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-3">
+            <div>
+                <h1 class="h3 m-0">Dashboard</h1>
+                <div class="text-muted">Visão geral e atalhos para navegar na comunidade.</div>
+            </div>
+            <div class="d-flex gap-2">
+                <a class="btn btn-success rounded-pill px-3" href="comunidade.html">Ir para Comunidade</a>
+                <a class="btn btn-outline-success rounded-pill px-3" href="principal.html">Voltar ao Início</a>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="feature-card p-4 h-100">
+                    <div class="text-muted small">Atividade</div>
+                    <div class="h4 mt-1 mb-0">8</div>
+                    <div class="text-muted small">interações na semana</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="feature-card p-4 h-100">
+                    <div class="text-muted small">Posts recentes</div>
+                    <div class="h4 mt-1 mb-0" id="dash-posts-count">—</div>
+                    <div class="text-muted small">na Comunidade</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="feature-card p-4 h-100">
+                    <div class="text-muted small">Respostas</div>
+                    <div class="h4 mt-1 mb-0" id="dash-replies-count">—</div>
+                    <div class="text-muted small">no total</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="feature-card p-4 h-100">
+                    <div class="text-muted small">Destaque</div>
+                    <div class="h6 mt-2 mb-0">Perguntas & respostas</div>
+                    <div class="text-muted small">aprenda com a comunidade</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-12 col-lg-8">
+                <div class="feature-card p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="h5 m-0">Últimos posts</div>
+                        <a class="link-success text-decoration-none" href="comunidade.html">Ver todos</a>
+                    </div>
+                    <div id="dash-latest-posts" class="vstack gap-2"></div>
+                    <div id="dash-latest-empty" class="text-muted" style="display:none;">Sem posts para mostrar.</div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="feature-card p-4 h-100">
+                    <div class="h5 mb-2">Atalhos</div>
+                    <div class="vstack gap-2">
+                        <a class="btn btn-success rounded-pill" href="comunidade.html">Explorar a Comunidade</a>
+                        <a class="btn btn-outline-success rounded-pill" href="noticias.html">Notícias</a>
+                        <a class="btn btn-outline-success rounded-pill" href="sobre.html">Sobre nós</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/communityData.js"></script>
+    <script src="../js/community.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
