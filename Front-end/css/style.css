@@ -5,6 +5,9 @@
     --surface: rgba(255, 255, 255, 0.95);
     --shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
     --shadow-hover: 0 18px 34px rgba(0, 0, 0, 0.10);
+    --glass: rgba(255, 255, 255, 0.70);
+    --border: 1px solid rgba(27, 27, 27, 0.10);
+    --perspective: 900px;
 }
 
 
@@ -37,10 +40,43 @@ a {
     background: rgba(62, 92, 50, 0.12);
 }
 
+.navbar.bg-white {
+    background: rgba(255, 255, 255, 0.78) !important;
+    backdrop-filter: blur(10px);
+}
+
+.nav-back {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass);
+    border: var(--border);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    color: #1b1b1b;
+    text-decoration: none;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.nav-back:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 26px rgba(0, 0, 0, 0.12);
+}
+
 .welcome-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+body.auth-body .welcome-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.05));
+    pointer-events: none;
 }
 
 .back-arrow {
@@ -51,11 +87,18 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.2s;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: var(--glass);
+    border: var(--border);
+    box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18);
+    transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .back-arrow:hover {
     transform: scale(1.1);
+    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.22);
 }
 
 .logo-section {
@@ -153,6 +196,18 @@ a {
     transform: translateY(-2px);
 }
 
+.btn {
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
 .login-form {
     width: 100%;
     max-width: 380px;
@@ -216,6 +271,14 @@ a {
     text-shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
 }
 
+.main-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(80% 60% at 20% 20%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+    pointer-events: none;
+}
+
 .main-features {
     background: #eaf6e6;
 }
@@ -225,6 +288,18 @@ a {
     border-radius: 18px;
     box-shadow: var(--shadow);
     border: 1px solid rgba(27, 27, 27, 0.08);
+    transform: perspective(var(--perspective)) translateZ(0);
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.feature-card:hover {
+    transform: perspective(var(--perspective)) translateY(-6px) rotateX(1deg);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(62, 92, 50, 0.18);
+}
+
+.feature-card:active {
+    transform: perspective(var(--perspective)) translateY(-2px) rotateX(0deg);
 }
 
 .feature-icon {
@@ -333,7 +408,7 @@ body.auth-body .button-group {
     content: "";
 }
 
-.tree-node > summary {
+.tree-node>summary {
     background: var(--surface);
     border: 1px solid rgba(27, 27, 27, 0.10);
     border-radius: 14px;
@@ -345,7 +420,7 @@ body.auth-body .button-group {
     user-select: none;
 }
 
-.tree-node > summary::before {
+.tree-node>summary::before {
     content: "";
     width: 10px;
     height: 10px;
@@ -357,7 +432,7 @@ body.auth-body .button-group {
     margin-right: 2px;
 }
 
-.tree-node[open] > summary::before {
+.tree-node[open]>summary::before {
     transform: rotate(45deg);
 }
 
