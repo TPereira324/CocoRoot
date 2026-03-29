@@ -1,8 +1,9 @@
 body.auth-body {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    min-height: calc(var(--vh, 1vh) * 100);
     margin: 0;
     background-color: #f4f7f6;
 }
@@ -10,7 +11,8 @@ body.auth-body {
 body.auth-body #app {
     background: white;
     width: 100vw;
-    height: calc(var(--vh, 1vh) * 100);
+    flex: 1;
+    height: auto;
     overflow: hidden;
     display: flex;
 }
@@ -38,7 +40,7 @@ body.auth-body .welcome-content {
     text-align: center;
     background-color: white;
     overflow-y: auto;
-    height: 100vh;
+    height: 100%;
 }
 
 body.auth-body .button-group {
@@ -61,4 +63,27 @@ body.auth-body .button-group {
 
 .hidden {
     display: none !important;
+}
+
+.auth-main {
+    flex: 1;
+    display: flex;
+}
+
+@media (max-width: 992px) {
+    body.auth-body .welcome-container {
+        flex-direction: column;
+    }
+
+    body.auth-body .welcome-image {
+        width: 100%;
+        height: 220px;
+        border-right: 0;
+        border-bottom: 2px solid #007bff;
+    }
+
+    body.auth-body .welcome-content {
+        width: 100%;
+        padding: 1.5rem;
+    }
 }
