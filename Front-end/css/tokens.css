@@ -2,6 +2,9 @@
     --scale: 1;
     --brand: #3e5c32;
     --brand-2: #2d4525;
+    --accent: #f28c28;
+    --accent-2: #d9781f;
+    --deep: #1f3c13;
     --surface: rgba(255, 255, 255, 0.95);
     --shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
     --shadow-hover: 0 18px 34px rgba(0, 0, 0, 0.10);

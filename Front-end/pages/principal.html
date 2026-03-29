@@ -13,9 +13,9 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-white border-bottom py-3 site-header sticky-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="../index.html">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="principal.html">
                 <img src="../image/logo.jpeg" alt="CocoRoot" width="32" height="32" style="object-fit: contain;">
-                <span class="fw-semibold">CocoRoot</span>
+                <span class="fw-semibold">COCOROOT</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
                 aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,52 +25,62 @@
                 <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="principal.html">Home</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="comecar.html">Começar do Zero</a></li>
-                    <li class="nav-item"><a class="nav-link" href="noticias.html">Notícias</a></li>
-                    <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre nós</a></li>
-                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold" href="login.html">Entrar</a></li>
+                    <li class="nav-item"><a class="nav-link" data-scroll="#guias" href="#guias">Começar do Zero</a></li>
+                    <li class="nav-item"><a class="nav-link" data-scroll="#noticias" href="#noticias">Notícias</a></li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#appModal"
+                            data-modal-src="sobre.html">Sobre nós</button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#appModal"
+                            data-modal-src="dashboard.html">Dashboard</button>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <button class="btn btn-success rounded-pill px-4" data-bs-toggle="modal"
+                            data-bs-target="#appModal" data-modal-src="login.html">Entrar</button>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <main>
-        <section class="main-hero">
-            <div class="container py-5">
+        <section class="landing-hero">
+            <div class="container hero-inner">
                 <div class="row">
                     <div class="col-12 col-lg-7">
-                        <h1 class="display-4 fw-semibold text-white main-hero-title">
+                        <h1 class="display-4 fw-bold text-white landing-title">
                             Fibra de coco:
                             <br>
                             começa simples,
                             <br>
                             cresce sustentável.
                         </h1>
-                        <p class="text-white-50 mt-3 mb-4">
+                        <p class="text-white-75 mt-3 mb-4 fs-5">
                             A plataforma completa para pequenos ou grandes agricultores que querem começar a cultivar em
                             fibra de coco. Gerir, monitorizar e otimizar a sua produção nunca foi tão fácil.
                         </p>
                         <div class="d-flex flex-wrap gap-3">
-                            <a class="btn btn-success px-4 rounded-pill" href="registo.html">Comece agora</a>
-                            <a class="btn btn-light px-4 rounded-pill" href="login.html">Entrar</a>
+                            <button class="btn btn-accent rounded-pill px-4 py-3" data-bs-toggle="modal"
+                                data-bs-target="#appModal" data-modal-src="registo.html">Criar Conta Grátis</button>
+                            <button class="btn btn-light rounded-pill px-4 py-3" data-scroll="#guias">Ver Guias</button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="main-features" id="comecar">
-            <div class="container py-5">
-                <div class="text-center mb-4">
-                    <h2 class="fw-semibold">Tudo o que precisa para gerir a sua exploração</h2>
-                    <p class="text-muted mb-0">Ferramentas completas para monitorizar, analisar e otimizar o seu cultivo
-                        em fibra de coco.</p>
+        <section class="tools-section py-5" id="ferramentas">
+            <div class="container py-3">
+                <div class="text-center mb-5">
+                    <h2 class="section-title fw-bold">Tudo o que precisa para gerir a sua exploração</h2>
+                    <p class="text-muted fs-5 mb-0">Ferramentas completas para monitorizar, analisar e otimizar o seu
+                        cultivo em fibra de coco.</p>
                 </div>
 
                 <div class="row g-4">
                     <div class="col-12 col-md-6 col-lg-4">
-                        <div class="feature-card p-4 h-100">
+                        <div class="feature-card p-4 h-100" data-tilt>
                             <div class="feature-icon mb-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                                     viewBox="0 0 16 16">
@@ -79,24 +89,26 @@
                                     <path d="M5 11h1V6H5zm2 0h1V4H7zm2 0h1V8H9zm2 0h1V5h-1z" />
                                 </svg>
                             </div>
-                            <div class="fw-semibold">Gestão de Parcelas</div>
+                            <div class="fw-bold fs-5">Gestão de Parcelas</div>
+                            <div class="text-muted mt-2">Organize e acompanhe as suas parcelas num só lugar.</div>
                         </div>
                     </div>
 
                     <div class="col-12 col-md-6 col-lg-4">
-                        <div class="feature-card p-4 h-100">
+                        <div class="feature-card p-4 h-100" data-tilt>
                             <div class="feature-icon mb-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                                     viewBox="0 0 16 16">
                                     <path d="M4.5 9a3.5 3.5 0 1 1 6.846 1H13a2 2 0 0 1 0 4H5a3 3 0 0 1-.5-5.96z" />
                                 </svg>
                             </div>
-                            <div class="fw-semibold">Monitorização</div>
+                            <div class="fw-bold fs-5">Monitorização Climática</div>
+                            <div class="text-muted mt-2">Dados e tendências para decisões mais informadas.</div>
                         </div>
                     </div>
 
                     <div class="col-12 col-md-6 col-lg-4">
-                        <div class="feature-card p-4 h-100">
+                        <div class="feature-card p-4 h-100" data-tilt>
                             <div class="feature-icon mb-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                                     viewBox="0 0 16 16">
@@ -105,12 +117,13 @@
                                         d="M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767.067 1.53.57 2.03H12.89c.503-.5.73-1.263.57-2.03C13.134 8.197 13 6.628 13 6a4 4 0 0 0-3.203-3.92z" />
                                 </svg>
                             </div>
-                            <div class="fw-semibold">Alertas</div>
+                            <div class="fw-bold fs-5">Alertas Inteligentes</div>
+                            <div class="text-muted mt-2">Receba notificações sobre tarefas, clima e condições.</div>
                         </div>
                     </div>
 
                     <div class="col-12 col-md-6 col-lg-4">
-                        <div class="feature-card p-4 h-100">
+                        <div class="feature-card p-4 h-100" data-tilt>
                             <div class="feature-icon mb-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                                     viewBox="0 0 16 16">
@@ -120,12 +133,13 @@
                                         d="M12 4V2.5A1.5 1.5 0 0 0 10.5 1h-8A1.5 1.5 0 0 0 1 2.5v11A1.5 1.5 0 0 0 2.5 15h8a1.5 1.5 0 0 0 1.5-1.5V5h2V4z" />
                                 </svg>
                             </div>
-                            <div class="fw-semibold">Registos</div>
+                            <div class="fw-bold fs-5">Relatórios Detalhados</div>
+                            <div class="text-muted mt-2">Analise produtividade e planeie o crescimento.</div>
                         </div>
                     </div>
 
                     <div class="col-12 col-md-6 col-lg-4">
-                        <div class="feature-card p-4 h-100">
+                        <div class="feature-card p-4 h-100" data-tilt>
                             <div class="feature-icon mb-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                                     viewBox="0 0 16 16">
@@ -133,69 +147,253 @@
                                         d="M8 0a6 6 0 0 0-6 6c0 2.8 2.2 5 5 5h1v3l3-3h1c2.8 0 5-2.2 5-5a6 6 0 0 0-6-6z" />
                                 </svg>
                             </div>
-                            <div class="fw-semibold">Comunidade</div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-6 col-lg-4" id="noticias">
-                        <div class="feature-card p-4 h-100">
-                            <div class="feature-icon mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-                                    viewBox="0 0 16 16">
-                                    <path d="M0 4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v9a1 1 0 0 1-1 1H2a2 2 0 0 1-2-2z" />
-                                    <path d="M14 3h1a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2h-1z" />
-                                </svg>
-                            </div>
-                            <div class="fw-semibold">Notícias</div>
+                            <div class="fw-bold fs-5">Comunidade Ativa</div>
+                            <div class="text-muted mt-2">Conecte-se e aprenda com outros agricultores.</div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <section class="how-section py-5" id="como">
+            <div class="container py-3">
+                <div class="text-center mb-5">
+                    <h2 class="section-title fw-bold">Como Funciona</h2>
+                    <p class="text-muted fs-5 mb-0">Comece em 3 passos simples</p>
+                </div>
+
+                <div class="row g-4 text-center">
+                    <div class="col-12 col-md-4">
+                        <div class="step-circle mx-auto mb-3">1</div>
+                        <div class="fw-bold fs-5">Crie a sua conta</div>
+                        <div class="text-muted mt-2">Registe-se gratuitamente e configure o seu perfil em minutos.</div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="step-circle mx-auto mb-3">2</div>
+                        <div class="fw-bold fs-5">Adicione as suas parcelas</div>
+                        <div class="text-muted mt-2">Registe as suas parcelas de cultivo e comece a monitorizar.</div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="step-circle mx-auto mb-3">3</div>
+                        <div class="fw-bold fs-5">Gerir e otimizar</div>
+                        <div class="text-muted mt-2">Acompanhe o progresso e tome decisões baseadas em dados.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tools-section py-5" id="guias">
+            <div class="container py-3">
+                <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+                    <div>
+                        <h2 class="section-title fw-bold mb-1">Guias Práticos</h2>
+                        <div class="text-muted">Aprenda técnicas de cultivo em fibra de coco.</div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-brand rounded-pill px-3" data-bs-toggle="modal"
+                            data-bs-target="#appModal" data-modal-src="comecar.html">Explorar Guias</button>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <button class="feature-card p-4 h-100 text-start w-100 border-0 bg-transparent"
+                            data-bs-toggle="modal" data-bs-target="#appModal" data-modal-src="comecar-modulo.html?mod=1"
+                            data-tilt>
+                            <div class="fw-bold">Módulo 1</div>
+                            <div class="text-muted mt-1">Introdução</div>
+                        </button>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <button class="feature-card p-4 h-100 text-start w-100 border-0 bg-transparent"
+                            data-bs-toggle="modal" data-bs-target="#appModal" data-modal-src="comecar-modulo.html?mod=2"
+                            data-tilt>
+                            <div class="fw-bold">Módulo 2</div>
+                            <div class="text-muted mt-1">Preparação do substrato</div>
+                        </button>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <button class="feature-card p-4 h-100 text-start w-100 border-0 bg-transparent"
+                            data-bs-toggle="modal" data-bs-target="#appModal" data-modal-src="comecar-modulo.html?mod=3"
+                            data-tilt>
+                            <div class="fw-bold">Módulo 3</div>
+                            <div class="text-muted mt-1">Plantio e rega</div>
+                        </button>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <button class="feature-card p-4 h-100 text-start w-100 border-0 bg-transparent"
+                            data-bs-toggle="modal" data-bs-target="#appModal" data-modal-src="comecar-modulo.html?mod=4"
+                            data-tilt>
+                            <div class="fw-bold">Módulo 4</div>
+                            <div class="text-muted mt-1">Manutenção</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tools-section py-5" id="noticias">
+            <div class="container py-3">
+                <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+                    <div>
+                        <h2 class="section-title fw-bold mb-1">Notícias e Artigos</h2>
+                        <div class="text-muted">Atualizações, tendências e dicas para produtores.</div>
+                    </div>
+                    <button class="btn btn-outline-brand rounded-pill px-3" data-bs-toggle="modal"
+                        data-bs-target="#appModal" data-modal-src="noticias.html">Ver Todas</button>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-12 col-lg-6">
+                        <div class="feature-card overflow-hidden" data-tilt>
+                            <div class="row g-0">
+                                <div class="col-12 col-md-5">
+                                    <img src="../image/planta.jpeg" alt=""
+                                        style="width:100%;height:100%;object-fit:cover;">
+                                </div>
+                                <div class="col-12 col-md-7 p-4">
+                                    <div class="fw-bold fs-5">Como iniciar a produção de fibra de coco</div>
+                                    <div class="text-muted small mt-1">21/03/26 • 8 min</div>
+                                    <div class="text-muted mt-3">Primeiros passos, equipamentos essenciais e boas
+                                        práticas para começar.</div>
+                                    <div class="mt-3">
+                                        <button class="btn btn-outline-brand rounded-pill px-3" data-bs-toggle="modal"
+                                            data-bs-target="#appModal" data-modal-src="noticias.html">Ler</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="feature-card overflow-hidden" data-tilt>
+                            <div class="row g-0">
+                                <div class="col-12 col-md-5">
+                                    <img src="../image/Coco.jpeg" alt=""
+                                        style="width:100%;height:100%;object-fit:cover;">
+                                </div>
+                                <div class="col-12 col-md-7 p-4">
+                                    <div class="fw-bold fs-5">Tendências de mercado para 2026</div>
+                                    <div class="text-muted small mt-1">20/03/26 • 5 min</div>
+                                    <div class="text-muted mt-3">Oportunidades e desafios para produtores de fibra de
+                                        coco.</div>
+                                    <div class="mt-3">
+                                        <button class="btn btn-outline-brand rounded-pill px-3" data-bs-toggle="modal"
+                                            data-bs-target="#appModal" data-modal-src="noticias.html">Ler</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="why-section py-5" id="porque">
+            <div class="container py-3">
+                <div class="row g-4 align-items-center">
+                    <div class="col-12 col-lg-6">
+                        <h2 class="section-title fw-bold">Porque escolher CocoRoot?</h2>
+                        <p class="text-muted fs-5">Desenvolvido especialmente para produtores que utilizam fibra de coco
+                            como substrato.</p>
+                        <div class="vstack gap-2 mt-4">
+                            <div class="d-flex gap-2 align-items-start"><span
+                                    class="badge text-bg-success rounded-pill">✓</span>
+                                <div>Aumento de até 30% na produtividade</div>
+                            </div>
+                            <div class="d-flex gap-2 align-items-start"><span
+                                    class="badge text-bg-success rounded-pill">✓</span>
+                                <div>Redução de custos com gestão eficiente</div>
+                            </div>
+                            <div class="d-flex gap-2 align-items-start"><span
+                                    class="badge text-bg-success rounded-pill">✓</span>
+                                <div>Decisões baseadas em dados reais</div>
+                            </div>
+                            <div class="d-flex gap-2 align-items-start"><span
+                                    class="badge text-bg-success rounded-pill">✓</span>
+                                <div>Suporte técnico e guias práticos</div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button class="btn btn-accent rounded-pill px-4 py-3" data-bs-toggle="modal"
+                                data-bs-target="#appModal" data-modal-src="registo.html">Começar Agora</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="why-media" data-tilt>
+                            <img src="../image/planta.jpeg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-strip py-5" id="cta">
+            <div class="container py-5 text-center text-white">
+                <h2 class="fw-bold mb-2">Pronto para revolucionar a sua agricultura?</h2>
+                <div class="text-white-75 mb-4">Junte-se a produtores que já estão a aumentar a sua produtividade com
+                    CocoRoot.</div>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <button class="btn btn-accent rounded-pill px-4 py-3" data-bs-toggle="modal"
+                        data-bs-target="#appModal" data-modal-src="registo.html">Criar Conta Grátis</button>
+                    <button class="btn btn-light rounded-pill px-4 py-3" data-scroll="#guias">Explorar Guias</button>
+                </div>
+            </div>
+        </section>
     </main>
-    <footer class="site-footer mt-5">
+    <footer class="footer-dark">
         <div class="container py-5">
-            <div class="row g-4">
-                <div class="col-12 col-md-4">
+            <div class="row g-4 align-items-start">
+                <div class="col-12 col-lg-4">
                     <div class="d-flex align-items-center gap-2 mb-2">
                         <img src="../image/logo.jpeg" alt="CocoRoot" width="34" height="34"
-                            style="object-fit: contain;">
-                        <div class="fw-semibold">CocoRoot</div>
+                            style="object-fit: contain; border-radius: 8px;">
+                        <div class="fw-semibold">COCOROOT</div>
                     </div>
-                    <div class="text-muted">Gestão moderna para produtores de fibra de coco.</div>
+                    <div class="text-white-50">Gestão agrícola inteligente para cultivo em fibra de coco.</div>
                 </div>
-                <div class="col-6 col-md-2">
-                    <div class="footer-title">Produto</div>
+                <div class="col-6 col-lg-2">
+                    <div class="fw-semibold mb-2">Produto</div>
                     <div class="vstack gap-2">
-                        <a href="principal.html">Home</a>
-                        <a href="dashboard.html">Dashboard</a>
-                    </div>
-                </div>
-                <div class="col-6 col-md-2">
-                    <div class="footer-title">Recursos</div>
-                    <div class="vstack gap-2">
-                        <a href="comecar.html">Começar do Zero</a>
-                        <a href="noticias.html">Notícias</a>
+                        <a href="#guias" data-scroll="#guias">Guias</a>
+                        <a href="#ferramentas" data-scroll="#ferramentas">Ferramentas</a>
+                        <a href="#como" data-scroll="#como">Como funciona</a>
                     </div>
                 </div>
-                <div class="col-6 col-md-2">
-                    <div class="footer-title">Empresa</div>
+                <div class="col-6 col-lg-2">
+                    <div class="fw-semibold mb-2">Empresa</div>
                     <div class="vstack gap-2">
-                        <a href="sobre.html">Sobre nós</a>
-                        <a href="login.html">Entrar</a>
+                        <button class="btn btn-link p-0 text-start" style="color:rgba(255,255,255,0.74)"
+                            data-bs-toggle="modal" data-bs-target="#appModal" data-modal-src="sobre.html">Sobre
+                            nós</button>
+                        <button class="btn btn-link p-0 text-start" style="color:rgba(255,255,255,0.74)"
+                            data-bs-toggle="modal" data-bs-target="#appModal"
+                            data-modal-src="dashboard.html">Dashboard</button>
                     </div>
                 </div>
-                <div class="col-6 col-md-2">
-                    <div class="footer-title">Contacto</div>
+                <div class="col-6 col-lg-2">
+                    <div class="fw-semibold mb-2">Legal</div>
                     <div class="vstack gap-2">
-                        <a href="mailto:contacto@cocoroot.local">contacto@cocoroot.local</a>
-                        <a href="tel:+258000000000">+258 000 000 000</a>
+                        <a href="#">Privacidade</a>
+                        <a href="#">Termos</a>
+                        <a href="#">Cookies</a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <div class="fw-semibold mb-2">Conta</div>
+                    <div class="vstack gap-2">
+                        <button class="btn btn-link p-0 text-start" style="color:rgba(255,255,255,0.74)"
+                            data-bs-toggle="modal" data-bs-target="#appModal"
+                            data-modal-src="login.html">Entrar</button>
+                        <button class="btn btn-link p-0 text-start" style="color:rgba(255,255,255,0.74)"
+                            data-bs-toggle="modal" data-bs-target="#appModal" data-modal-src="registo.html">Criar
+                            conta</button>
                     </div>
                 </div>
             </div>
 
-            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-4 mt-4 border-top">
-                <div class="text-muted">© 2026 CocoRoot. Todos os direitos reservados.</div>
+            <div
+                class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-4 mt-4 border-top border-light border-opacity-25">
+                <div class="text-white-50">© 2026 CocoRoot. Todos os direitos reservados.</div>
                 <div class="d-flex gap-2">
                     <a class="social-link" href="#" aria-label="Instagram">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
@@ -224,8 +422,20 @@
         </div>
     </footer>
 
+    <div class="modal fade" id="appModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
+            <div class="modal-content" style="border-radius: 18px; overflow: hidden;">
+                <div class="modal-body p-0" style="height: min(86vh, 860px);">
+                    <iframe id="appModalFrame" title="CocoRoot" src="about:blank"
+                        style="width: 100%; height: 100%; border: 0;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
+    <script src="../js/landing.js"></script>
 </body>
 
 </html>

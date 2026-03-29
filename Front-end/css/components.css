@@ -98,6 +98,31 @@
     transform: translateY(0);
 }
 
+.btn-accent {
+    background: var(--accent);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    color: white;
+    box-shadow: 0 16px 30px rgba(242, 140, 40, 0.26);
+}
+
+.btn-accent:hover {
+    background: var(--accent-2);
+    color: white;
+    box-shadow: 0 18px 34px rgba(242, 140, 40, 0.32);
+}
+
+.btn-outline-brand {
+    border: 1px solid rgba(27, 27, 27, 0.18);
+    background: rgba(255, 255, 255, 0.75);
+    color: rgba(27, 27, 27, 0.8);
+}
+
+.btn-outline-brand:hover {
+    border-color: rgba(27, 27, 27, 0.24);
+    background: rgba(255, 255, 255, 0.92);
+    color: rgba(27, 27, 27, 0.9);
+}
+
 .feature-card {
     background: var(--surface);
     border-radius: 18px;
