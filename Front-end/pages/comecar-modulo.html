@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-white border-bottom py-3">
+    <nav class="navbar navbar-expand-lg bg-white border-bottom py-3 site-header sticky-top">
         <div class="container">
             <div class="d-flex align-items-center gap-2">
                 <a href="#" class="nav-back"
@@ -27,6 +27,22 @@
                     <img src="../image/logo.jpeg" alt="CocoRoot" width="28" height="28" style="object-fit: contain;">
                     <span class="fw-semibold">Voltar ao guia</span>
                 </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+                    <li class="nav-item"><a class="nav-link" href="principal.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="comecar.html">Começar do
+                            Zero</a></li>
+                    <li class="nav-item"><a class="nav-link" href="noticias.html">Notícias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre nós</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="btn btn-success rounded-pill px-3 ms-lg-2"
+                            href="login.html">Entrar</a></li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -66,22 +82,77 @@
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
-    <footer class="border-top mt-4">
-        <div class="container py-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
-            <div class="d-flex align-items-center gap-2">
-                <img src="../image/logo.jpeg" alt="CocoRoot" width="28" height="28" style="object-fit: contain;">
-                <span class="fw-semibold">CocoRoot</span>
-                <span class="text-muted">© 2026</span>
+    <footer class="site-footer mt-5">
+        <div class="container py-5">
+            <div class="row g-4">
+                <div class="col-12 col-md-4">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="../image/logo.jpeg" alt="CocoRoot" width="34" height="34"
+                            style="object-fit: contain;">
+                        <div class="fw-semibold">CocoRoot</div>
+                    </div>
+                    <div class="text-muted">Continue o guia e avance no seu cultivo com confiança.</div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="footer-title">Produto</div>
+                    <div class="vstack gap-2">
+                        <a href="principal.html">Home</a>
+                        <a href="dashboard.html">Dashboard</a>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="footer-title">Recursos</div>
+                    <div class="vstack gap-2">
+                        <a href="comecar.html">Começar do Zero</a>
+                        <a href="noticias.html">Notícias</a>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="footer-title">Empresa</div>
+                    <div class="vstack gap-2">
+                        <a href="sobre.html">Sobre nós</a>
+                        <a href="login.html">Entrar</a>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="footer-title">Contacto</div>
+                    <div class="vstack gap-2">
+                        <a href="mailto:contacto@cocoroot.local">contacto@cocoroot.local</a>
+                        <a href="tel:+258000000000">+258 000 000 000</a>
+                    </div>
+                </div>
             </div>
-            <div class="d-flex gap-3">
-                <a class="link-success text-decoration-none" href="sobre.html">Sobre</a>
-                <a class="link-success text-decoration-none" href="principal.html">Início</a>
-                <a class="link-success text-decoration-none" href="comunidade.html">Comunidade</a>
+
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-4 mt-4 border-top">
+                <div class="text-muted">© 2026 CocoRoot. Todos os direitos reservados.</div>
+                <div class="d-flex gap-2">
+                    <a class="social-link" href="#" aria-label="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M8 0C5.8 0 5.5 0 4.7.1c-.8.1-1.3.2-1.8.4a3.6 3.6 0 0 0-1.3.9A3.6 3.6 0 0 0 .7 2.7c-.2.5-.3 1-.4 1.8C.2 5.5.2 5.8.2 8s0 2.5.1 3.3c.1.8.2 1.3.4 1.8.2.5.5.9.9 1.3.4.4.8.7 1.3.9.5.2 1 .3 1.8.4.8.1 1.1.1 3.3.1s2.5 0 3.3-.1c.8-.1 1.3-.2 1.8-.4.5-.2.9-.5 1.3-.9.4-.4.7-.8.9-1.3.2-.5.3-1 .4-1.8.1-.8.1-1.1.1-3.3s0-2.5-.1-3.3c-.1-.8-.2-1.3-.4-1.8a3.6 3.6 0 0 0-.9-1.3 3.6 3.6 0 0 0-1.3-.9c-.5-.2-1-.3-1.8-.4C10.5 0 10.2 0 8 0zm0 3.9A4.1 4.1 0 1 1 3.9 8 4.1 4.1 0 0 1 8 3.9zm4.3-.3a1 1 0 1 1-1 1 1 1 0 0 1 1-1z" />
+                            <path d="M8 5.3A2.7 2.7 0 1 0 10.7 8 2.7 2.7 0 0 0 8 5.3z" />
+                        </svg>
+                    </a>
+                    <a class="social-link" href="#" aria-label="Facebook">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M16 8.05A8 8 0 1 0 6.7 15.9v-5.6H4.7V8.05h2V6.3c0-2 1.2-3.1 3-3.1.9 0 1.8.16 1.8.16v2h-1c-1 0-1.3.62-1.3 1.25v1.5h2.2l-.35 2.25H9.2v5.6A8 8 0 0 0 16 8.05z" />
+                        </svg>
+                    </a>
+                    <a class="social-link" href="#" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M0 1.1C0 .5.5 0 1.1 0h13.8c.6 0 1.1.5 1.1 1.1v13.8c0 .6-.5 1.1-1.1 1.1H1.1C.5 16 0 15.5 0 14.9V1.1zm4.7 12.2V6H2.3v7.3h2.4zM3.5 5c.8 0 1.3-.5 1.3-1.2C4.8 3.1 4.3 2.6 3.5 2.6S2.2 3.1 2.2 3.8C2.2 4.5 2.7 5 3.5 5zm10.2 8.3V9.1c0-2.2-1.2-3.2-2.8-3.2-1.3 0-1.9.7-2.2 1.2V6H6.3c0 .7 0 7.3 0 7.3h2.4V9.2c0-.2 0-.5.1-.7.2-.5.6-1 1.3-1 1 0 1.4.7 1.4 1.8v4h2.4z" />
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
     </footer>
-</body>
 
-</html>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+</body>

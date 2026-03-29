@@ -1,0 +1,12 @@
+:root {
+    --scale: 1;
+    --brand: #3e5c32;
+    --brand-2: #2d4525;
+    --surface: rgba(255, 255, 255, 0.95);
+    --shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 18px 34px rgba(0, 0, 0, 0.10);
+    --glass: rgba(255, 255, 255, 0.70);
+    --border: 1px solid rgba(27, 27, 27, 0.10);
+    --perspective: 900px;
+}
+
