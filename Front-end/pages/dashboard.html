@@ -16,10 +16,21 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-white border-bottom py-3 site-header sticky-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="principal.html">
-                <img src="../image/logo.jpeg" alt="CocoRoot" width="32" height="32" style="object-fit: contain;">
-                <span class="fw-semibold">CocoRoot</span>
-            </a>
+            <div class="d-flex align-items-center gap-2">
+                <a href="#" class="nav-back"
+                    onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href='principal.html'; } return false;"
+                    aria-label="Voltar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+                    </svg>
+                </a>
+                <a class="navbar-brand d-flex align-items-center gap-2 m-0" href="principal.html">
+                    <img src="../image/logo.jpeg" alt="CocoRoot" width="32" height="32" style="object-fit: contain;">
+                    <span class="fw-semibold">CocoRoot</span>
+                </a>
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
                 aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -141,19 +152,29 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="vstack gap-3">
+                    <form class="vstack gap-3" id="cultivo-form">
+                        <div>
+                            <label class="form-label">Parcela</label>
+                            <select class="form-select" id="cultivo-parcela">
+                                <option value="">Selecione a parcela</option>
+                                <option value="Parcela 1">Parcela 1</option>
+                                <option value="Parcela 2">Parcela 2</option>
+                                <option value="Parcela 3">Parcela 3</option>
+                            </select>
+                        </div>
                         <div>
                             <label class="form-label">Tamanho da Parcela</label>
                             <input type="text" class="form-control" placeholder="Ex.: 20 m²">
                         </div>
                         <div>
                             <label class="form-label">Tipo de Cultura</label>
-                            <select class="form-select">
-                                <option>Alface</option>
-                                <option>Tomate</option>
-                                <option>Manjericão</option>
-                                <option>Morango</option>
-                                <option>Outra</option>
+                            <select class="form-select" id="cultivo-cultura">
+                                <option value="">Selecione a cultura</option>
+                                <option value="Morangos">Morangos</option>
+                                <option value="Tomate">Tomate</option>
+                                <option value="Alface">Alface</option>
+                                <option value="Manjericão">Manjericão</option>
+                                <option value="Pepino">Pepino</option>
                             </select>
                         </div>
                         <div>
@@ -172,6 +193,11 @@
                                 <option>Hidroponia</option>
                                 <option>Outro</option>
                             </select>
+                        </div>
+                        <div class="mt-2">
+                            <div class="fw-semibold mb-2">Pré-visualização (3D)</div>
+                            <div class="text-muted small mb-2">Escolha a parcela e a cultura para ver em 3D.</div>
+                            <div id="cultivo-3d" class="crop-3d-grid"></div>
                         </div>
                     </form>
                 </div>
@@ -261,6 +287,67 @@
     <script src="../js/community.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
+    <script>
+        (() => {
+            const modal = document.getElementById('modalCultivo');
+            const parcelEl = document.getElementById('cultivo-parcela');
+            const cropEl = document.getElementById('cultivo-cultura');
+            const grid = document.getElementById('cultivo-3d');
+
+            if (!modal || !parcelEl || !cropEl || !grid) return;
+
+            const crops = [
+                { id: 'Morangos', label: 'Morangos', tone: 'berry' },
+                { id: 'Tomate', label: 'Tomate', tone: 'tomato' },
+                { id: 'Alface', label: 'Alface', tone: 'leaf' },
+                { id: 'Manjericão', label: 'Manjericão', tone: 'basil' },
+                { id: 'Pepino', label: 'Pepino', tone: 'cucumber' }
+            ];
+
+            function render() {
+                const parcel = parcelEl.value;
+                const selected = cropEl.value;
+
+                grid.innerHTML = '';
+
+                if (!parcel || !selected) {
+                    const empty = document.createElement('div');
+                    empty.className = 'text-muted small';
+                    empty.textContent = 'Selecione a parcela e a cultura para ver o resultado.';
+                    grid.appendChild(empty);
+                    return;
+                }
+
+                crops.forEach((c) => {
+                    const card = document.createElement('button');
+                    card.type = 'button';
+                    card.className = 'crop-3d-card';
+                    card.setAttribute('data-tone', c.tone);
+                    card.setAttribute('data-selected', String(c.id === selected));
+                    card.innerHTML = `
+                        <div class="crop-3d-top">
+                            <div class="crop-3d-title">${c.label}</div>
+                            <div class="crop-3d-meta">Parcela: ${parcel}</div>
+                        </div>
+                        <div class="crop-3d-bottom">
+                            <div class="crop-3d-pill">${c.id === selected ? 'Selecionado' : 'Sugestão'}</div>
+                        </div>
+                    `;
+
+                    card.addEventListener('click', () => {
+                        cropEl.value = c.id;
+                        render();
+                    });
+
+                    grid.appendChild(card);
+                });
+            }
+
+            modal.addEventListener('shown.bs.modal', render);
+            parcelEl.addEventListener('change', render);
+            cropEl.addEventListener('change', render);
+        })();
+    </script>
 </body>
 
 </html>

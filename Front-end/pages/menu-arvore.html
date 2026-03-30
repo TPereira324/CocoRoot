@@ -1,444 +1,353 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CocoRoot - Menu em árvore</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="../css/style.css" />
-  </head>
 
-  <body>
-    <nav class="navbar navbar-expand-lg bg-white border-bottom py-3 site-header sticky-top">
-      <div class="container">
-        <a class="navbar-brand d-flex align-items-center gap-2" href="principal.html">
-          <img
-            src="../image/logo.jpeg"
-            alt="CocoRoot"
-            width="32"
-            height="32"
-            style="object-fit: contain"
-          />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CocoRoot - Menu em árvore</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    crossorigin="anonymous" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg bg-white border-bottom py-3 site-header sticky-top">
+    <div class="container">
+      <div class="d-flex align-items-center gap-2">
+        <a href="#" class="nav-back"
+          onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href='principal.html'; } return false;"
+          aria-label="Voltar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+          </svg>
+        </a>
+        <a class="navbar-brand d-flex align-items-center gap-2 m-0" href="principal.html">
+          <img src="../image/logo.jpeg" alt="CocoRoot" width="32" height="32" style="object-fit: contain" />
           <span class="fw-semibold">CocoRoot</span>
         </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#mainNav"
-          aria-controls="mainNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="mainNav">
-          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
-            <li class="nav-item">
-              <a class="nav-link" href="principal.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="comecar.html">Começar do Zero</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="noticias.html">Notícias</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="sobre.html">Sobre nós</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="dashboard.html">Dashboard</a>
-            </li>
-            <li class="nav-item ms-lg-2">
-              <a class="btn btn-success rounded-pill px-4" href="login.html">Entrar</a>
-            </li>
-          </ul>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+          <li class="nav-item">
+            <a class="nav-link" href="principal.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="comecar.html">Começar do Zero</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="noticias.html">Notícias</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="sobre.html">Sobre nós</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="dashboard.html">Dashboard</a>
+          </li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-success rounded-pill px-4" href="login.html">Entrar</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+      <h1 class="h3 mb-0">Menu em árvore</h1>
+      <div class="d-flex gap-2">
+        <a class="btn btn-outline-success rounded-pill px-3" href="smoke-tests.html">Smoke tests</a>
+        <a class="btn btn-success rounded-pill px-3" href="principal.html">Página principal</a>
+      </div>
+    </div>
+
+    <p class="text-muted">
+      Protótipo do menu em árvore (expandir/colapsar) para navegação.
+    </p>
+
+    <div class="feature-card p-4">
+      <div class="tree-menu" data-tree-menu>
+        <details class="tree-node" open>
+          <summary>
+            <span class="tree-chevron" aria-hidden="true"></span>Home
+          </summary>
+          <div class="tree-children">
+            <details class="tree-node" open>
+              <summary>
+                <span class="tree-chevron" aria-hidden="true"></span>Notícias
+              </summary>
+              <div class="tree-children">
+                <a class="tree-leaf" href="noticias.html">Casos de Sucesso</a>
+                <a class="tree-leaf" href="noticias.html">Novidades da Plataforma</a>
+                <a class="tree-leaf" href="noticias.html">Inovações Tecnológicas</a>
+                <a class="tree-leaf" href="noticias.html">Agricultura Sustentável</a>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <details class="tree-node" open>
+          <summary>
+            <span class="tree-chevron" aria-hidden="true"></span>Começar do
+            Zero
+          </summary>
+          <div class="tree-children">
+            <details class="tree-node" open>
+              <summary>
+                <span class="tree-chevron" aria-hidden="true"></span>Módulo 1:
+                Introdução
+              </summary>
+              <div class="tree-children">
+                <a class="tree-leaf" href="comecar.html">O que é o Substrato de Fibra de Coco</a>
+                <a class="tree-leaf" href="comecar.html">Erros Comuns a Evitar</a>
+                <a class="tree-leaf" href="comecar.html">Vantagens de Utilização</a>
+              </div>
+            </details>
+
+            <details class="tree-node" open>
+              <summary>
+                <span class="tree-chevron" aria-hidden="true"></span>Módulo 2:
+                Preparar o Substrato
+              </summary>
+              <div class="tree-children">
+                <a class="tree-leaf" href="comecar.html">Materiais Necessários</a>
+                <a class="tree-leaf" href="comecar.html">Passo a Passo</a>
+              </div>
+            </details>
+
+            <details class="tree-node" open>
+              <summary>
+                <span class="tree-chevron" aria-hidden="true"></span>Módulo 3:
+                Informações de Rega
+              </summary>
+              <div class="tree-children">
+                <a class="tree-leaf" href="comecar.html">Materiais Necessários</a>
+                <a class="tree-leaf" href="comecar.html">Passo a Passo</a>
+              </div>
+            </details>
+
+            <details class="tree-node" open>
+              <summary>
+                <span class="tree-chevron" aria-hidden="true"></span>Módulo 4:
+                Fertilização
+              </summary>
+              <div class="tree-children">
+                <a class="tree-leaf" href="comecar.html">Materiais Necessários</a>
+                <a class="tree-leaf" href="comecar.html">Passo a Passo</a>
+              </div>
+            </details>
+
+            <details class="tree-node" open>
+              <summary>
+                <span class="tree-chevron" aria-hidden="true"></span>Módulo 5:
+                Cuidados Futuros
+              </summary>
+              <div class="tree-children">
+                <a class="tree-leaf" href="comecar.html">Resumo</a>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <details class="tree-node">
+          <summary>
+            <span class="tree-chevron" aria-hidden="true"></span>Entrar
+          </summary>
+          <div class="tree-children">
+            <details class="tree-node" open>
+              <summary>
+                <span class="tree-chevron" aria-hidden="true"></span>Fazer
+                login
+              </summary>
+              <div class="tree-children">
+                <details class="tree-node" open>
+                  <summary>
+                    <span class="tree-chevron" aria-hidden="true"></span>Registar Cultivo
+                  </summary>
+                  <div class="tree-children">
+                    <a class="tree-leaf" href="dashboard.html">Tamanho da Parcela</a>
+                    <details class="tree-node" open>
+                      <summary>
+                        <span class="tree-chevron" aria-hidden="true"></span>Tipo de Cultura
+                      </summary>
+                      <div class="tree-children">
+                        <a class="tree-leaf" href="dashboard.html">Alface</a>
+                        <a class="tree-leaf" href="dashboard.html">Tomate</a>
+                        <a class="tree-leaf" href="dashboard.html">Manjericão</a>
+                        <a class="tree-leaf" href="dashboard.html">Morango</a>
+                        <a class="tree-leaf" href="dashboard.html">Outra (indique qual)</a>
+                      </div>
+                    </details>
+
+                    <details class="tree-node" open>
+                      <summary>
+                        <span class="tree-chevron" aria-hidden="true"></span>Objetivo do Cultivo
+                      </summary>
+                      <div class="tree-children">
+                        <a class="tree-leaf" href="dashboard.html">Produção para Consumo Próprio</a>
+                        <a class="tree-leaf" href="dashboard.html">Produção para Venda</a>
+                        <a class="tree-leaf" href="dashboard.html">Testar pela Primeira Vez</a>
+                        <a class="tree-leaf" href="dashboard.html">Melhorar Eficiência</a>
+                      </div>
+                    </details>
+
+                    <details class="tree-node" open>
+                      <summary>
+                        <span class="tree-chevron" aria-hidden="true"></span>Método de Cultivo
+                      </summary>
+                      <div class="tree-children">
+                        <a class="tree-leaf" href="dashboard.html">Vasos</a>
+                        <a class="tree-leaf" href="dashboard.html">Hidroponia</a>
+                        <a class="tree-leaf" href="dashboard.html">Outro (indique qual)</a>
+                      </div>
+                    </details>
+                  </div>
+                </details>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <details class="tree-node" open>
+          <summary>
+            <span class="tree-chevron" aria-hidden="true"></span>Os meus
+            Cultivos
+          </summary>
+          <div class="tree-children">
+            <details class="tree-node" open>
+              <summary>
+                <span class="tree-chevron" aria-hidden="true"></span>Parcela
+                1: Morangos
+              </summary>
+              <div class="tree-children">
+                <a class="tree-leaf" href="dashboard.html">Informação do Cultivo</a>
+                <a class="tree-leaf" href="dashboard.html">Monitorização de Rega</a>
+                <a class="tree-leaf" href="dashboard.html">Alertas do Cultivo</a>
+                <a class="tree-leaf" href="dashboard.html">Histórico de Tarefas</a>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <details class="tree-node" open>
+          <summary>
+            <span class="tree-chevron" aria-hidden="true"></span>Comunidade
+          </summary>
+          <div class="tree-children">
+            <a class="tree-leaf" href="comunidade.html">Dúvidas Técnicas</a>
+            <details class="tree-node" open>
+              <summary>
+                <span class="tree-chevron" aria-hidden="true"></span>Experiências
+              </summary>
+              <div class="tree-children">
+                <details class="tree-node" open>
+                  <summary>
+                    <span class="tree-chevron" aria-hidden="true"></span>História de Sucesso: Morangos em Fibra de Coco
+                  </summary>
+                  <div class="tree-children">
+                    <a class="tree-leaf" href="post.html">Conteúdo</a>
+                    <a class="tree-leaf" href="post.html">Comentários</a>
+                  </div>
+                </details>
+              </div>
+            </details>
+
+            <details class="tree-node" open>
+              <summary>
+                <span class="tree-chevron" aria-hidden="true"></span>Ver Dados
+                Meteorológicos
+              </summary>
+              <div class="tree-children">
+                <a class="tree-leaf" href="dashboard.html">Humidade</a>
+                <a class="tree-leaf" href="dashboard.html">Vento</a>
+                <a class="tree-leaf" href="dashboard.html">Precipitação</a>
+                <a class="tree-leaf" href="dashboard.html">Visibilidade</a>
+                <a class="tree-leaf" href="dashboard.html">Pressão</a>
+              </div>
+            </details>
+          </div>
+        </details>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-dark mt-5">
+    <div class="container py-5">
+      <div class="row g-4 align-items-start">
+        <div class="col-12 col-lg-4">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <img src="../image/logo.jpeg" alt="CocoRoot" width="34" height="34"
+              style="object-fit: contain; border-radius: 8px" />
+            <div class="fw-semibold">CocoRoot</div>
+          </div>
+          <div class="text-white-50">Gestão agrícola inteligente para cultivo em fibra de coco.</div>
+        </div>
+        <div class="col-6 col-lg-2">
+          <div class="fw-semibold mb-2">Produto</div>
+          <div class="vstack gap-2">
+            <a href="comecar.html">Guias</a>
+            <a href="principal.html#ferramentas">Ferramentas</a>
+            <a href="principal.html#como">Como funciona</a>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2">
+          <div class="fw-semibold mb-2">Empresa</div>
+          <div class="vstack gap-2">
+            <a href="sobre.html">Sobre nós</a>
+            <a href="dashboard.html">Dashboard</a>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2">
+          <div class="fw-semibold mb-2">Legal</div>
+          <div class="vstack gap-2">
+            <a href="#">Privacidade</a>
+            <a href="#">Termos</a>
+            <a href="#">Cookies</a>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2">
+          <div class="fw-semibold mb-2">Conta</div>
+          <div class="vstack gap-2">
+            <a href="login.html">Entrar</a>
+            <a href="registo.html">Criar conta</a>
+          </div>
         </div>
       </div>
-    </nav>
 
-    <main class="container py-4">
       <div
-        class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3"
-      >
-        <h1 class="h3 mb-0">Menu em árvore</h1>
+        class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-4 mt-4 border-top border-light border-opacity-25">
+        <div class="text-white-50">© 2026 CocoRoot. Todos os direitos reservados.</div>
         <div class="d-flex gap-2">
-          <a
-            class="btn btn-outline-success rounded-pill px-3"
-            href="smoke-tests.html"
-            >Smoke tests</a
-          >
-          <a class="btn btn-success rounded-pill px-3" href="principal.html"
-            >Página principal</a
-          >
+          <a class="social-link" href="#" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+              <path
+                d="M8 0C5.8 0 5.5 0 4.7.1c-.8.1-1.3.2-1.8.4a3.6 3.6 0 0 0-1.3.9A3.6 3.6 0 0 0 .7 2.7c-.2.5-.3 1-.4 1.8C.2 5.5.2 5.8.2 8s0 2.5.1 3.3c.1.8.2 1.3.4 1.8.2.5.5.9.9 1.3.4.4.8.7 1.3.9.5.2 1 .3 1.8.4.8.1 1.1.1 3.3.1s2.5 0 3.3-.1c.8-.1 1.3-.2 1.8-.4.5-.2.9-.5 1.3-.9.4-.4.7-.8.9-1.3.2-.5.3-1 .4-1.8.1-.8.1-1.1.1-3.3s0-2.5-.1-3.3c-.1-.8-.2-1.3-.4-1.8a3.6 3.6 0 0 0-.9-1.3 3.6 3.6 0 0 0-1.3-.9c-.5-.2-1-.3-1.8-.4C10.5 0 10.2 0 8 0zm0 3.9A4.1 4.1 0 1 1 3.9 8 4.1 4.1 0 0 1 8 3.9zm4.3-.3a1 1 0 1 1-1 1 1 1 0 0 1 1-1z" />
+              <path d="M8 5.3A2.7 2.7 0 1 0 10.7 8 2.7 2.7 0 0 0 8 5.3z" />
+            </svg>
+          </a>
+          <a class="social-link" href="#" aria-label="Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+              <path
+                d="M16 8.05A8 8 0 1 0 6.7 15.9v-5.6H4.7V8.05h2V6.3c0-2 1.2-3.1 3-3.1.9 0 1.8.16 1.8.16v2h-1c-1 0-1.3.62-1.3 1.25v1.5h2.2l-.35 2.25H9.2v5.6A8 8 0 0 0 16 8.05z" />
+            </svg>
+          </a>
+          <a class="social-link" href="#" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+              <path
+                d="M0 1.1C0 .5.5 0 1.1 0h13.8c.6 0 1.1.5 1.1 1.1v13.8c0 .6-.5 1.1-1.1 1.1H1.1C.5 16 0 15.5 0 14.9V1.1zm4.7 12.2V6H2.3v7.3h2.4zM3.5 5c.8 0 1.3-.5 1.3-1.2C4.8 3.1 4.3 2.6 3.5 2.6S2.2 3.1 2.2 3.8C2.2 4.5 2.7 5 3.5 5zm10.2 8.3V9.1c0-2.2-1.2-3.2-2.8-3.2-1.3 0-1.9.7-2.2 1.2V6H6.3c0 .7 0 7.3 0 7.3h2.4V9.2c0-.2 0-.5.1-.7.2-.5.6-1 1.3-1 1 0 1.4.7 1.4 1.8v4h2.4z" />
+            </svg>
+          </a>
         </div>
       </div>
+    </div>
+  </footer>
 
-      <p class="text-muted">
-        Protótipo do menu em árvore (expandir/colapsar) para navegação.
-      </p>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+</body>
 
-      <div class="feature-card p-4">
-        <div class="tree-menu" data-tree-menu>
-          <details class="tree-node" open>
-            <summary>
-              <span class="tree-chevron" aria-hidden="true"></span>Home
-            </summary>
-            <div class="tree-children">
-              <details class="tree-node" open>
-                <summary>
-                  <span class="tree-chevron" aria-hidden="true"></span>Notícias
-                </summary>
-                <div class="tree-children">
-                  <a class="tree-leaf" href="noticias.html">Casos de Sucesso</a>
-                  <a class="tree-leaf" href="noticias.html"
-                    >Novidades da Plataforma</a
-                  >
-                  <a class="tree-leaf" href="noticias.html"
-                    >Inovações Tecnológicas</a
-                  >
-                  <a class="tree-leaf" href="noticias.html"
-                    >Agricultura Sustentável</a
-                  >
-                </div>
-              </details>
-            </div>
-          </details>
-
-          <details class="tree-node" open>
-            <summary>
-              <span class="tree-chevron" aria-hidden="true"></span>Começar do
-              Zero
-            </summary>
-            <div class="tree-children">
-              <details class="tree-node" open>
-                <summary>
-                  <span class="tree-chevron" aria-hidden="true"></span>Módulo 1:
-                  Introdução
-                </summary>
-                <div class="tree-children">
-                  <a class="tree-leaf" href="comecar.html"
-                    >O que é o Substrato de Fibra de Coco</a
-                  >
-                  <a class="tree-leaf" href="comecar.html"
-                    >Erros Comuns a Evitar</a
-                  >
-                  <a class="tree-leaf" href="comecar.html"
-                    >Vantagens de Utilização</a
-                  >
-                </div>
-              </details>
-
-              <details class="tree-node" open>
-                <summary>
-                  <span class="tree-chevron" aria-hidden="true"></span>Módulo 2:
-                  Preparar o Substrato
-                </summary>
-                <div class="tree-children">
-                  <a class="tree-leaf" href="comecar.html"
-                    >Materiais Necessários</a
-                  >
-                  <a class="tree-leaf" href="comecar.html">Passo a Passo</a>
-                </div>
-              </details>
-
-              <details class="tree-node" open>
-                <summary>
-                  <span class="tree-chevron" aria-hidden="true"></span>Módulo 3:
-                  Informações de Rega
-                </summary>
-                <div class="tree-children">
-                  <a class="tree-leaf" href="comecar.html"
-                    >Materiais Necessários</a
-                  >
-                  <a class="tree-leaf" href="comecar.html">Passo a Passo</a>
-                </div>
-              </details>
-
-              <details class="tree-node" open>
-                <summary>
-                  <span class="tree-chevron" aria-hidden="true"></span>Módulo 4:
-                  Fertilização
-                </summary>
-                <div class="tree-children">
-                  <a class="tree-leaf" href="comecar.html"
-                    >Materiais Necessários</a
-                  >
-                  <a class="tree-leaf" href="comecar.html">Passo a Passo</a>
-                </div>
-              </details>
-
-              <details class="tree-node" open>
-                <summary>
-                  <span class="tree-chevron" aria-hidden="true"></span>Módulo 5:
-                  Cuidados Futuros
-                </summary>
-                <div class="tree-children">
-                  <a class="tree-leaf" href="comecar.html">Resumo</a>
-                </div>
-              </details>
-            </div>
-          </details>
-
-          <details class="tree-node">
-            <summary>
-              <span class="tree-chevron" aria-hidden="true"></span>Entrar
-            </summary>
-            <div class="tree-children">
-              <details class="tree-node" open>
-                <summary>
-                  <span class="tree-chevron" aria-hidden="true"></span>Fazer
-                  login
-                </summary>
-                <div class="tree-children">
-                  <details class="tree-node" open>
-                    <summary>
-                      <span class="tree-chevron" aria-hidden="true"></span
-                      >Registar Cultivo
-                    </summary>
-                    <div class="tree-children">
-                      <a class="tree-leaf" href="dashboard.html"
-                        >Tamanho da Parcela</a
-                      >
-                      <details class="tree-node" open>
-                        <summary>
-                          <span class="tree-chevron" aria-hidden="true"></span
-                          >Tipo de Cultura
-                        </summary>
-                        <div class="tree-children">
-                          <a class="tree-leaf" href="dashboard.html">Alface</a>
-                          <a class="tree-leaf" href="dashboard.html">Tomate</a>
-                          <a class="tree-leaf" href="dashboard.html"
-                            >Manjericão</a
-                          >
-                          <a class="tree-leaf" href="dashboard.html">Morango</a>
-                          <a class="tree-leaf" href="dashboard.html"
-                            >Outra (indique qual)</a
-                          >
-                        </div>
-                      </details>
-
-                      <details class="tree-node" open>
-                        <summary>
-                          <span class="tree-chevron" aria-hidden="true"></span
-                          >Objetivo do Cultivo
-                        </summary>
-                        <div class="tree-children">
-                          <a class="tree-leaf" href="dashboard.html"
-                            >Produção para Consumo Próprio</a
-                          >
-                          <a class="tree-leaf" href="dashboard.html"
-                            >Produção para Venda</a
-                          >
-                          <a class="tree-leaf" href="dashboard.html"
-                            >Testar pela Primeira Vez</a
-                          >
-                          <a class="tree-leaf" href="dashboard.html"
-                            >Melhorar Eficiência</a
-                          >
-                        </div>
-                      </details>
-
-                      <details class="tree-node" open>
-                        <summary>
-                          <span class="tree-chevron" aria-hidden="true"></span
-                          >Método de Cultivo
-                        </summary>
-                        <div class="tree-children">
-                          <a class="tree-leaf" href="dashboard.html">Vasos</a>
-                          <a class="tree-leaf" href="dashboard.html"
-                            >Hidroponia</a
-                          >
-                          <a class="tree-leaf" href="dashboard.html"
-                            >Outro (indique qual)</a
-                          >
-                        </div>
-                      </details>
-                    </div>
-                  </details>
-                </div>
-              </details>
-            </div>
-          </details>
-
-          <details class="tree-node" open>
-            <summary>
-              <span class="tree-chevron" aria-hidden="true"></span>Os meus
-              Cultivos
-            </summary>
-            <div class="tree-children">
-              <details class="tree-node" open>
-                <summary>
-                  <span class="tree-chevron" aria-hidden="true"></span>Parcela
-                  1: Morangos
-                </summary>
-                <div class="tree-children">
-                  <a class="tree-leaf" href="dashboard.html"
-                    >Informação do Cultivo</a
-                  >
-                  <a class="tree-leaf" href="dashboard.html"
-                    >Monitorização de Rega</a
-                  >
-                  <a class="tree-leaf" href="dashboard.html"
-                    >Alertas do Cultivo</a
-                  >
-                  <a class="tree-leaf" href="dashboard.html"
-                    >Histórico de Tarefas</a
-                  >
-                </div>
-              </details>
-            </div>
-          </details>
-
-          <details class="tree-node" open>
-            <summary>
-              <span class="tree-chevron" aria-hidden="true"></span>Comunidade
-            </summary>
-            <div class="tree-children">
-              <a class="tree-leaf" href="comunidade.html">Dúvidas Técnicas</a>
-              <details class="tree-node" open>
-                <summary>
-                  <span class="tree-chevron" aria-hidden="true"></span
-                  >Experiências
-                </summary>
-                <div class="tree-children">
-                  <details class="tree-node" open>
-                    <summary>
-                      <span class="tree-chevron" aria-hidden="true"></span
-                      >História de Sucesso: Morangos em Fibra de Coco
-                    </summary>
-                    <div class="tree-children">
-                      <a class="tree-leaf" href="post.html">Conteúdo</a>
-                      <a class="tree-leaf" href="post.html">Comentários</a>
-                    </div>
-                  </details>
-                </div>
-              </details>
-
-              <details class="tree-node" open>
-                <summary>
-                  <span class="tree-chevron" aria-hidden="true"></span>Ver Dados
-                  Meteorológicos
-                </summary>
-                <div class="tree-children">
-                  <a class="tree-leaf" href="dashboard.html">Humidade</a>
-                  <a class="tree-leaf" href="dashboard.html">Vento</a>
-                  <a class="tree-leaf" href="dashboard.html">Precipitação</a>
-                  <a class="tree-leaf" href="dashboard.html">Visibilidade</a>
-                  <a class="tree-leaf" href="dashboard.html">Pressão</a>
-                </div>
-              </details>
-            </div>
-          </details>
-        </div>
-      </div>
-    </main>
-
-    <footer class="footer-dark mt-5">
-      <div class="container py-5">
-        <div class="row g-4 align-items-start">
-          <div class="col-12 col-lg-4">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <img
-                src="../image/logo.jpeg"
-                alt="CocoRoot"
-                width="34"
-                height="34"
-                style="object-fit: contain; border-radius: 8px"
-              />
-              <div class="fw-semibold">CocoRoot</div>
-            </div>
-            <div class="text-white-50">Gestão agrícola inteligente para cultivo em fibra de coco.</div>
-          </div>
-          <div class="col-6 col-lg-2">
-            <div class="fw-semibold mb-2">Produto</div>
-            <div class="vstack gap-2">
-              <a href="comecar.html">Guias</a>
-              <a href="principal.html#ferramentas">Ferramentas</a>
-              <a href="principal.html#como">Como funciona</a>
-            </div>
-          </div>
-          <div class="col-6 col-lg-2">
-            <div class="fw-semibold mb-2">Empresa</div>
-            <div class="vstack gap-2">
-              <a href="sobre.html">Sobre nós</a>
-              <a href="dashboard.html">Dashboard</a>
-            </div>
-          </div>
-          <div class="col-6 col-lg-2">
-            <div class="fw-semibold mb-2">Legal</div>
-            <div class="vstack gap-2">
-              <a href="#">Privacidade</a>
-              <a href="#">Termos</a>
-              <a href="#">Cookies</a>
-            </div>
-          </div>
-          <div class="col-6 col-lg-2">
-            <div class="fw-semibold mb-2">Conta</div>
-            <div class="vstack gap-2">
-              <a href="login.html">Entrar</a>
-              <a href="registo.html">Criar conta</a>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-4 mt-4 border-top border-light border-opacity-25"
-        >
-          <div class="text-white-50">© 2026 CocoRoot. Todos os direitos reservados.</div>
-          <div class="d-flex gap-2">
-            <a class="social-link" href="#" aria-label="Instagram">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M8 0C5.8 0 5.5 0 4.7.1c-.8.1-1.3.2-1.8.4a3.6 3.6 0 0 0-1.3.9A3.6 3.6 0 0 0 .7 2.7c-.2.5-.3 1-.4 1.8C.2 5.5.2 5.8.2 8s0 2.5.1 3.3c.1.8.2 1.3.4 1.8.2.5.5.9.9 1.3.4.4.8.7 1.3.9.5.2 1 .3 1.8.4.8.1 1.1.1 3.3.1s2.5 0 3.3-.1c.8-.1 1.3-.2 1.8-.4.5-.2.9-.5 1.3-.9.4-.4.7-.8.9-1.3.2-.5.3-1 .4-1.8.1-.8.1-1.1.1-3.3s0-2.5-.1-3.3c-.1-.8-.2-1.3-.4-1.8a3.6 3.6 0 0 0-.9-1.3 3.6 3.6 0 0 0-1.3-.9c-.5-.2-1-.3-1.8-.4C10.5 0 10.2 0 8 0zm0 3.9A4.1 4.1 0 1 1 3.9 8 4.1 4.1 0 0 1 8 3.9zm4.3-.3a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"
-                />
-                <path d="M8 5.3A2.7 2.7 0 1 0 10.7 8 2.7 2.7 0 0 0 8 5.3z" />
-              </svg>
-            </a>
-            <a class="social-link" href="#" aria-label="Facebook">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M16 8.05A8 8 0 1 0 6.7 15.9v-5.6H4.7V8.05h2V6.3c0-2 1.2-3.1 3-3.1.9 0 1.8.16 1.8.16v2h-1c-1 0-1.3.62-1.3 1.25v1.5h2.2l-.35 2.25H9.2v5.6A8 8 0 0 0 16 8.05z"
-                />
-              </svg>
-            </a>
-            <a class="social-link" href="#" aria-label="LinkedIn">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M0 1.1C0 .5.5 0 1.1 0h13.8c.6 0 1.1.5 1.1 1.1v13.8c0 .6-.5 1.1-1.1 1.1H1.1C.5 16 0 15.5 0 14.9V1.1zm4.7 12.2V6H2.3v7.3h2.4zM3.5 5c.8 0 1.3-.5 1.3-1.2C4.8 3.1 4.3 2.6 3.5 2.6S2.2 3.1 2.2 3.8C2.2 4.5 2.7 5 3.5 5zm10.2 8.3V9.1c0-2.2-1.2-3.2-2.8-3.2-1.3 0-1.9.7-2.2 1.2V6H6.3c0 .7 0 7.3 0 7.3h2.4V9.2c0-.2 0-.5.1-.7.2-.5.6-1 1.3-1 1 0 1.4.7 1.4 1.8v4h2.4z"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      crossorigin="anonymous"
-    ></script>
-  </body>
 </html>

@@ -153,3 +153,106 @@
     color: var(--brand);
 }
 
+.crop-3d-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.crop-3d-card {
+    width: 100%;
+    text-align: left;
+    border: 1px solid rgba(27, 27, 27, 0.10);
+    border-radius: 18px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.10);
+    transform: perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0);
+    transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.crop-3d-card::before {
+    content: "";
+    position: absolute;
+    inset: -40% -20% auto -20%;
+    height: 120%;
+    transform: rotate(-10deg);
+    opacity: 0.7;
+    filter: blur(0px);
+}
+
+.crop-3d-card[data-tone="berry"]::before {
+    background: radial-gradient(60% 60% at 40% 30%, rgba(217, 90, 140, 0.45), rgba(217, 90, 140, 0));
+}
+
+.crop-3d-card[data-tone="tomato"]::before {
+    background: radial-gradient(60% 60% at 40% 30%, rgba(235, 92, 66, 0.42), rgba(235, 92, 66, 0));
+}
+
+.crop-3d-card[data-tone="leaf"]::before {
+    background: radial-gradient(60% 60% at 40% 30%, rgba(72, 170, 96, 0.42), rgba(72, 170, 96, 0));
+}
+
+.crop-3d-card[data-tone="basil"]::before {
+    background: radial-gradient(60% 60% at 40% 30%, rgba(58, 140, 90, 0.42), rgba(58, 140, 90, 0));
+}
+
+.crop-3d-card[data-tone="cucumber"]::before {
+    background: radial-gradient(60% 60% at 40% 30%, rgba(62, 170, 140, 0.42), rgba(62, 170, 140, 0));
+}
+
+.crop-3d-top,
+.crop-3d-bottom {
+    position: relative;
+    z-index: 1;
+}
+
+.crop-3d-title {
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    font-size: 1.05rem;
+}
+
+.crop-3d-meta {
+    color: rgba(27, 27, 27, 0.68);
+    font-size: 0.9rem;
+    margin-top: 2px;
+}
+
+.crop-3d-bottom {
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.crop-3d-pill {
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    background: rgba(62, 92, 50, 0.10);
+    color: rgba(27, 27, 27, 0.72);
+}
+
+.crop-3d-card[data-selected="true"] {
+    border-color: rgba(62, 92, 50, 0.35);
+    box-shadow: 0 22px 44px rgba(0, 0, 0, 0.14);
+}
+
+.crop-3d-card[data-selected="true"] .crop-3d-pill {
+    background: rgba(62, 92, 50, 0.18);
+    color: rgba(27, 27, 27, 0.84);
+}
+
+.crop-3d-card:hover {
+    transform: perspective(900px) rotateX(6deg) rotateY(-10deg) translateY(-4px);
+    box-shadow: 0 26px 56px rgba(0, 0, 0, 0.16);
+}
+
+@media (min-width: 768px) {
+    .crop-3d-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
