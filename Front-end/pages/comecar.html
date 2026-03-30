@@ -13,21 +13,10 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3 site-header sticky-top">
         <div class="container">
-            <div class="d-flex align-items-center gap-2">
-                <a href="#" class="nav-back"
-                    onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href='principal.html'; } return false;"
-                    aria-label="Voltar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-                        viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
-                    </svg>
-                </a>
-                <a class="navbar-brand d-flex align-items-center gap-2 m-0" href="principal.html">
-                    <img src="../image/logo.jpeg" alt="CocoRoot" width="32" height="32" style="object-fit: contain;">
-                    <span class="fw-semibold">CocoRoot</span>
-                </a>
-            </div>
+            <a class="navbar-brand d-flex align-items-center gap-2 m-0" href="principal.html">
+                <img src="../image/logo.jpeg" alt="CocoRoot" width="32" height="32" style="object-fit: contain;">
+                <span class="fw-semibold">CocoRoot</span>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
                 aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -59,7 +48,7 @@
         <div class="row g-3 reveal-stagger" data-reveal="fade-up">
             <div class="col-12 col-md-6 col-lg-3">
                 <a class="text-decoration-none" href="comecar-modulo.html?mod=1">
-                    <div class="feature-card p-4 h-100">
+                    <div class="feature-card p-4 h-100" data-tilt>
                         <div class="fw-semibold mb-1">Módulo 1</div>
                         <div class="small text-muted">Introdução</div>
                     </div>
@@ -67,7 +56,7 @@
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <a class="text-decoration-none" href="comecar-modulo.html?mod=2">
-                    <div class="feature-card p-4 h-100">
+                    <div class="feature-card p-4 h-100" data-tilt>
                         <div class="fw-semibold mb-1">Módulo 2</div>
                         <div class="small text-muted">Preparação do substrato</div>
                     </div>
@@ -75,7 +64,7 @@
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <a class="text-decoration-none" href="comecar-modulo.html?mod=3">
-                    <div class="feature-card p-4 h-100">
+                    <div class="feature-card p-4 h-100" data-tilt>
                         <div class="fw-semibold mb-1">Módulo 3</div>
                         <div class="small text-muted">Plantio e rega</div>
                     </div>
@@ -83,7 +72,7 @@
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <a class="text-decoration-none" href="comecar-modulo.html?mod=4">
-                    <div class="feature-card p-4 h-100">
+                    <div class="feature-card p-4 h-100" data-tilt>
                         <div class="fw-semibold mb-1">Módulo 4</div>
                         <div class="small text-muted">Manutenção</div>
                     </div>
@@ -92,14 +81,14 @@
         </div>
 
         <div class="mt-4" data-reveal="fade-up">
-            <div class="feature-card p-4">
+            <div class="feature-card p-4" data-tilt>
                 <div class="fw-semibold mb-2">Dica do dia</div>
                 <p class="mb-0">Monitore a humidade do substrato ao início da manhã para ajustes mais precisos.</p>
             </div>
         </div>
 
         <div class="mt-4" data-reveal="fade-up">
-            <div class="feature-card p-4">
+            <div class="feature-card p-4" data-tilt>
                 <div class="fw-semibold mb-3">Conteúdo do guia</div>
                 <div class="vstack gap-2">
                     <details class="tree-node" open>
