@@ -53,6 +53,30 @@
             node.addEventListener('pointermove', onMove);
             node.addEventListener('pointerleave', onLeave);
         });
+
+        // IntersectionObserver reveal-on-scroll
+        const revealNodes = document.querySelectorAll('[data-reveal]');
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    el.classList.add('reveal-in');
+                    io.unobserve(el);
+                }
+            });
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+
+        revealNodes.forEach((el) => {
+            // Initial state applied via CSS [data-reveal]
+            io.observe(el);
+        });
+
+        // Stagger children within containers marked with .reveal-stagger
+        document.querySelectorAll('.reveal-stagger').forEach((container) => {
+            const children = Array.from(container.children);
+            children.forEach((child, idx) => {
+                child.style.transitionDelay = `${Math.min(idx, 6) * 90}ms`;
+            });
+        });
     }
 })();
-

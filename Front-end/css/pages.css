@@ -117,3 +117,46 @@
 .post-mini {
     background: rgba(255, 255, 255, 0.95);
 }
+
+/* On-scroll reveal animations */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+    will-change: transform, opacity;
+}
+
+.reveal-in {
+    opacity: 1;
+    transform: none;
+    transition:
+        transform 600ms cubic-bezier(.2,.8,.2,1),
+        opacity 600ms ease;
+}
+
+[data-reveal="fade-left"] {
+    transform: translateX(18px);
+}
+
+[data-reveal="fade-right"] {
+    transform: translateX(-18px);
+}
+
+.reveal-stagger > * {
+    transition:
+        transform 600ms cubic-bezier(.2,.8,.2,1),
+        opacity 600ms ease;
+}
+
+/* Parcela map */
+.map-wrap {
+    background: white;
+    border-radius: 18px;
+    border: 1px solid rgba(27, 27, 27, 0.08);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+#parcel-map {
+    width: 100%;
+    height: 380px;
+}

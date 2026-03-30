@@ -119,6 +119,17 @@
                         </div>
                     </details>
                 </div>
+
+                <div class="feature-card p-4 mt-3">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="h5 m-0">Delimitar Parcela no Mapa</div>
+                        <div class="text-muted small">Desenhe a área de cultivo</div>
+                    </div>
+                    <div class="map-wrap">
+                        <div id="parcel-map"></div>
+                    </div>
+                    <div class="small text-muted mt-2" id="parcel-info">Sem geometria desenhada.</div>
+                </div>
             </div>
             <div class="col-12 col-lg-4">
                 <div class="feature-card p-4 h-100">
@@ -131,14 +142,37 @@
                 </div>
 
                 <div class="feature-card p-4 mt-3">
-                    <div class="h5 mb-2">Dados Meteorológicos</div>
-                    <ul class="mb-0">
-                        <li>Humidade</li>
-                        <li>Vento</li>
-                        <li>Precipitação</li>
-                        <li>Visibilidade</li>
-                        <li>Pressão</li>
-                    </ul>
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="h5 m-0">Meteorologia</div>
+                        <button type="button" class="btn btn-sm btn-outline-success rounded-pill" id="wx-refresh">Atualizar</button>
+                    </div>
+                    <div id="wx-status" class="text-muted small mb-2">A obter localização…</div>
+                    <div class="row g-2" id="wx-cards">
+                        <div class="col-6">
+                            <div class="feature-card p-3">
+                                <div class="small text-muted">Temperatura</div>
+                                <div class="h5 m-0" id="wx-temp">—</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-card p-3">
+                                <div class="small text-muted">Humidade</div>
+                                <div class="h5 m-0" id="wx-hum">—</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-card p-3">
+                                <div class="small text-muted">Vento</div>
+                                <div class="h5 m-0" id="wx-wind">—</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-card p-3">
+                                <div class="small text-muted">Precipitação</div>
+                                <div class="h5 m-0" id="wx-precip">—</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -285,6 +319,10 @@
 
     <script src="../js/communityData.js"></script>
     <script src="../js/community.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/maplibre-gl@3.6.1/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@3.6.1/dist/maplibre-gl.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@mapbox/mapbox-gl-draw@1.4.2/dist/mapbox-gl-draw.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@mapbox/mapbox-gl-draw@1.4.2/dist/mapbox-gl-draw.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
     <script>
@@ -346,6 +384,127 @@
             modal.addEventListener('shown.bs.modal', render);
             parcelEl.addEventListener('change', render);
             cropEl.addEventListener('change', render);
+        })();
+
+        // Parcela Map + Draw + 3D preview
+        (() => {
+            const mapEl = document.getElementById('parcel-map');
+            const infoEl = document.getElementById('parcel-info');
+            if (!mapEl) return;
+
+            const start = { lng: 32.5732, lat: -25.9692, zoom: 12 }; // Maputo
+            const map = new maplibregl.Map({
+                container: 'parcel-map',
+                style: 'https://demotiles.maplibre.org/style.json',
+                center: [start.lng, start.lat],
+                zoom: start.zoom,
+                pitch: 45,
+                bearing: -20
+            });
+
+            map.addControl(new maplibregl.NavigationControl(), 'top-right');
+            const Draw = new MapboxDraw({
+                displayControlsDefault: false,
+                controls: { polygon: true, trash: true },
+                defaultMode: 'draw_polygon'
+            });
+            map.addControl(Draw, 'top-left');
+
+            function updateInfo(feat) {
+                if (!feat) {
+                    infoEl.textContent = 'Sem geometria desenhada.';
+                    return;
+                }
+                const coords = feat.geometry.coordinates[0];
+                infoEl.textContent = `Vértices: ${coords.length} • Primeiros pontos: ${coords.slice(0, 3).map(c => c.map(n => n.toFixed(5)).join(', ')).join(' | ')}`;
+            }
+
+            function updateExtrusion(geo) {
+                const sourceId = 'parcel-geo';
+                const layerId = 'parcel-extrude';
+                if (map.getLayer(layerId)) map.removeLayer(layerId);
+                if (map.getSource(sourceId)) map.removeSource(sourceId);
+
+                map.addSource(sourceId, { type: 'geojson', data: geo });
+                map.addLayer({
+                    id: layerId,
+                    type: 'fill-extrusion',
+                    source: sourceId,
+                    paint: {
+                        'fill-extrusion-color': '#3e5c32',
+                        'fill-extrusion-height': 15,
+                        'fill-extrusion-opacity': 0.65
+                    }
+                });
+            }
+
+            function onChange() {
+                const data = Draw.getAll();
+                const feat = data.features[0];
+                updateInfo(feat);
+                if (feat) updateExtrusion({ type: 'FeatureCollection', features: [feat] });
+            }
+
+            map.on('load', () => {
+                onChange();
+            });
+            map.on('draw.create', onChange);
+            map.on('draw.update', onChange);
+            map.on('draw.delete', onChange);
+        })();
+
+        // Weather widget (Open-Meteo)
+        (() => {
+            const statusEl = document.getElementById('wx-status');
+            const tempEl = document.getElementById('wx-temp');
+            const humEl = document.getElementById('wx-hum');
+            const windEl = document.getElementById('wx-wind');
+            const precipEl = document.getElementById('wx-precip');
+            const refreshBtn = document.getElementById('wx-refresh');
+            if (!statusEl) return;
+
+            async function fetchWx(lat, lon) {
+                statusEl.textContent = 'A obter dados meteorológicos…';
+                try {
+                    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    const cur = data.current || {};
+                    tempEl.textContent = cur.temperature_2m != null ? `${cur.temperature_2m.toFixed(1)} °C` : '—';
+                    humEl.textContent = cur.relative_humidity_2m != null ? `${cur.relative_humidity_2m}%` : '—';
+                    windEl.textContent = cur.wind_speed_10m != null ? `${cur.wind_speed_10m.toFixed(1)} km/h` : '—';
+                    precipEl.textContent = cur.precipitation != null ? `${cur.precipitation} mm` : '—';
+                    statusEl.textContent = 'Atualizado';
+                } catch {
+                    statusEl.textContent = 'Falha ao obter dados.';
+                }
+            }
+
+            function start(lat, lon) {
+                fetchWx(lat, lon);
+            }
+
+            function locate() {
+                statusEl.textContent = 'A obter localização…';
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (pos) => {
+                            const { latitude, longitude } = pos.coords;
+                            start(latitude, longitude);
+                        },
+                        () => {
+                            // Maputo fallback
+                            start(-25.9692, 32.5732);
+                        },
+                        { enableHighAccuracy: true, timeout: 6000 }
+                    );
+                } else {
+                    start(-25.9692, 32.5732);
+                }
+            }
+
+            refreshBtn && refreshBtn.addEventListener('click', locate);
+            locate();
         })();
     </script>
 </body>
