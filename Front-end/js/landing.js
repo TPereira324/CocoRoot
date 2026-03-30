@@ -61,6 +61,18 @@
                 if (entry.isIntersecting) {
                     const el = entry.target;
                     el.classList.add('reveal-in');
+                    const graphs = el.querySelectorAll('.dash-graph-bar[data-graph]');
+                    graphs.forEach((g, idx) => {
+                        const val = parseFloat(g.getAttribute('value') || '0');
+                        setTimeout(() => {
+                            g.style.height = `${Math.max(0, Math.min(100, val))}%`;
+                        }, Math.min(idx, 6) * 90);
+                    });
+                    const rings = el.querySelectorAll('.dash-ring[data-graph]');
+                    rings.forEach((r) => {
+                        const val = parseFloat(r.getAttribute('value') || '0');
+                        r.style.setProperty('--p', Math.max(0, Math.min(100, val)));
+                    });
                     io.unobserve(el);
                 }
             });

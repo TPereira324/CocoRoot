@@ -13,21 +13,10 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3 site-header sticky-top">
         <div class="container">
-            <div class="d-flex align-items-center gap-2">
-                <a href="#" class="nav-back"
-                    onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href='principal.html'; } return false;"
-                    aria-label="Voltar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-                        viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
-                    </svg>
-                </a>
-                <a class="navbar-brand d-flex align-items-center gap-2 m-0" href="principal.html">
-                    <img src="../image/logo.jpeg" alt="CocoRoot" width="32" height="32" style="object-fit: contain;">
-                    <span class="fw-semibold">CocoRoot</span>
-                </a>
-            </div>
+            <a class="navbar-brand d-flex align-items-center gap-2 m-0" href="principal.html">
+                <img src="../image/logo.jpeg" alt="CocoRoot" width="32" height="32" style="object-fit: contain;">
+                <span class="fw-semibold">CocoRoot</span>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
                 aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -52,27 +41,31 @@
         <h1 class="h3 mb-3" data-reveal="fade-up">Sobre nós</h1>
 
         <section class="mb-4" data-reveal="fade-up">
-            <div class="row g-4">
+            <div class="text-center mb-4">
+                <h2 class="section-title fw-bold mb-1">Sobre nós</h2>
+                <div class="text-muted">Tecnologia e sustentabilidade para pequenos agricultores</div>
+            </div>
+            <div class="row g-4 reveal-stagger">
                 <div class="col-12 col-lg-3">
-                    <div class="feature-card p-4 h-100">
+                    <div class="feature-card p-4 h-100" data-tilt>
                         <div class="fw-semibold mb-2">Porquê sustentabilidade</div>
                         <div class="text-muted">A agricultura liga‑se a emissões, sequestro de CO2 e impactos climáticos; precisa de práticas mais eficientes e resilientes.</div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-3">
-                    <div class="feature-card p-4 h-100">
+                    <div class="feature-card p-4 h-100" data-tilt>
                         <div class="fw-semibold mb-2">Soluções</div>
                         <div class="text-muted">Otimização de recursos, inovação em insumos/maquinaria e agricultura regenerativa para armazenar carbono no solo.</div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-3">
-                    <div class="feature-card p-4 h-100">
+                    <div class="feature-card p-4 h-100" data-tilt>
                         <div class="fw-semibold mb-2">Como ajudamos</div>
                         <div class="text-muted">Recolhemos dados, calculamos impacto (CO2, água, acidificação), damos aconselhamento e simulamos melhorias.</div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-3">
-                    <div class="feature-card p-4 h-100">
+                    <div class="feature-card p-4 h-100" data-tilt>
                         <div class="fw-semibold mb-2">Compromisso</div>
                         <div class="text-muted">Tecnologia e apoio técnico para acelerar a transição ecológica com protocolos, reporting e formação.</div>
                     </div>
@@ -80,27 +73,27 @@
             </div>
         </section>
 
-        <div class="row g-4">
+        <div class="row g-4 reveal-stagger">
             <div class="col-12 col-lg-6" data-reveal="fade-up">
-                <div class="feature-card p-4 h-100">
+                <div class="feature-card p-4 h-100" data-tilt>
                     <h2 class="h5">Quem somos</h2>
                     <p>Uma equipa comprometida em facilitar a gestão de cultivos em fibra de coco.</p>
                 </div>
             </div>
             <div class="col-12 col-lg-6" data-reveal="fade-up">
-                <div class="feature-card p-4 h-100">
+                <div class="feature-card p-4 h-100" data-tilt>
                     <div class="ratio ratio-16x9"></div>
                 </div>
             </div>
 
             <div class="col-12 col-lg-6" data-reveal="fade-up">
-                <div class="feature-card p-4 h-100">
+                <div class="feature-card p-4 h-100" data-tilt>
                     <h2 class="h5">Missão e Visão</h2>
                     <p>Levar ferramentas acessíveis para que produtores iniciem e escalem de forma sustentável.</p>
                 </div>
             </div>
             <div class="col-12 col-lg-6" data-reveal="fade-up">
-                <div class="feature-card p-4 h-100">
+                <div class="feature-card p-4 h-100" data-tilt>
                     <div class="ratio ratio-4x3"></div>
                 </div>
             </div>
@@ -108,25 +101,25 @@
 
         <div class="mt-4" data-reveal="fade-up">
             <h2 class="h5 mb-3">A nossa equipa</h2>
-            <div class="row g-3">
+            <div class="row g-3 reveal-stagger">
                 <div class="col-6 col-md-3">
-                    <div class="feature-card p-3 text-center">A</div>
+                    <div class="feature-card p-3 text-center" data-tilt>A</div>
                 </div>
                 <div class="col-6 col-md-3">
-                    <div class="feature-card p-3 text-center">B</div>
+                    <div class="feature-card p-3 text-center" data-tilt>B</div>
                 </div>
                 <div class="col-6 col-md-3">
-                    <div class="feature-card p-3 text-center">C</div>
+                    <div class="feature-card p-3 text-center" data-tilt>C</div>
                 </div>
                 <div class="col-6 col-md-3">
-                    <div class="feature-card p-3 text-center">D</div>
+                    <div class="feature-card p-3 text-center" data-tilt>D</div>
                 </div>
             </div>
         </div>
 
-        <div class="row g-4 mt-2">
+        <div class="row g-4 mt-2 reveal-stagger">
             <div class="col-12 col-lg-6" data-reveal="fade-up">
-                <div class="feature-card p-4 h-100">
+                <div class="feature-card p-4 h-100" data-tilt>
                     <h2 class="h6">Redes sociais</h2>
                     <ul class="mb-0">
                         <li>Instagram</li>
@@ -136,7 +129,7 @@
                 </div>
             </div>
             <div class="col-12 col-lg-6" data-reveal="fade-up">
-                <div class="feature-card p-4 h-100">
+                <div class="feature-card p-4 h-100" data-tilt>
                     <h2 class="h6">Onde nos encontrar</h2>
                     <p>Maputo, Moçambique</p>
                 </div>
