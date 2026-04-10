@@ -47,6 +47,13 @@
     letter-spacing: -0.4px;
 }
 
+.section-panel {
+    background: var(--surface);
+    border: 1px solid rgba(27, 27, 27, 0.08);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+}
+
 .tools-section {
     background: white;
 }
@@ -103,6 +110,16 @@
 
 .footer-dark a:hover {
     color: rgba(255, 255, 255, 0.92);
+}
+
+.footer-dark .fw-semibold {
+    color: rgba(255, 255, 255, 0.96);
+}
+
+.footer-dark .social-link {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: white;
 }
 
 .post-card {
