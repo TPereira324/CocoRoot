@@ -7,10 +7,9 @@ $pass = "root";
 
 $mysqli = new mysqli($host, $user, $pass, $bancodedados);
 if ($mysqli->connect_errno) {
-    echo "Falha ao conectar com o banco de dados: ";
-} else {
-    echo "Conexão com o banco de dados bem-sucedida!";
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Falha ao conectar com o banco de dados."]);
+    exit();
 }
-echo "";
 
 
