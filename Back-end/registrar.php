@@ -1,8 +1,9 @@
 <?php
+session_start();
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
-header("Content-Type: application/json");
 
 if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
     http_response_code(200);
@@ -11,46 +12,38 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
 
 include("conexao.php");
 
-$dados = json_decode(file_get_contents("php://input"), true);
-
-// Suporte a JSON e form POST
-$nome  = $dados["fullname"]  ?? $dados["nome"]  ?? $_POST["nome"]  ?? "";
-$email = $dados["email"]     ?? $_POST["email"]  ?? "";
-$senha = $dados["password"]  ?? $dados["senha"]  ?? $_POST["senha"] ?? "";
-$fazenda = $dados["farm_name"] ?? $dados["fazenda"] ?? $_POST["fazenda"] ?? "";
-
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    http_response_code(405);
-    echo json_encode(["success" => false, "message" => "Método inválido."]);
+    header("Location: /Front-end/pages/registo.php?erro=metodo_invalido");
     exit();
 }
+
+$nome    = $mysqli->real_escape_string($_POST["fullname"] ?? $_POST["nome"] ?? "");
+$email   = $mysqli->real_escape_string($_POST["email"] ?? "");
+$senha   = $_POST["password"] ?? $_POST["senha"] ?? "";
+$fazenda = $mysqli->real_escape_string($_POST["farm_name"] ?? "");
 
 if (empty($nome) || empty($email) || empty($senha)) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Nome, email e senha são obrigatórios."]);
+    header("Location: /Front-end/pages/registo.php?erro=campos_obrigatorios");
     exit();
 }
-
-$nome_esc  = $mysqli->real_escape_string($nome);
-$email_esc = $mysqli->real_escape_string($email);
-$fazenda_esc = $mysqli->real_escape_string($fazenda);
-$senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
 // Verificar se email já existe
-$check = $mysqli->query("SELECT ut_id FROM utilizador WHERE ut_email = '$email_esc'");
+$check = $mysqli->query("SELECT ut_id FROM utilizador WHERE ut_email = '$email'");
 if ($check && $check->num_rows > 0) {
-    http_response_code(409);
-    echo json_encode(["success" => false, "message" => "Este email já está registado."]);
+    header("Location: /Front-end/pages/registo.php?erro=email_existe");
     exit();
 }
 
+$senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
 $sql = "INSERT INTO utilizador (ut_nome, ut_email, ut_password, ut_nome_fazenda)
-        VALUES ('$nome_esc', '$email_esc', '$senha_hash', '$fazenda_esc')";
+        VALUES ('$nome', '$email', '$senha_hash', '$fazenda')";
 
 if ($mysqli->query($sql)) {
-    echo json_encode(["success" => true, "message" => "Conta criada com sucesso!"]);
+    header("Location: /Front-end/pages/login.php?sucesso=conta_criada");
+    exit();
 } else {
-    http_response_code(500);
-    echo json_encode(["success" => false, "message" => "Erro ao criar conta."]);
+    header("Location: /Front-end/pages/registo.php?erro=erro_servidor");
+    exit();
 }
 ?>
