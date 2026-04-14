@@ -1,7 +1,7 @@
 class UtilizadorModel {
     async register(userData) {
         try {
-            const response = await fetch('../../Back-end/registrar.php', {
+            const response = await fetch('/Back-end/registrar.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userData),
