@@ -50,7 +50,8 @@
             <div class="register-step hidden" id="step-3">
                 <div class="form-group">
                     <label for="phone">Número de telefone</label>
-                    <input type="tel" id="phone" name="phone" placeholder="Digite o seu número de telefone" required>
+                    <input type="tel" id="phone" name="phone" placeholder="Ex: 84xxxxxxx" required pattern="^[89][0-9]{7}$" title="Deve ser um número moçambicano com 8 dígitos (começando por 8)">
+                    <small id="phone-error" style="color:red;display:none;">Número inválido. Deve ter 8 dígitos moçambicanos (começando por 84, 85, 86, 87, 91, 92, 93)</small>
                 </div>
                 <div class="btn-group">
                     <button type="button" class="btn full next-step">Próximo</button>
@@ -88,6 +89,38 @@
     <script src="../js/models/utilizadorModel.js"></script>
     <script src="../js/views/utilizadorView.js"></script>
     <script src="../js/controllers/utilizadorController.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const phoneInput = document.getElementById('phone');
+            const phoneError = document.getElementById('phone-error');
+            const nextBtn = document.querySelector('#step-3 .next-step');
+
+            if (nextBtn && phoneInput) {
+                nextBtn.addEventListener('click', (e) => {
+                    const phone = phoneInput.value.trim();
+                    const validPhonePattern = /^[89][0-9]{7}$/;
+
+                    if (!validPhonePattern.test(phone)) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        phoneError.style.display = 'block';
+                        phoneInput.style.borderColor = 'red';
+                        return false;
+                    } else {
+                        phoneError.style.display = 'none';
+                        phoneInput.style.borderColor = '';
+                    }
+                });
+            }
+
+            if (phoneInput) {
+                phoneInput.addEventListener('input', () => {
+                    phoneError.style.display = 'none';
+                    phoneInput.style.borderColor = '';
+                });
+            }
+        });
+    </script>
     <script src="../js/load.js"></script>
 <script src="../js/layout.js"></script>
 </body>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -81,8 +81,23 @@
 
     <script>
         (function () {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user) {
+                alert('Precisa de iniciar sessão para aceder aos módulos.');
+                window.location.href = 'login.html';
+                return;
+            }
+
             const params = new URLSearchParams(window.location.search);
             const mod = parseInt(params.get('mod') || '1', 10);
+            const completedModules = JSON.parse(localStorage.getItem('completedModules') || '[]');
+
+            if (mod > 1 && !completedModules.includes(mod - 1)) {
+                alert('Precisa de concluir o módulo anterior primeiro.');
+                window.location.href = 'comecar.html';
+                return;
+            }
+
             const modules = {
                 1: { title: 'Introdução', img: '../image/planta.jpeg' },
                 2: { title: 'Preparação do substrato', img: '../image/Coco.jpeg' },
@@ -104,7 +119,6 @@
             const finishBtn = document.getElementById('finish-module');
 
             // Check if already completed
-            const completedModules = JSON.parse(localStorage.getItem('completedModules') || '[]');
             if (completedModules.includes(mod)) {
                 finishBtn.style.display = 'none';
                 if (modules[next]) {

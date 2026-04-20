@@ -38,6 +38,17 @@ class UtilizadorController {
 
         const inputs = currentStepEl.querySelectorAll('input');
         for (const input of inputs) {
+            if (input.id === 'phone') {
+                const phone = input.value.trim();
+                const validPhonePattern = /^[89][0-9]{7}$/;
+                if (!validPhonePattern.test(phone)) {
+                    const phoneError = document.getElementById('phone-error');
+                    if (phoneError) phoneError.style.display = 'block';
+                    input.style.borderColor = 'red';
+                    input.reportValidity();
+                    return false;
+                }
+            }
             if (!input.checkValidity()) {
                 input.reportValidity();
                 return false;

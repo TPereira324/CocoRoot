@@ -80,6 +80,13 @@
 
         <script>
             (function() {
+                const user = JSON.parse(localStorage.getItem('user'));
+                if (!user) {
+                    alert('Precisa de iniciar sessão para aceder aos módulos.');
+                    window.location.href = 'login.html';
+                    return;
+                }
+
                 const completedModules = JSON.parse(localStorage.getItem('completedModules') || '[]');
                 
                 // Module 1 is always unlocked
