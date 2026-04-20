@@ -21,11 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
             ${user ? `
                 <span class="nav-user-info" style="font-size:13px;color:var(--muted);margin-right:10px;">${user.nome}</span>
                 <a href="#" id="logout-btn" class="nav-link" style="font-weight:800;color:red;margin-right:10px;">Sair</a>
-                <a href="welcomeScreen.html" class="nav-user" aria-label="Perfil" title="Perfil">${user.nome.charAt(0).toUpperCase()}</a>
             ` : `
                 <a href="login.html" class="nav-btn">Entrar</a>
                 <a href="registo.html" class="nav-btn">Criar Conta</a>
-                <a href="welcomeScreen.html" class="nav-user" aria-label="Perfil" title="Perfil">U</a>
             `}
         </div>
     </nav>
