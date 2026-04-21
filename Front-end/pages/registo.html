@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registo - CocoRoot</title>
     <link rel="stylesheet" href="../css/wireframe.css">
 </head>
+
 <body class="auth-page">
     <div class="auth-img img-ph" style="overflow:hidden;padding:0;">
-        
+
     </div>
 
     <div class="auth-form">
@@ -19,7 +21,7 @@
 
         <div class="auth-logo">
             <span style="display:flex;align-items:center;gap:10px;">
-                
+
                 <span>CocoRoot</span>
             </span>
         </div>
@@ -50,7 +52,9 @@
             <div class="register-step hidden" id="step-3">
                 <div class="form-group">
                     <label for="country_code">Região / Código do país</label>
-                    <select id="country_code" name="country_code" class="btn" style="width:100%;text-align:left;letter-spacing:1px;text-transform:none;font-weight:bold;" required>
+                    <select id="country_code" name="country_code" class="btn"
+                        style="width:100%;text-align:left;letter-spacing:1px;text-transform:none;font-weight:bold;"
+                        required>
                         <option value="" selected>Seleciona…</option>
                         <option value="+244">Angola (+244)</option>
                         <option value="+55">Brasil (+55)</option>
@@ -62,8 +66,10 @@
                 </div>
                 <div class="form-group">
                     <label for="phone">Número de telefone (9 dígitos)</label>
-                    <input type="tel" id="phone" name="phone" placeholder="Ex: 912345678" inputmode="numeric" required pattern="^[0-9]{9}$" title="O número deve ter exatamente 9 dígitos.">
-                    <small id="phone-error" style="color:red;display:none;">Número inválido. Deve ter exatamente 9 dígitos.</small>
+                    <input type="tel" id="phone" name="phone" placeholder="Ex: 912345678" inputmode="numeric" required
+                        pattern="^[0-9]{9}$" title="O número deve ter exatamente 9 dígitos.">
+                    <small id="phone-error" style="color:red;display:none;">Número inválido. Deve ter exatamente 9
+                        dígitos.</small>
                 </div>
                 <div class="btn-group">
                     <button type="button" class="btn full next-step">Próximo</button>
@@ -74,7 +80,8 @@
             <div class="register-step hidden" id="step-4">
                 <div class="form-group">
                     <label for="farm_name">Nome da sua fazenda</label>
-                    <input type="text" id="farm_name" name="farm_name" placeholder="Digite o nome da sua fazenda" required>
+                    <input type="text" id="farm_name" name="farm_name" placeholder="Digite o nome da sua fazenda"
+                        required>
                 </div>
                 <div class="btn-group">
                     <button type="button" class="btn full next-step">Próximo</button>
@@ -86,10 +93,15 @@
                 <div class="form-group">
                     <label for="password">Palavra-passe</label>
                     <input type="password" id="password" name="password" placeholder="Crie uma palavra-passe" required>
+                    <button type="button" id="toggle-register-password" class="btn"
+                        style="margin-top:10px;padding:10px 14px;width:100%;">Mostrar palavra-passe</button>
                 </div>
                 <div class="form-group">
                     <label for="confirm_password">Confirmar palavra-passe</label>
-                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirme a sua palavra-passe" required>
+                    <input type="password" id="confirm_password" name="confirm_password"
+                        placeholder="Confirme a sua palavra-passe" required>
+                    <button type="button" id="toggle-register-confirm-password" class="btn"
+                        style="margin-top:10px;padding:10px 14px;width:100%;">Mostrar confirmação</button>
                 </div>
                 <div class="btn-group">
                     <button type="submit" class="btn full">Finalizar Registo</button>
@@ -98,62 +110,83 @@
             </div>
         </form>
 
-    <script src="../js/models/utilizadorModel.js"></script>
-    <script src="../js/views/utilizadorView.js"></script>
-    <script src="../js/controllers/utilizadorController.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const countryCode = document.getElementById('country_code');
-            const countryError = document.getElementById('country-error');
-            const phoneInput = document.getElementById('phone');
-            const phoneError = document.getElementById('phone-error');
-            const nextBtn = document.querySelector('#step-3 .next-step');
+        <script src="../js/models/utilizadorModel.js"></script>
+        <script src="../js/views/utilizadorView.js"></script>
+        <script src="../js/controllers/utilizadorController.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const countryCode = document.getElementById('country_code');
+                const countryError = document.getElementById('country-error');
+                const phoneInput = document.getElementById('phone');
+                const phoneError = document.getElementById('phone-error');
+                const nextBtn = document.querySelector('#step-3 .next-step');
+                const regPasswordInput = document.getElementById('password');
+                const regConfirmPasswordInput = document.getElementById('confirm_password');
+                const toggleRegPasswordBtn = document.getElementById('toggle-register-password');
+                const toggleRegConfirmPasswordBtn = document.getElementById('toggle-register-confirm-password');
 
-            if (nextBtn && phoneInput && countryCode) {
-                nextBtn.addEventListener('click', (e) => {
-                    const phone = (phoneInput.value || '').trim();
-                    const code = (countryCode.value || '').trim();
-                    const validPhonePattern = /^[0-9]{9}$/;
+                if (nextBtn && phoneInput && countryCode) {
+                    nextBtn.addEventListener('click', (e) => {
+                        const phone = (phoneInput.value || '').trim();
+                        const code = (countryCode.value || '').trim();
+                        const validPhonePattern = /^[0-9]{9}$/;
 
-                    if (!code) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        if (countryError) countryError.style.display = 'block';
-                        countryCode.style.borderColor = 'red';
-                        countryCode.focus();
-                        return false;
-                    }
+                        if (!code) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if (countryError) countryError.style.display = 'block';
+                            countryCode.style.borderColor = 'red';
+                            countryCode.focus();
+                            return false;
+                        }
 
-                    if (!validPhonePattern.test(phone)) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        if (phoneError) phoneError.style.display = 'block';
-                        phoneInput.style.borderColor = 'red';
-                        return false;
-                    } else {
+                        if (!validPhonePattern.test(phone)) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if (phoneError) phoneError.style.display = 'block';
+                            phoneInput.style.borderColor = 'red';
+                            return false;
+                        } else {
+                            if (phoneError) phoneError.style.display = 'none';
+                            phoneInput.style.borderColor = '';
+                            if (countryError) countryError.style.display = 'none';
+                            countryCode.style.borderColor = '';
+                        }
+                    });
+                }
+
+                if (phoneInput) {
+                    phoneInput.addEventListener('input', () => {
                         if (phoneError) phoneError.style.display = 'none';
                         phoneInput.style.borderColor = '';
+                    });
+                }
+                if (countryCode) {
+                    countryCode.addEventListener('change', () => {
                         if (countryError) countryError.style.display = 'none';
                         countryCode.style.borderColor = '';
-                    }
-                });
-            }
+                    });
+                }
 
-            if (phoneInput) {
-                phoneInput.addEventListener('input', () => {
-                    if (phoneError) phoneError.style.display = 'none';
-                    phoneInput.style.borderColor = '';
-                });
-            }
-            if (countryCode) {
-                countryCode.addEventListener('change', () => {
-                    if (countryError) countryError.style.display = 'none';
-                    countryCode.style.borderColor = '';
-                });
-            }
-        });
-    </script>
-    <script src="../js/load.js"></script>
-<script src="../js/layout.js"></script>
+                if (toggleRegPasswordBtn && regPasswordInput) {
+                    toggleRegPasswordBtn.addEventListener('click', () => {
+                        const isHidden = regPasswordInput.type === 'password';
+                        regPasswordInput.type = isHidden ? 'text' : 'password';
+                        toggleRegPasswordBtn.textContent = isHidden ? 'Ocultar palavra-passe' : 'Mostrar palavra-passe';
+                    });
+                }
+
+                if (toggleRegConfirmPasswordBtn && regConfirmPasswordInput) {
+                    toggleRegConfirmPasswordBtn.addEventListener('click', () => {
+                        const isHidden = regConfirmPasswordInput.type === 'password';
+                        regConfirmPasswordInput.type = isHidden ? 'text' : 'password';
+                        toggleRegConfirmPasswordBtn.textContent = isHidden ? 'Ocultar confirmação' : 'Mostrar confirmação';
+                    });
+                }
+            });
+        </script>
+        <script src="../js/load.js"></script>
+        <script src="../js/layout.js"></script>
 </body>
+
 </html>

@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - CocoRoot</title>
     <link rel="stylesheet" href="../css/wireframe.css">
 </head>
+
 <body class="auth-page">
     <div class="auth-img img-ph" style="overflow:hidden;padding:0;">
-        
+
     </div>
 
     <div class="auth-form">
@@ -19,7 +21,7 @@
 
         <div class="auth-logo">
             <span style="display:flex;align-items:center;gap:10px;">
-                
+
                 <span>CocoRoot</span>
             </span>
         </div>
@@ -32,6 +34,8 @@
             <div class="form-group">
                 <label for="password">Palavra-passe</label>
                 <input type="password" id="password" name="password" placeholder="Digite a sua palavra-passe" required>
+                <button type="button" id="toggle-login-password" class="btn"
+                    style="margin-top:10px;padding:10px 14px;width:100%;">Mostrar palavra-passe</button>
             </div>
             <div class="btn-group">
                 <button type="submit" class="btn full">Entrar</button>
@@ -39,46 +43,57 @@
             </div>
         </form>
     </div>
-<script src="../js/layout.js"></script>
-<script>
-document.getElementById('login-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const endpoint = new URL('../../Back-end/login.php', window.location.href).toString();
-
-    // Hardcoded admin login for testing/experience
-    if (email === 'admin@cocoroot.com' && password === 'admin') {
-        const adminUser = {
-            id: 0,
-            nome: 'Administrador',
-            email: 'admin@cocoroot.com',
-            role: 'admin'
-        };
-        localStorage.setItem('user', JSON.stringify(adminUser));
-        window.location.href = 'dashboard.html';
-        return;
-    }
-
-    try {
-        const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
-        
-        // ... (rest of the logic)
-        const data = await response.json();
-        if (data.success) {
-            localStorage.setItem('user', JSON.stringify(data.user));
-            window.location.href = 'dashboard.html';
-        } else {
-            alert(data.message || 'Erro ao entrar.');
+    <script src="../js/layout.js"></script>
+    <script>
+        const loginPasswordInput = document.getElementById('password');
+        const toggleLoginPasswordBtn = document.getElementById('toggle-login-password');
+        if (toggleLoginPasswordBtn && loginPasswordInput) {
+            toggleLoginPasswordBtn.addEventListener('click', () => {
+                const isHidden = loginPasswordInput.type === 'password';
+                loginPasswordInput.type = isHidden ? 'text' : 'password';
+                toggleLoginPasswordBtn.textContent = isHidden ? 'Ocultar palavra-passe' : 'Mostrar palavra-passe';
+            });
         }
-    } catch (err) {
-        alert('Erro de ligação ao servidor.');
-    }
-});
-</script>
+
+        document.getElementById('login-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const endpoint = new URL('../../Back-end/login.php', window.location.href).toString();
+
+            // Hardcoded admin login for testing/experience
+            if (email === 'admin@cocoroot.com' && password === 'admin') {
+                const adminUser = {
+                    id: 0,
+                    nome: 'Administrador',
+                    email: 'admin@cocoroot.com',
+                    role: 'admin'
+                };
+                localStorage.setItem('user', JSON.stringify(adminUser));
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                // ... (rest of the logic)
+                const data = await response.json();
+                if (data.success) {
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert(data.message || 'Erro ao entrar.');
+                }
+            } catch (err) {
+                alert('Erro de ligação ao servidor.');
+            }
+        });
+    </script>
 </body>
+
 </html>
