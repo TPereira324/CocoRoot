@@ -125,6 +125,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
+    const hashText = (text) => {
+        const s = String(text || '');
+        let h = 0;
+        for (let i = 0; i < s.length; i += 1) h = ((h << 5) - h) + s.charCodeAt(i);
+        return Math.abs(h);
+    };
+
+    const pickFrom = (list, seed) => {
+        const arr = Array.isArray(list) ? list : [];
+        if (arr.length === 0) return null;
+        return arr[hashText(seed) % arr.length];
+    };
+
+    const setupHomeImageVariation = () => {
+        if (!document.body.classList.contains('home-page')) return;
+        const hero = document.querySelector('.hero');
+        const aside = document.querySelector('.porque-right.img-ph');
+        if (!hero && !aside) return;
+
+        const images = [
+            `${assetPrefix}image/planta.jpeg`,
+            `${assetPrefix}image/Coco.jpeg`,
+            `${assetPrefix}image/Rectangle%2022.png`,
+            `${assetPrefix}image/Frame%202.png`,
+            `${assetPrefix}image/image%2013.png`,
+            `${assetPrefix}image/image%2014.png`,
+            `${assetPrefix}image/image%2015.png`,
+        ];
+
+        const dayKey = new Date().toISOString().slice(0, 10);
+        const heroPick = pickFrom(images, `${dayKey}:home:hero`) || images[0];
+        let asidePick = pickFrom(images, `${dayKey}:home:aside`) || images[1] || images[0];
+        if (asidePick === heroPick) {
+            const idx = images.indexOf(asidePick);
+            asidePick = images[(idx + 1) % images.length] || asidePick;
+        }
+
+        if (hero) hero.style.backgroundImage = `url('${heroPick}')`;
+        if (aside) aside.style.backgroundImage = `url('${asidePick}')`;
+    };
+
     const initImageFade = (root = document) => {
         const images = Array.from(root.querySelectorAll ? root.querySelectorAll('img') : []);
         images.forEach((img) => {
@@ -144,6 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     initImageFade(document);
+    setupHomeImageVariation();
 
     const setupScrollProgress = () => {
         const doc = document.documentElement;

@@ -51,7 +51,7 @@
                     title: 'Como Maximizar a Produção de Morangos em Fibra de Coco',
                     excerpt: 'Descubra as melhores práticas para cultivar morangos saudáveis e produtivos usando substrato de fibra de coco.',
                     date: '02/03/2026',
-                    image: '../image/planta.jpeg'
+                    image: ''
                 },
                 {
                     id: '2',
@@ -60,7 +60,7 @@
                     title: 'Novidades: Sistema de Monitorização Automática Disponível',
                     excerpt: 'A plataforma COCOROOT agora oferece monitorização em tempo real com sensores inteligentes.',
                     date: '01/03/2026',
-                    image: '../image/Coco.jpeg'
+                    image: ''
                 },
                 {
                     id: '3',
@@ -69,7 +69,7 @@
                     title: 'História de Sucesso: Agricultor Duplica Produção em 6 Meses',
                     excerpt: 'Conheça a jornada de Pedro Costa que transformou sua pequena horta numa operação sustentável e lucrativa.',
                     date: '28/02/2026',
-                    image: '../image/planta.jpeg'
+                    image: ''
                 },
                 {
                     id: '4',
@@ -78,7 +78,7 @@
                     title: 'Preparação do Substrato: Erros Comuns e Como Evitá-los',
                     excerpt: 'Pequenos ajustes na hidratação e drenagem fazem grande diferença na estabilidade da fibra de coco.',
                     date: '24/02/2026',
-                    image: '../image/Coco.jpeg'
+                    image: ''
                 },
                 {
                     id: '5',
@@ -87,9 +87,34 @@
                     title: 'Comunidade CocoRoot Recebe Novos Guias Interativos',
                     excerpt: 'Os novos módulos trazem acompanhamento passo a passo para agricultores iniciantes e experientes.',
                     date: '20/02/2026',
-                    image: '../image/planta.jpeg'
+                    image: ''
                 }
             ];
+
+            const hashText = (text) => {
+                const s = String(text || '');
+                let h = 0;
+                for (let i = 0; i < s.length; i += 1) h = ((h << 5) - h) + s.charCodeAt(i);
+                return Math.abs(h);
+            };
+
+            const pickFrom = (list, seed) => {
+                const arr = Array.isArray(list) ? list : [];
+                if (arr.length === 0) return '';
+                return arr[hashText(seed) % arr.length];
+            };
+
+            const pools = {
+                tips: ['../image/image%2013.png', '../image/image%2014.png', '../image/image%2015.png', '../image/planta.jpeg'],
+                news: ['../image/Coco.jpeg', '../image/Rectangle%2022.png', '../image/Frame%202.png'],
+                stories: ['../image/Frame%202.png', '../image/planta.jpeg', '../image/Rectangle%2022.png']
+            };
+
+            const dayKey = new Date().toISOString().slice(0, 10);
+            articles.forEach((article) => {
+                const pool = pools[article.category] || pools.tips;
+                article.image = pickFrom(pool, `${dayKey}:${article.category}:${article.id}`);
+            });
 
             const statsRoot = document.getElementById('news-stats');
             const listRoot = document.getElementById('article-list');
