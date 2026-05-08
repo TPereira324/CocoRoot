@@ -66,6 +66,27 @@ body::before {
     animation: cocoroot-rise 420ms var(--ease) both;
 }
 
+body.cr-sheet .page-content {
+    position: relative;
+}
+
+body.cr-sheet .page-content::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    background: #edf4eb;
+    border: 1px solid rgba(83, 121, 72, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    z-index: 0;
+    pointer-events: none;
+}
+
+body.cr-sheet .page-content > * {
+    position: relative;
+    z-index: 1;
+}
+
 .nav-logo {
     display: inline-flex;
     align-items: center;
