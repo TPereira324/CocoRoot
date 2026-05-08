@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -88,7 +88,10 @@
             const modules = {
                 1: {
                     title: 'Introdução',
-                    img: '../image/planta.jpeg',
+                    imgs: [
+                        { src: '../image/image 13.png', alt: 'Vasos com ervas aromáticas num ambiente de cultivo doméstico organizado' },
+                        { src: '../image/Coco.jpeg', alt: 'Cocos e fibras, referência ao cultivo em fibra de coco' }
+                    ],
                     steps: [
                         { title: 'Preparar o espaço de trabalho', description: 'Organize materiais e assegure ventilação e limpeza.' },
                         { title: 'Verificar drenagem', description: 'Garanta escoamento e retenção equilibrados.' },
@@ -104,7 +107,10 @@
                 },
                 2: {
                     title: 'Preparação do substrato',
-                    img: '../image/Coco.jpeg',
+                    imgs: [
+                        { src: '../image/image 14.png', alt: 'Fibra de coco (substrato) com textura visível, close-up' },
+                        { src: '../image/Coco.jpeg', alt: 'Cocos e fibras, base do substrato de fibra de coco' }
+                    ],
                     steps: [
                         { title: 'Hidratar a fibra de coco', description: 'Deixe a fibra expandir com água limpa antes de usar.' },
                         { title: 'Lavar e drenar', description: 'Reduza excesso de sais e garanta boa drenagem.' },
@@ -120,7 +126,9 @@
                 },
                 3: {
                     title: 'Plantio e rega',
-                    img: '../image/planta.jpeg',
+                    imgs: [
+                        { src: '../image/planta.jpeg', alt: 'Muda a crescer em substrato, início do plantio' }
+                    ],
                     steps: [
                         { title: 'Escolher recipiente/área', description: 'Defina o local e o tipo de vaso/parcela.' },
                         { title: 'Plantar corretamente', description: 'Respeite profundidade e espaçamento recomendados.' },
@@ -136,7 +144,10 @@
                 },
                 4: {
                     title: 'Manutenção',
-                    img: '../image/Coco.jpeg',
+                    imgs: [
+                        { src: '../image/Frame 2.png', alt: 'Manutenção: colheita/inspeção com tesoura de poda em plantas' },
+                        { src: '../image/Rectangle 22.png', alt: 'Campo agrícola com agricultor a inspecionar a plantação' }
+                    ],
                     steps: [
                         { title: 'Monitorizar humidade', description: 'Verifique regularmente para evitar excesso ou falta de água.' },
                         { title: 'Acompanhar nutrientes', description: 'Observe sinais e ajuste a adubação quando necessário.' },
@@ -155,9 +166,37 @@
             document.getElementById('modulo-kicker').textContent = 'Módulo ' + (modules[mod] ? mod : 1);
             document.getElementById('modulo-title').textContent = current.title;
 
-            const imgPlaceholder = document.querySelector('.modulo-img');
+            const todayKey = (() => {
+                const d = new Date();
+                const y = d.getFullYear();
+                const m = String(d.getMonth() + 1).padStart(2, '0');
+                const day = String(d.getDate()).padStart(2, '0');
+                return `${y}${m}${day}`;
+            })();
+
+            const seedNumber = (text) => {
+                const s = String(text ?? '');
+                let h = 2166136261;
+                for (let i = 0; i < s.length; i += 1) {
+                    h ^= s.charCodeAt(i);
+                    h = Math.imul(h, 16777619);
+                }
+                return h >>> 0;
+            };
+
+            const pickImage = (entry) => {
+                const list = Array.isArray(entry?.imgs) ? entry.imgs : [];
+                if (!list.length) return null;
+                const seed = seedNumber(`${userId}|${mod}|${todayKey}|${entry.title}`);
+                return list[seed % list.length];
+            };
+
+            const chosenImage = pickImage(current);
+            const imgPlaceholder = document.querySelector('.module-img');
             if (imgPlaceholder) {
-                imgPlaceholder.innerHTML = `<img src="${current.img}" style="width:100%;height:100%;object-fit:cover;" alt="${current.title}">`;
+                const src = chosenImage?.src ? encodeURI(chosenImage.src) : '';
+                const alt = chosenImage?.alt || current.title;
+                imgPlaceholder.innerHTML = `<img src="${src}" style="width:100%;height:100%;object-fit:cover;" alt="${alt}">`;
             }
 
             const next = mod + 1;
@@ -166,6 +205,7 @@
             const statusEl = document.getElementById('modulo-status');
             const stepsRoot = document.getElementById('module-steps');
             const materialsRoot = document.getElementById('module-materials');
+            const lastModuleId = Math.max(...Object.keys(modules).map((k) => Number(k)).filter((n) => Number.isFinite(n)));
 
             const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
@@ -201,6 +241,25 @@
                     return;
                 }
                 statusEl.textContent = 'Em curso';
+            };
+
+            const markModuleCompleted = () => {
+                const completed = Array.isArray(completedStore[userId]) ? [...completedStore[userId]] : [];
+                if (!completed.includes(mod)) {
+                    completed.push(mod);
+                    completedStore[userId] = completed;
+                    writeCompletedStore(completedStore);
+                }
+                completedModules = completed;
+
+                progress = totalSteps;
+                userProgress[String(mod)] = progress;
+                store[userId] = userProgress;
+                writeProgressStore(store);
+
+                renderSteps();
+                renderStatus();
+                syncButtons();
             };
 
             const renderSteps = () => {
@@ -252,6 +311,9 @@
                         renderSteps();
                         renderStatus();
                         if (finishBtn) finishBtn.disabled = progress < totalSteps;
+                        if (mod === lastModuleId && progress >= totalSteps) {
+                            markModuleCompleted();
+                        }
                     };
 
                     li.addEventListener('click', selectStep);
@@ -282,10 +344,19 @@
                 const isCompleted = completedModules.includes(mod);
                 if (finishBtn) {
                     finishBtn.disabled = !isCompleted && progress < totalSteps;
-                    finishBtn.textContent = isCompleted ? 'Voltar ao Guia' : 'Concluir Módulo';
+                    if (isCompleted && mod >= lastModuleId) {
+                        finishBtn.textContent = 'Concluído';
+                    } else {
+                        finishBtn.textContent = isCompleted ? 'Voltar ao Guia' : 'Concluir Módulo';
+                    }
                 }
                 if (nextBtn) {
-                    if (modules[next]) {
+                    if (mod >= lastModuleId) {
+                        nextBtn.hidden = true;
+                        nextBtn.textContent = '';
+                        nextBtn.removeAttribute('href');
+                        nextBtn.classList.remove('is-disabled');
+                    } else if (modules[next]) {
                         nextBtn.hidden = false;
                         nextBtn.setAttribute('href', 'comecar-modulo.html?mod=' + next);
                         nextBtn.textContent = 'Módulo ' + next + ' ->';
@@ -300,6 +371,9 @@
             renderMaterials();
             renderStatus();
             syncButtons();
+            if (mod === lastModuleId && progress >= totalSteps && !completedModules.includes(mod)) {
+                markModuleCompleted();
+            }
 
             finishBtn.addEventListener('click', () => {
                 if (completedModules.includes(mod)) {
@@ -310,21 +384,7 @@
                     alert('Conclua todos os passos antes de finalizar o módulo.');
                     return;
                 }
-                const completed = Array.isArray(completedStore[userId]) ? [...completedStore[userId]] : [];
-                if (!completed.includes(mod)) {
-                    completed.push(mod);
-                    completedStore[userId] = completed;
-                    writeCompletedStore(completedStore);
-                }
-                completedModules = completed;
-
-                progress = totalSteps;
-                userProgress[String(mod)] = progress;
-                store[userId] = userProgress;
-                writeProgressStore(store);
-
-                renderStatus();
-                syncButtons();
+                markModuleCompleted();
 
                 window.location.href = 'comecar.html';
             });

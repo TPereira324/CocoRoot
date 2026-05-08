@@ -40,7 +40,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 3px;
-    background: var(--primary);
+    background: #2d6a2d;
     transform: scaleX(var(--cr-scroll));
     transform-origin: left;
     z-index: 10000;
@@ -149,7 +149,7 @@ summary {
 }
 
 :is(a, button, input, select, textarea, .btn, .nav-btn, .nav-link, .auth-back, .tab, .filter-tab, .news-filter):focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid #2d6a2d;
     outline-offset: 2px;
 }
 
@@ -337,7 +337,7 @@ summary {
 
 img.cr-img {
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
 }
 
 img.cr-img.cr-img-loaded {

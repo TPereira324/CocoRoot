@@ -214,7 +214,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 '.footer-links',
                 '.footer-inner',
                 '.dash-actions',
-                '.dash-cultivos-grid'
+                '.dash-cultivos-grid',
+                '.step-checklist',
+                '.materials-list'
             ];
 
             const containers = new Set();
@@ -261,6 +263,8 @@ document.addEventListener("DOMContentLoaded", () => {
             '.guide-shell',
             '.step',
             '.checklist li',
+            '.step-checklist li',
+            '.materials-list li',
             '.tab',
             '.filter-tab',
             'img'

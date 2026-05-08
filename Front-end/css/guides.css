@@ -99,12 +99,12 @@
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.06);
     text-decoration: none;
     color: inherit;
-    transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .module-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.10);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .module-card.locked {
@@ -183,6 +183,62 @@
     color: var(--primary-2);
     font-size: 12px;
     font-weight: 800;
+    transition: transform 0.2s ease;
+}
+
+.module-card:hover .module-action {
+    transform: translateX(4px);
+}
+
+.module-card.completed .module-pill {
+    position: relative;
+}
+
+.module-card.completed .module-pill::before,
+.module-card.completed .module-pill::after {
+    position: absolute;
+    left: 50%;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -6px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.module-card.completed .module-pill::after {
+    content: "Módulo concluído";
+    bottom: calc(100% + 10px);
+    background: rgba(27, 27, 27, 0.92);
+    color: rgba(255, 255, 255, 0.96);
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+}
+
+.module-card.completed .module-pill::before {
+    content: "";
+    bottom: calc(100% + 4px);
+    width: 10px;
+    height: 10px;
+    background: rgba(27, 27, 27, 0.92);
+    transform: translate(-50%, -6px) rotate(45deg);
+    border-radius: 2px;
+}
+
+.module-card.completed:hover .module-pill::after,
+.module-card.completed:hover .module-pill::before {
+    opacity: 1;
+}
+
+.module-card.completed:hover .module-pill::after {
+    transform: translate(-50%, 0);
+}
+
+.module-card.completed:hover .module-pill::before {
+    transform: translate(-50%, 0) rotate(45deg);
 }
 
 .module-lock {
@@ -268,6 +324,20 @@
     overflow: hidden;
 }
 
+.module-img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+@media (max-width: 520px) {
+    .module-img img {
+        object-position: center 35%;
+    }
+}
+
 .module-body {
     display: grid;
     grid-template-columns: 1.25fr 0.75fr;
@@ -310,6 +380,11 @@
 
 .module-page .step-check.done {
     background: rgba(47, 143, 61, 0.92);
+    transition: transform 0.2s ease;
+}
+
+.module-page .step-checklist li:hover .step-check.done {
+    transform: scale(1.08);
 }
 
 .module-page .step-checklist li.active-step {
