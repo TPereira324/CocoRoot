@@ -69,9 +69,10 @@ body.app-page {
 }
 
 .news-stat-value {
-    font-size: 24px;
-    font-weight: 500;
-    color: rgba(86, 57, 37, 0.92);
+    font-size: 34px;
+    line-height: 1.1;
+    font-weight: 900;
+    color: var(--deep);
     margin-bottom: 6px;
 }
 

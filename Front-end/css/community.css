@@ -51,11 +51,12 @@
 }
 
 .stat-num {
-    font-size: 30px;
-    font-weight: 800;
+    font-size: 34px;
+    line-height: 1.1;
+    font-weight: 900;
     display: block;
     margin-bottom: 4px;
-    color: rgba(86, 57, 37, 0.92);
+    color: var(--deep);
 }
 
 .stat-label {
