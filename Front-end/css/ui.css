@@ -11,7 +11,8 @@ html {
     --card-bg: rgba(255, 255, 255, 0.90);
     --card-border: 1px solid rgba(47, 111, 59, 0.14);
     --card-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
-    --card-shadow-hover: 0 20px 44px rgba(0, 0, 0, 0.12);
+    --card-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --cr-scroll: 0;
 }
 
 body {
@@ -32,9 +33,30 @@ a {
     color: inherit;
 }
 
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--primary);
+    transform: scaleX(var(--cr-scroll));
+    transform-origin: left;
+    z-index: 10000;
+    pointer-events: none;
+}
+
 @keyframes cocoroot-rise {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .app-page .page-content,
@@ -98,6 +120,37 @@ a {
         background var(--t-fast) var(--ease),
         border-color var(--t-fast) var(--ease),
         color var(--t-fast) var(--ease);
+}
+
+.btn,
+.nav-btn,
+.nav-link,
+a,
+button,
+[role="button"],
+input[type="button"],
+input[type="submit"] {
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+
+a,
+button,
+[role="button"],
+.btn,
+.nav-btn,
+.nav-link,
+input[type="button"],
+input[type="submit"],
+input[type="checkbox"],
+input[type="radio"],
+select,
+summary {
+    cursor: pointer;
+}
+
+:is(a, button, input, select, textarea, .btn, .nav-btn, .nav-link, .auth-back, .tab, .filter-tab, .news-filter):focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
 }
 
 .btn:active,
@@ -244,7 +297,7 @@ a {
     margin-top: 8px;
 }
 
-.toast-bar > div {
+.toast-bar>div {
     height: 100%;
     width: 100%;
     background: rgba(47, 143, 61, 0.92);
@@ -253,8 +306,13 @@ a {
 }
 
 @keyframes cocoroot-toast {
-    from { transform: scaleX(1); }
-    to { transform: scaleX(0); }
+    from {
+        transform: scaleX(1);
+    }
+
+    to {
+        transform: scaleX(0);
+    }
 }
 
 .btn,
@@ -275,6 +333,180 @@ a {
 
 :is(.article-item, .module-card, .card, .team-member, .news-stat):hover {
     box-shadow: var(--card-shadow-hover);
+}
+
+img.cr-img {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+img.cr-img.cr-img-loaded {
+    opacity: 1;
+}
+
+.cr-reveal-text {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    transition-delay: var(--cr-delay, 0ms);
+    will-change: opacity, transform;
+}
+
+.cr-reveal-card {
+    opacity: 0;
+    transform: scale(0.96);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    transition-delay: var(--cr-delay, 0ms);
+    will-change: opacity, transform;
+}
+
+.cr-reveal-inview {
+    opacity: 1;
+    transform: none;
+}
+
+.cr-tooltip {
+    position: relative;
+}
+
+.cr-tooltip::before,
+.cr-tooltip::after {
+    position: absolute;
+    left: 50%;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -6px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.cr-tooltip::after {
+    content: var(--cr-tt, "");
+    bottom: calc(100% + 10px);
+    background: rgba(27, 27, 27, 0.92);
+    color: rgba(255, 255, 255, 0.96);
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+}
+
+.cr-tooltip::before {
+    content: "";
+    bottom: calc(100% + 4px);
+    width: 10px;
+    height: 10px;
+    background: rgba(27, 27, 27, 0.92);
+    transform: translate(-50%, -6px) rotate(45deg);
+    border-radius: 2px;
+}
+
+.cr-tooltip:hover::after,
+.cr-tooltip:focus-visible::after {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.cr-tooltip:hover::before,
+.cr-tooltip:focus-visible::before {
+    opacity: 1;
+    transform: translate(-50%, 0) rotate(45deg);
+}
+
+.cr-tt-registo {
+    --cr-tt: "Criar conta e começar";
+}
+
+.cr-tt-login {
+    --cr-tt: "Entrar na plataforma";
+}
+
+.cr-tt-criar-conta {
+    --cr-tt: "Criar conta em minutos";
+}
+
+.cr-tt-comecar-zero {
+    --cr-tt: "Guia passo-a-passo";
+}
+
+.cr-tt-comecar-agora {
+    --cr-tt: "Começar já";
+}
+
+.cr-tt-publicar {
+    --cr-tt: "Partilhar com a comunidade";
+}
+
+.cr-tt-dash-comecar {
+    --cr-tt: "Iniciar um novo cultivo";
+}
+
+.cr-tt-dash-noticias {
+    --cr-tt: "Atualizações e dicas";
+}
+
+.cr-tt-add-cultivo {
+    --cr-tt: "Adicionar novo cultivo";
+}
+
+.cr-tt-login-submit {
+    --cr-tt: "Aceder à sua conta";
+}
+
+.cr-tt-registo-submit {
+    --cr-tt: "Finalizar registo";
+}
+
+@keyframes cr-agri-pulse {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-2px) scale(1.06);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+:is(.card, .dash-card, .article-item, .module-card, .team-member):hover :is(.bi-moisture, .bi-droplet, .bi-droplet-fill, .bi-leaf, .bi-tree, .bi-flower1, .bi-flower2) {
+    animation: cr-agri-pulse 900ms ease-in-out infinite;
+    will-change: transform;
+}
+
+:is(.card, .dash-card, .article-item, .module-card, .team-member):hover :is(.card-icon i, .dash-card i) {
+    transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    body::before {
+        display: none;
+    }
+
+    .cr-reveal-text,
+    .cr-reveal-card {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    img.cr-img {
+        opacity: 1 !important;
+    }
 }
 
 .btn.sm {
@@ -313,6 +545,11 @@ a {
 }
 
 @media (max-width: 980px) {
-    .hero-title { font-size: 36px; }
-    .hero-subtitle { font-size: 16px; }
+    .hero-title {
+        font-size: 36px;
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+    }
 }
