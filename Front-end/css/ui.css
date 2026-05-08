@@ -509,6 +509,15 @@ img.cr-img.cr-img-loaded {
     }
 }
 
+body,
+body *:not(.bi):not([class^="bi-"]):not([class*=" bi-"]) {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+body :is(h1, h2, h3, h4, h5, h6, p, span, div, a, label, li, button, input, textarea, select, strong, em, small) {
+    color: var(--text) !important;
+}
+
 .btn.sm {
     padding: 10px 16px;
 }

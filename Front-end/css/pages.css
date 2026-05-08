@@ -561,6 +561,18 @@ body.app-page {
     color: rgba(27, 27, 27, 0.74);
 }
 
+.team-photo {
+    width: 72px;
+    height: 72px;
+    border-radius: 999px;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+    object-position: center;
+    border: 1px solid rgba(27, 27, 27, 0.10);
+    background: rgba(255, 255, 255, 0.92);
+}
+
 .team-avatar {
     width: 56px;
     height: 56px;
@@ -583,28 +595,6 @@ body.app-page {
     font-size: 12px;
     font-weight: 800;
     color: rgba(27, 27, 27, 0.54);
-}
-
-.team-linkedin {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 28px;
-    height: 28px;
-    border-radius: 10px;
-    display: grid;
-    place-items: center;
-    text-decoration: none;
-    background: rgba(255, 255, 255, 0.72);
-    border: 1px solid rgba(27, 27, 27, 0.10);
-    color: rgba(27, 27, 27, 0.62);
-    transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease;
-}
-
-.team-linkedin:hover {
-    transform: translateY(-1px);
-    color: rgba(27, 27, 27, 0.92);
-    background: rgba(255, 255, 255, 0.92);
 }
 
 .about-bottom {
@@ -886,8 +876,13 @@ body.app-page {
 }
 
 @keyframes profileSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .profile-toggles {
