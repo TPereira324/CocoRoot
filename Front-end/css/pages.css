@@ -549,7 +549,7 @@ body.app-page {
     font-size: 10px;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: rgba(27, 27, 27, 0.54);
+    color: #1a1a1a;
     margin-bottom: 12px;
     padding-bottom: 10px;
     border-bottom: 2px solid rgba(47, 143, 61, 0.22);
@@ -564,46 +564,42 @@ body.app-page {
 .team-member {
     position: relative;
     border-radius: 6px;
-    padding: 16px 12px;
+    padding: 0;
     background: rgba(252, 244, 235, 0.92);
     text-align: center;
     color: rgba(27, 27, 27, 0.74);
+    overflow: hidden;
+    height: 220px;
 }
 
 .team-photo {
-    width: 72px;
-    height: 72px;
-    border-radius: 999px;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
     display: block;
-    margin: 0 auto;
+    margin: 0;
     object-fit: cover;
-    object-position: center;
-    border: 1px solid rgba(27, 27, 27, 0.10);
-    background: rgba(255, 255, 255, 0.92);
+    object-position: center top;
+    transform: scale(1);
+    transition: transform 0.3s ease;
 }
 
 .team-avatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 999px;
-    margin: 0 auto 10px;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    margin: 0;
     display: grid;
     place-items: center;
-    background: #e6f0e6;
-    color: #2d6a2d;
+    background: var(--green-light, #e6f0e6);
+    color: var(--green-primary, #2d6a2d);
     font-weight: 900;
-    letter-spacing: 0.6px;
+    letter-spacing: 1px;
+    font-size: 28px;
 }
 
-.team-name {
-    font-weight: 900;
-}
-
-.team-role {
-    margin-top: 4px;
-    font-size: 12px;
-    font-weight: 800;
-    color: rgba(27, 27, 27, 0.54);
+.team-member:hover .team-photo {
+    transform: scale(1.05);
 }
 
 .about-bottom {
