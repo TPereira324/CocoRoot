@@ -22,9 +22,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const statParcelas = document.getElementById('profile-stat-parcelas');
     const statPendentes = document.getElementById('profile-stat-pendentes');
     const statModulos = document.getElementById('profile-stat-modulos');
+    const statParcelasCard = statParcelas?.closest('.profile-mini-stat');
+    const statPendentesCard = statPendentes?.closest('.profile-mini-stat');
+    const statModulosCard = statModulos?.closest('.profile-mini-stat');
     const progressFill = document.getElementById('profile-progress-fill');
     const progressText = document.getElementById('profile-progress-text');
+    const progressTrack = document.querySelector('.profile-progress-track');
     const chipsRoot = document.getElementById('profile-chips');
+    const chipsCount = document.getElementById('profile-chips-count');
     const activityRoot = document.getElementById('profile-activity');
     const prefAlertas = document.getElementById('pref-alertas');
     const prefResumo = document.getElementById('pref-resumo');
@@ -71,6 +76,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const initInterests = () => {
         const selected = new Set(readJson(interestsKey, ['Folhosas', 'Frutíferas']));
+        const updateCount = () => {
+            if (!chipsCount) return;
+            const count = selected.size;
+            chipsCount.textContent = `${count} interesses seleccionados`;
+        };
         chipsRoot.innerHTML = '';
         defaultInterests.forEach((name) => {
             const btn = document.createElement('button');
@@ -82,9 +92,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 else selected.add(name);
                 writeJson(interestsKey, Array.from(selected));
                 btn.classList.toggle('active', selected.has(name));
+                updateCount();
             });
             chipsRoot.appendChild(btn);
         });
+        updateCount();
     };
 
     const renderActivity = (items) => {
@@ -127,15 +139,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         const localTasks = Array.isArray(localTasksStore[userId]) ? localTasksStore[userId] : [];
         const allTasks = serverTasks.length > 0 ? serverTasks : localTasks;
         const pending = allTasks.filter((t) => !String(t?.estado || '').toLowerCase().includes('conclu')).length;
-        const completedModules = Array.isArray(completedModulesStore[userId]) ? completedModulesStore[userId].length : 0;
+        const completedModulesList = Array.isArray(completedModulesStore[userId]) ? completedModulesStore[userId] : [];
+        const completedModules = completedModulesList.length;
 
         statParcelas.textContent = String(parcelas.length);
         statPendentes.textContent = String(pending);
         statModulos.textContent = String(completedModules);
+        if (statParcelasCard) statParcelasCard.style.setProperty('--cr-tt', `"Ver as minhas parcelas de cultivo"`);
+        if (statPendentesCard) statPendentesCard.style.setProperty('--cr-tt', `"Tens ${pending} tarefas por completar"`);
+        if (statModulosCard) statModulosCard.style.setProperty('--cr-tt', `"${4} módulos de formação disponíveis"`);
 
         const progress = calcProgress(parcelas.length, pending, completedModules);
         progressFill.style.width = `${progress}%`;
-        progressText.textContent = `${progress}% concluído`;
+        const totalModules = 4;
+        const missingCount = Math.max(0, totalModules - completedModules);
+        const missingText = missingCount === 1 ? '1 módulo em falta' : `${missingCount} módulos em falta`;
+        progressText.textContent = `${progress}% · ${missingText}`;
+
+        if (progressTrack) {
+            const allModuleIds = [1, 2, 3, 4];
+            const missingIds = allModuleIds.filter((id) => !completedModulesList.includes(id));
+            const tooltipText = missingIds.length === 0
+                ? 'Progresso completo'
+                : (missingIds.length === 1
+                    ? `Completa o Módulo ${missingIds[0]} para terminar`
+                    : `Completa os Módulos ${missingIds.join(' e ')} para terminar`);
+            progressTrack.style.setProperty('--cr-tt', `"${tooltipText}"`);
+        }
 
         const alerts = Array.isArray(alertasResponse?.data) ? alertasResponse.data : [];
         const activities = [];
@@ -145,7 +175,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         alerts.slice(0, 2).forEach((alert) => {
             activities.push({ title: alert?.titulo || 'Alerta do sistema', meta: alert?.mensagem || alert?.message || 'Nova notificação recebida' });
         });
-        if (activities.length === 0) activities.push({ title: 'Perfil criado', meta: 'Complete seus dados para personalizar a experiência.' });
+        if (activities.length === 0) activities.push({ title: 'Perfil criado', meta: 'Completa os teus dados para personalizar a experiência.' });
         renderActivity(activities);
     };
 
@@ -186,14 +216,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     try { await loadStats(); } catch {}
 
     saveBtn?.addEventListener('click', async () => {
+        const originalLabel = saveBtn.textContent;
         saveBtn.disabled = true;
-        if (saveStatus) { saveStatus.hidden = false; saveStatus.textContent = 'A guardar alterações na base de dados...'; }
+        saveBtn.classList.add('is-loading');
+        saveBtn.textContent = 'A guardar...';
+        if (saveStatus) { saveStatus.hidden = true; saveStatus.textContent = ''; }
         try {
             await saveProfile();
             await loadStats();
+            saveBtn.classList.remove('is-loading');
+            saveBtn.textContent = 'Guardado! ✓';
+            window.setTimeout(() => {
+                saveBtn.textContent = originalLabel || 'Guardar Alterações';
+            }, 2000);
         } catch (error) {
-            if (saveStatus) { saveStatus.hidden = false; saveStatus.textContent = friendlyError(error, 'Falha ao salvar perfil na base de dados.'); }
+            if (saveStatus) { saveStatus.hidden = false; saveStatus.textContent = friendlyError(error, 'Falha ao guardar o perfil.'); }
             if (window.CocoRootToast) window.CocoRootToast('Perfil', 'Erro ao guardar dados');
-        } finally { saveBtn.disabled = false; }
+        } finally {
+            saveBtn.classList.remove('is-loading');
+            saveBtn.disabled = false;
+            if (saveBtn.textContent === 'A guardar...') {
+                saveBtn.textContent = originalLabel || 'Guardar Alterações';
+            }
+        }
     });
 });
