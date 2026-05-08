@@ -193,6 +193,15 @@ body.app-page {
     border: 0;
 }
 
+.article-img img {
+    transition: transform var(--transition-med, 0.25s ease);
+    transform: scale(1);
+}
+
+.article-item:hover .article-img img {
+    transform: scale(1.03);
+}
+
 .article-content {
     flex: 1;
     display: flex;

@@ -17,6 +17,9 @@ html {
     --deep: #1f3c13;
     --primary: #2f8f3d;
     --primary-2: #2a7e36;
+    --green-primary: #2d6a2d;
+    --green-light: #e6f0e6;
+    --green-dark: #1a4a1a;
     --bg: #f6faf5;
     --bg-auth: #fbf2f1;
     --text: #1b1b1b;
@@ -28,6 +31,11 @@ html {
     --shadow-hover: 0 16px 30px rgba(0, 0, 0, 0.08);
     --radius: 14px;
     --radius-sm: 12px;
+    --radius-card: 12px;
+    --transition-fast: 0.15s ease;
+    --transition-med: 0.25s ease;
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.10);
 }
 
 body {

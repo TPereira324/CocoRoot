@@ -2,6 +2,34 @@
     background: rgba(255, 255, 255, 0.96);
 }
 
+.nav.nav--scrolled {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 6px;
+    height: 2px;
+    background: var(--green-primary, #2d6a2d);
+    border-radius: 999px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-fast, 0.15s ease);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    transform: scaleX(1);
+}
+
 .nav-links {
     margin-left: 18px;
 }

@@ -172,71 +172,28 @@ document.addEventListener("DOMContentLoaded", () => {
         setupScrollProgress();
     }
 
-    const setupScrollReveals = () => {
+    const setupNavbarScroll = () => {
+        const nav = document.querySelector('.nav');
+        if (!nav) return;
+        let ticking = false;
+        const update = () => {
+            ticking = false;
+            nav.classList.toggle('nav--scrolled', window.scrollY > 60);
+        };
+        const requestUpdate = () => {
+            if (ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(update);
+        };
+        window.addEventListener('scroll', requestUpdate, { passive: true });
+        window.addEventListener('resize', requestUpdate);
+        update();
+    };
+
+    setupNavbarScroll();
+
+    const setupScrollAnimations = () => {
         const hasIO = 'IntersectionObserver' in window;
-
-        const baseClassFor = (el) => {
-            if (!(el instanceof Element)) return null;
-            if (el.matches('img, .img-ph, .cta-logo, .auth-brand')) return 'cr-reveal-card';
-            if (el.matches('.card, .dash-card, .news-stat, .article-item, .about-box, .about-card, .team-box, .team-member, .module-card, .module-item, .guide-shell, .dash-stat-card, .dash-add-card')) return 'cr-reveal-card';
-            return 'cr-reveal-text';
-        };
-
-        const isOffscreen = (el) => {
-            const rect = el.getBoundingClientRect();
-            return rect.bottom <= 0 || rect.top >= window.innerHeight;
-        };
-
-        const observer = hasIO
-            ? new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (!entry.isIntersecting) return;
-                    const el = entry.target;
-                    if (el && el.classList) {
-                        el.classList.add('cr-reveal-inview');
-                    }
-                    observer.unobserve(el);
-                });
-            }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' })
-            : null;
-
-        const applyStagger = (root = document) => {
-            const containerSelectors = [
-                '.card-grid',
-                '.steps-row',
-                '.dash-stats-grid',
-                '.grid-auto',
-                '.panel-grid',
-                '.stack',
-                '.community-posts',
-                '.tabs',
-                '.stats-row',
-                '.footer-links',
-                '.footer-inner',
-                '.dash-actions',
-                '.dash-cultivos-grid',
-                '.step-checklist',
-                '.materials-list'
-            ];
-
-            const containers = new Set();
-            containerSelectors.forEach((sel) => {
-                Array.from(root.querySelectorAll(sel)).forEach((c) => containers.add(c));
-            });
-
-            containers.forEach((container) => {
-                const items = Array.from(container.children).filter((child) => {
-                    if (!(child instanceof Element)) return false;
-                    return child.classList.contains('cr-reveal-text') || child.classList.contains('cr-reveal-card');
-                });
-                if (items.length < 2) return;
-                items.forEach((item, idx) => {
-                    if (item.classList.contains('cr-reveal-inview')) return;
-                    item.style.setProperty('--cr-delay', `${idx * 80}ms`);
-                });
-            });
-        };
-
         const selectors = [
             '.section-title',
             '.section-kicker',
@@ -267,48 +224,169 @@ document.addEventListener("DOMContentLoaded", () => {
             '.materials-list li',
             '.tab',
             '.filter-tab',
+            '.profile-card',
+            '.profile-mini-stat',
+            '.profile-chip',
             'img'
         ].join(',');
 
-        const applyReveal = (root = document) => {
+        const containerSelectors = [
+            '.card-grid',
+            '.steps-row',
+            '.dash-stats-grid',
+            '.grid-auto',
+            '.panel-grid',
+            '.stack',
+            '.community-posts',
+            '.tabs',
+            '.stats-row',
+            '.footer-links',
+            '.footer-inner',
+            '.dash-actions',
+            '.dash-cultivos-grid',
+            '.step-checklist',
+            '.materials-list',
+            '.profile-mini-stats',
+            '.profile-chips',
+            '.about-metrics'
+        ];
+
+        const isOffscreen = (el) => {
+            const rect = el.getBoundingClientRect();
+            return rect.bottom <= 0 || rect.top >= window.innerHeight;
+        };
+
+        const animateIn = (el) => {
+            if (!(el instanceof Element)) return;
+            el.style.setProperty('--a', '1');
+        };
+
+        const observer = hasIO
+            ? new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    const el = entry.target;
+                    animateIn(el);
+                    observer.unobserve(el);
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' })
+            : null;
+
+        const applyStagger = (root = document) => {
+            const containers = new Set();
+            containerSelectors.forEach((sel) => {
+                Array.from(root.querySelectorAll(sel)).forEach((c) => containers.add(c));
+            });
+
+            containers.forEach((container) => {
+                const items = Array.from(container.children).filter((child) => child instanceof Element && child.classList.contains('animate-on-scroll'));
+                if (items.length < 2) return;
+                items.forEach((item, idx) => {
+                    item.style.setProperty('--d', `${idx * 70}ms`);
+                });
+            });
+        };
+
+        const apply = (root = document) => {
             const elements = Array.from(root.querySelectorAll(selectors));
             elements.forEach((el) => {
                 if (!(el instanceof Element)) return;
-                if (el.classList.contains('cr-reveal-bound')) return;
+                if (el.classList.contains('animate-on-scroll')) return;
                 if (el.closest('.toast-root')) return;
 
-                const base = baseClassFor(el);
-                if (!base) return;
-
-                el.classList.add('cr-reveal-bound', base);
-
-                if (!isOffscreen(el)) {
-                    el.classList.add('cr-reveal-inview');
+                el.classList.add('animate-on-scroll');
+                if (reduceMotion) {
+                    animateIn(el);
                     return;
                 }
-
+                if (!isOffscreen(el)) {
+                    animateIn(el);
+                    return;
+                }
                 if (observer) observer.observe(el);
+                else animateIn(el);
             });
-
             applyStagger(root);
         };
 
-        applyReveal(document);
+        apply(document);
 
         const mo = new MutationObserver((mutations) => {
             mutations.forEach((m) => {
                 m.addedNodes.forEach((node) => {
                     if (!(node instanceof Element)) return;
                     initImageFade(node);
-                    applyReveal(node);
+                    apply(node);
                 });
             });
         });
-
         mo.observe(document.body, { childList: true, subtree: true });
     };
 
-    if (!reduceMotion) {
-        setupScrollReveals();
-    }
+    const setupCounters = () => {
+        if (reduceMotion) return;
+        if (!('IntersectionObserver' in window)) return;
+
+        const numberSelector = [
+            '.news-stat-value',
+            '.dash-value',
+            '.profile-mini-stat strong',
+            '#profile-progress-text'
+        ].join(',');
+
+        const parseFirstNumber = (text) => {
+            const match = String(text || '').match(/(\d+)/);
+            return match ? Number(match[1]) : null;
+        };
+
+        const renderWithNumber = (original, value) => {
+            const s = String(original || '');
+            const match = s.match(/(\d+)/);
+            if (!match) return s;
+            return s.replace(match[1], String(value));
+        };
+
+        const animateNumber = (el) => {
+            const original = el.textContent || '';
+            const target = parseFirstNumber(original);
+            if (target == null || Number.isNaN(target)) return;
+            const start = 0;
+            const duration = 1200;
+            const startTime = performance.now();
+
+            const tick = (now) => {
+                const t = Math.min(1, (now - startTime) / duration);
+                const eased = 1 - Math.pow(1 - t, 3);
+                const value = Math.round(start + (target - start) * eased);
+                el.textContent = renderWithNumber(original, value);
+                if (t < 1) window.requestAnimationFrame(tick);
+            };
+            window.requestAnimationFrame(tick);
+        };
+
+        const seen = new WeakSet();
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target;
+                if (!(el instanceof Element)) return;
+                if (seen.has(el)) return;
+                seen.add(el);
+                animateNumber(el);
+                io.unobserve(el);
+            });
+        }, { threshold: 0.4 });
+
+        const observeAll = (root = document) => {
+            Array.from(root.querySelectorAll(numberSelector)).forEach((el) => {
+                if (!(el instanceof Element)) return;
+                if (seen.has(el)) return;
+                io.observe(el);
+            });
+        };
+        observeAll(document);
+    };
+
+    setupScrollAnimations();
+    setupCounters();
 });

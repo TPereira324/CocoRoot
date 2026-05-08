@@ -34,7 +34,7 @@
 
 .btn {
     border: 1px solid rgba(47, 143, 61, 0.32);
-    background: var(--primary);
+    background: var(--green-primary, var(--primary));
     padding: 12px 22px;
     font-size: 13px;
     font-weight: 800;
@@ -47,19 +47,23 @@
     justify-content: center;
     gap: 8px;
     text-align: center;
-    transition: transform var(--t-fast, 160ms) var(--ease, ease),
-        box-shadow var(--t-fast, 160ms) var(--ease, ease),
-        background var(--t-fast, 160ms) var(--ease, ease),
-        border-color var(--t-fast, 160ms) var(--ease, ease);
+    transition: transform var(--transition-fast, 0.15s ease),
+        box-shadow var(--transition-fast, 0.15s ease),
+        background var(--transition-fast, 0.15s ease),
+        border-color var(--transition-fast, 0.15s ease);
     border-radius: 12px;
-    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.10);
+    box-shadow: var(--shadow-card, 0 16px 30px rgba(0, 0, 0, 0.10));
 }
 
 .btn:hover {
     transform: translateY(-2px);
-    background: var(--primary-2);
+    background: var(--green-dark, var(--primary-2));
     border-color: rgba(47, 143, 61, 0.40);
-    box-shadow: 0 22px 44px rgba(0, 0, 0, 0.14);
+    box-shadow: var(--shadow-hover, 0 22px 44px rgba(0, 0, 0, 0.14));
+}
+
+.btn:active {
+    transform: translateY(0) scale(0.97);
 }
 
 .btn.full {
@@ -69,13 +73,13 @@
 
 .btn.outline {
     background: rgba(255, 255, 255, 0.92);
-    color: var(--primary-2);
+    color: var(--green-primary, var(--primary-2));
     border-color: rgba(47, 143, 61, 0.40);
     box-shadow: none;
 }
 
 .btn.outline:hover {
-    background: rgba(47, 143, 61, 0.10);
+    background: var(--green-light, rgba(47, 143, 61, 0.10));
     border-color: rgba(47, 143, 61, 0.48);
     box-shadow: none;
 }
