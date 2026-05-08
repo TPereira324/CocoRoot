@@ -144,23 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const aside = document.querySelector('.porque-right.img-ph');
         if (!hero && !aside) return;
 
-        const images = [
-            `${assetPrefix}image/planta.jpeg`,
-            `${assetPrefix}image/Coco.jpeg`,
-            `${assetPrefix}image/Rectangle%2022.png`,
-            `${assetPrefix}image/Frame%202.png`,
-            `${assetPrefix}image/image%2013.png`,
-            `${assetPrefix}image/image%2014.png`,
-            `${assetPrefix}image/image%2015.png`,
-        ];
-
-        const dayKey = new Date().toISOString().slice(0, 10);
-        const heroPick = pickFrom(images, `${dayKey}:home:hero`) || images[0];
-        let asidePick = pickFrom(images, `${dayKey}:home:aside`) || images[1] || images[0];
-        if (asidePick === heroPick) {
-            const idx = images.indexOf(asidePick);
-            asidePick = images[(idx + 1) % images.length] || asidePick;
-        }
+        const heroPick = `${assetPrefix}image/planta.jpeg`;
+        const asidePick = `${assetPrefix}image/image%2013.png`;
 
         if (hero) hero.style.backgroundImage = `url('${heroPick}')`;
         if (aside) aside.style.backgroundImage = `url('${asidePick}')`;
