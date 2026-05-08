@@ -331,7 +331,10 @@ document.addEventListener("DOMContentLoaded", () => {
             '.news-stat-value',
             '.dash-value',
             '.profile-mini-stat strong',
-            '#profile-progress-text'
+            '#profile-progress-text',
+            '.reports-stat-value',
+            '#reports-donut-value',
+            '.stat-num'
         ].join(',');
 
         const parseFirstNumber = (text) => {
@@ -346,45 +349,134 @@ document.addEventListener("DOMContentLoaded", () => {
             return s.replace(match[1], String(value));
         };
 
-        const animateNumber = (el) => {
-            const original = el.textContent || '';
-            const target = parseFirstNumber(original);
-            if (target == null || Number.isNaN(target)) return;
-            const start = 0;
-            const duration = 1200;
+        const isNumberReady = (el) => {
+            const n = parseFirstNumber(el.textContent || '');
+            return n != null && !Number.isNaN(n);
+        };
+
+        const stateByEl = new WeakMap();
+
+        const stopAnimation = (el) => {
+            const state = stateByEl.get(el);
+            if (!state) return;
+            if (state.rafId) window.cancelAnimationFrame(state.rafId);
+            state.rafId = 0;
+            state.token = '';
+            try {
+                el.removeAttribute('data-cr-count-token');
+                el.removeAttribute('data-cr-count-internal');
+            } catch { }
+        };
+
+        const startAnimation = (el, fromValue, toValue, template) => {
+            stopAnimation(el);
+            const state = stateByEl.get(el) || {};
+            const token = `${Date.now()}_${Math.random().toString(16).slice(2)}`;
+            state.token = token;
+            state.template = template;
+            state.lastNumber = toValue;
+            stateByEl.set(el, state);
+            el.setAttribute('data-cr-count-token', token);
+
             const startTime = performance.now();
+            const duration = 1200;
+            const start = Number.isFinite(fromValue) ? fromValue : 0;
+            const target = Number.isFinite(toValue) ? toValue : 0;
 
             const tick = (now) => {
+                const activeToken = el.getAttribute('data-cr-count-token') || '';
+                if (activeToken !== token) return;
+
                 const t = Math.min(1, (now - startTime) / duration);
                 const eased = 1 - Math.pow(1 - t, 3);
                 const value = Math.round(start + (target - start) * eased);
-                el.textContent = renderWithNumber(original, value);
-                if (t < 1) window.requestAnimationFrame(tick);
+                el.setAttribute('data-cr-count-internal', token);
+                el.textContent = renderWithNumber(state.template || template || '', value);
+                if (t < 1) {
+                    state.rafId = window.requestAnimationFrame(tick);
+                } else {
+                    stopAnimation(el);
+                }
             };
-            window.requestAnimationFrame(tick);
+
+            state.rafId = window.requestAnimationFrame(tick);
         };
 
-        const seen = new WeakSet();
+        const handleTextChange = (el, reason = 'external') => {
+            if (!(el instanceof Element)) return;
+            const state = stateByEl.get(el) || {};
+            const text = el.textContent || '';
+            const next = parseFirstNumber(text);
+            if (next == null || Number.isNaN(next)) return;
+            state.template = text;
+            stateByEl.set(el, state);
+            if (!state.inView) return;
+
+            const prev = Number.isFinite(state.prevAnimated) ? state.prevAnimated : 0;
+            state.prevAnimated = next;
+            stateByEl.set(el, state);
+            startAnimation(el, prev, next, text);
+        };
+
+        const bind = (el) => {
+            if (!(el instanceof Element)) return;
+            if (stateByEl.has(el)) return;
+            stateByEl.set(el, { inView: false, template: el.textContent || '', lastNumber: null, token: '', rafId: 0, prevAnimated: 0 });
+
+            const mo = new MutationObserver(() => {
+                const token = el.getAttribute('data-cr-count-token') || '';
+                const internal = el.getAttribute('data-cr-count-internal') || '';
+                if (token && internal === token) {
+                    el.setAttribute('data-cr-count-internal', '');
+                    return;
+                }
+                stopAnimation(el);
+                handleTextChange(el, 'external');
+            });
+
+            mo.observe(el, { childList: true, characterData: true, subtree: true });
+        };
+
         const io = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                if (!entry.isIntersecting) return;
                 const el = entry.target;
                 if (!(el instanceof Element)) return;
-                if (seen.has(el)) return;
-                seen.add(el);
-                animateNumber(el);
-                io.unobserve(el);
+                const state = stateByEl.get(el) || {};
+                state.inView = !!entry.isIntersecting;
+                stateByEl.set(el, state);
+                if (!entry.isIntersecting) return;
+                if (!isNumberReady(el)) return;
+                handleTextChange(el, 'enter');
             });
         }, { threshold: 0.4 });
 
         const observeAll = (root = document) => {
             Array.from(root.querySelectorAll(numberSelector)).forEach((el) => {
                 if (!(el instanceof Element)) return;
-                if (seen.has(el)) return;
+                bind(el);
                 io.observe(el);
             });
         };
+
         observeAll(document);
+
+        const root = document.body;
+        if (!root) return;
+        if (root.dataset.crCountersBound) return;
+        root.dataset.crCountersBound = '1';
+        const domObserver = new MutationObserver((mutations) => {
+            mutations.forEach((m) => {
+                Array.from(m.addedNodes || []).forEach((node) => {
+                    if (!(node instanceof Element)) return;
+                    if (node.matches?.(numberSelector)) {
+                        bind(node);
+                        io.observe(node);
+                    }
+                    observeAll(node);
+                });
+            });
+        });
+        domObserver.observe(root, { childList: true, subtree: true });
     };
 
     setupScrollAnimations();
