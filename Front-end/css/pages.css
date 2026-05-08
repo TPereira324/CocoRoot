@@ -569,7 +569,7 @@ body.app-page {
     text-align: center;
     color: rgba(27, 27, 27, 0.74);
     overflow: hidden;
-    height: 220px;
+    height: 280px;
 }
 
 .team-photo {
@@ -579,9 +579,25 @@ body.app-page {
     display: block;
     margin: 0;
     object-fit: cover;
-    object-position: center top;
+    object-position: center center;
     transform: scale(1);
     transition: transform 0.3s ease;
+}
+
+.team-photo--camila {
+    object-position: center bottom;
+}
+
+.team-photo--fabio {
+    object-position: center center;
+}
+
+.team-photo--feliciano {
+    object-position: center center;
+}
+
+.team-photo--taha {
+    object-position: center top;
 }
 
 .team-avatar {
