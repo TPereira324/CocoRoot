@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Dto\ParcelaDto;
 use App\Service\ParcelaService;
 use Exception;
 
@@ -15,26 +14,17 @@ class ParcelaController extends Controller {
 
     public function adicionar(): void {
         try {
-            $parcelaDto = ParcelaDto::fromArray($_POST);
-            $resultado = $this->parcelaService->adicionarParcela($parcelaDto);
-
-            $this->json([
-                'status' => 'sucesso',
-                'mensagem' => 'Parcela adicionada!',
-                'dados' => $resultado
-            ], 201);
+            $resultado = $this->parcelaService->adicionarParcela($this->input());
+            $this->success($resultado, 'Parcela criada com sucesso!', 201);
         } catch (Exception $e) {
-            $this->erro($e->getMessage());
+            $status = str_contains($e->getMessage(), 'ut_id') ? 401 : 400;
+            $this->erro($e->getMessage(), $status);
         }
     }
 
     public function listar(int $usuario_id): void {
         try {
-            $parcelas = $this->parcelaService->listarParcelasDoUsuario($usuario_id);
-            $this->json([
-                'status' => 'sucesso',
-                'dados' => $parcelas
-            ]);
+            $this->success($this->parcelaService->listarParcelasDoUsuario($usuario_id));
         } catch (Exception $e) {
             $this->erro($e->getMessage());
         }
