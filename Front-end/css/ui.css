@@ -56,7 +56,7 @@ html {
     background: rgba(27, 27, 27, 0.08);
 }
 
-a:not(.btn):not(.nav-link):not(.nav-logo):not(.card-link):not(.back-link):not(.auth-back):hover {
+a:not(.btn):not(.nav-link):not(.nav-logo):not(.card-link):not(.back-link):not(.auth-back):not(.post-link-wrap):hover {
     text-decoration: underline;
     text-underline-offset: 3px;
     text-decoration-thickness: 2px;
