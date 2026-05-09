@@ -97,7 +97,7 @@ function pickCultivoCategory(cultivoName) {
     const has = (...words) => words.some((w) => t.includes(normalizeText(w)));
     if (has('alface', 'couve', 'espinafre', 'rúcula', 'rucula', 'repolho')) return 'folhosas';
     if (has('tomate', 'pimento', 'pepino', 'abobrinha', 'courgette', 'beringela', 'melancia', 'melao', 'melão', 'morango')) return 'frutiferas';
-    if (has('manjericão', 'manjericao', 'hortelã', 'hortela', 'salsa', 'coentros', 'alecrim', 'orégãos', 'oregãos', 'oregano', 'cebolinho')) return 'ervas';
+    if (has('ervas', 'manjericão', 'manjericao', 'hortelã', 'hortela', 'salsa', 'coentros', 'alecrim', 'orégãos', 'oregãos', 'oregano', 'cebolinho')) return 'ervas';
     if (has('batata', 'cenoura', 'beterraba', 'nabo', 'rabanete')) return 'raizes';
     return 'geral';
 }

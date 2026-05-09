@@ -79,6 +79,29 @@ function generateTasksForParcela(parcela, cultivoName) {
         tasks.push(make(`Registar observações no painel${baseTitle}`, addDays(today, 1), 'registo'));
         tasks.push(make(`Adubação (se necessário)${baseTitle}`, addDays(today, 8), 'nutricao'));
     }
+
+    const CULTIVO_EXTRAS = {
+        morango: [
+            { titulo: `Verificar sinais de fungos/oídio${baseTitle}`, daysOffset: 5, tipo: 'saude' },
+            { titulo: `Retirar estolhos em excesso${baseTitle}`, daysOffset: 10, tipo: 'maneio' },
+        ],
+        tomate: [
+            { titulo: `Tutorar e amarrar hastes${baseTitle}`, daysOffset: 4, tipo: 'maneio' },
+            { titulo: `Desladinhar (remover rebentos axilares)${baseTitle}`, daysOffset: 7, tipo: 'maneio' },
+        ],
+        pimento: [
+            { titulo: `Verificar floração e polinização${baseTitle}`, daysOffset: 6, tipo: 'maneio' },
+        ],
+        pepino: [
+            { titulo: `Guiar trepadeira e remover folhas velhas${baseTitle}`, daysOffset: 4, tipo: 'maneio' },
+            { titulo: `Verificar ácaros e pulgões${baseTitle}`, daysOffset: 6, tipo: 'saude' },
+        ],
+    };
+    const cultivoKey = normalizeText(cultivo);
+    (CULTIVO_EXTRAS[cultivoKey] || []).forEach(({ titulo, daysOffset, tipo: ekind }) => {
+        tasks.push(make(titulo, addDays(today, daysOffset), ekind));
+    });
+
     return tasks;
 }
 
