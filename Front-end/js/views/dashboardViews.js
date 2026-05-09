@@ -18,17 +18,24 @@ function renderParcelas(parcelas, parcelasContainer) {
         const cultivoNome = String(cultivo?.nome ?? parcela?.tipo ?? parcela?.cultivo ?? parcela?.cultivo_nome ?? parcela?.nome ?? '').trim();
         const cultivoNorm = normalizeText(cultivoNome);
         const has = (...words) => words.some((w) => cultivoNorm.includes(normalizeText(w)));
-        const iconClass = has('alface', 'couve', 'espinafre', 'rúcula', 'rucula', 'repolho') ? 'dash-cultivo-icon--folhosas'
-            : has('tomate', 'pimento', 'pepino', 'abobrinha', 'courgette', 'beringela', 'melancia', 'melao', 'melão', 'morango') ? 'dash-cultivo-icon--frutiferas'
-                : has('manjericão', 'manjericao', 'hortelã', 'hortela', 'salsa', 'coentros', 'alecrim', 'orégãos', 'oregãos', 'oregano', 'cebolinho') ? 'dash-cultivo-icon--ervas'
-                    : has('batata', 'cenoura', 'beterraba', 'nabo', 'rabanete') ? 'dash-cultivo-icon--raizes' : 'dash-cultivo-icon--geral';
+        const iconClass = has('alface', 'couve', 'espinafre', 'rúcula', 'rucula', 'repolho', 'microgreens') ? 'dash-cultivo-icon--folhosas'
+            : has('tomate', 'pimento', 'pimentão', 'pimentao', 'pepino', 'abobrinha', 'courgette', 'beringela', 'melancia', 'melao', 'melão', 'morango', 'mirtilo') ? 'dash-cultivo-icon--frutiferas'
+                : has('ervas', 'manjericão', 'manjericao', 'hortelã', 'hortela', 'salsa', 'coentros', 'alecrim', 'orégãos', 'oregãos', 'oregano', 'cebolinho', 'cannabis') ? 'dash-cultivo-icon--ervas'
+                    : has('batata', 'cenoura', 'beterraba', 'nabo', 'rabanete') ? 'dash-cultivo-icon--raizes'
+                        : has('orquídea', 'orquidea', 'rosa', 'rosas') ? 'dash-cultivo-icon--flores'
+                            : 'dash-cultivo-icon--geral';
         const cultivoIcon = (() => {
             if (!cultivoNome) return 'C';
             if (has('morango')) return '🍓';
             if (has('tomate')) return '🍅';
-            if (has('pimento')) return '🫑';
+            if (has('mirtilo')) return '🫐';
+            if (has('pimentão', 'pimentao', 'pimento')) return '🫑';
             if (has('pepino')) return '🥒';
+            if (has('cannabis')) return '🌿';
             if (has('alface', 'couve', 'espinafre', 'rúcula', 'rucula', 'repolho')) return '🥬';
+            if (has('microgreens')) return '🌱';
+            if (has('orquídea', 'orquidea')) return '🌸';
+            if (has('rosa', 'rosas')) return '🌹';
             if (has('manjericão', 'manjericao', 'hortelã', 'hortela', 'salsa', 'coentros', 'alecrim', 'orégãos', 'oregãos', 'oregano', 'cebolinho')) return '🌿';
             if (has('batata')) return '🥔';
             if (has('cenoura', 'beterraba', 'nabo', 'rabanete')) return '🥕';
@@ -36,6 +43,7 @@ function renderParcelas(parcelas, parcelasContainer) {
             if (iconClass === 'dash-cultivo-icon--folhosas') return '🥬';
             if (iconClass === 'dash-cultivo-icon--ervas') return '🌿';
             if (iconClass === 'dash-cultivo-icon--raizes') return '🥕';
+            if (iconClass === 'dash-cultivo-icon--flores') return '🌸';
             return cultivoNome.slice(0, 1).toUpperCase();
         })();
         const ph = Number(cultivo?.ph ?? parcela?.ph);
