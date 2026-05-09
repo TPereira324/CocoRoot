@@ -1011,6 +1011,63 @@ body.app-page {
     color: rgba(27, 27, 27, 0.62);
 }
 
+/* ── Profile save actions ── */
+.profile-save-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.profile-unsaved-badge {
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(217, 119, 6, 0.88);
+    animation: unsaved-pulse 2s ease infinite;
+}
+
+@keyframes unsaved-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+}
+
+/* ── Password section ── */
+.profile-pwd-hint {
+    font-size: 13px;
+    color: rgba(27, 27, 27, 0.56);
+    margin: 4px 0 0;
+    line-height: 1.5;
+}
+
+.profile-pwd-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+/* ── Avatar pulse on color change ── */
+@keyframes avatar-pulse-anim {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.10); }
+    100% { transform: scale(1); }
+}
+
+.profile-avatar.avatar-pulse {
+    animation: avatar-pulse-anim 380ms ease;
+}
+
+/* ── Activity dot urgent ── */
+.profile-activity-dot.is-urgent {
+    background: rgba(201, 88, 26, 0.82);
+}
+
+/* ── Profile toggle emoji size ── */
+.profile-toggle span[aria-hidden] {
+    font-size: 16px;
+    line-height: 1;
+}
+
 .reports-shell {
     background: rgba(245, 250, 243, 0.92);
 }

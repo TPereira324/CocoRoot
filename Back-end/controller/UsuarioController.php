@@ -67,4 +67,30 @@ class UsuarioController extends Controller
             $this->erro($e->getMessage(), 404);
         }
     }
+
+    public function atualizar(int $id): void
+    {
+        try {
+            $dados = $this->input();
+            $user = $this->usuarioService->atualizar($id, $dados);
+            $this->success($user, 'Perfil atualizado com sucesso.');
+        } catch (Exception $e) {
+            $this->erro($e->getMessage());
+        }
+    }
+
+    public function alterarPassword(int $id): void
+    {
+        try {
+            $dados = $this->input();
+            $this->usuarioService->alterarPassword(
+                $id,
+                $dados['password_atual'] ?? '',
+                $dados['password_nova'] ?? ''
+            );
+            $this->success(null, 'Password alterada com sucesso.');
+        } catch (Exception $e) {
+            $this->erro($e->getMessage());
+        }
+    }
 }

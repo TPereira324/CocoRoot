@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -13,19 +13,17 @@
         <section class="profile-shell">
             <div class="profile-head">
                 <div class="profile-title">Meu Perfil</div>
-                <div class="profile-subtitle">Gere os teus dados pessoais, preferências e acompanha a tua evolução.
-                </div>
+                <div class="profile-subtitle">Gere os teus dados pessoais, preferências e acompanha a tua evolução.</div>
                 <div class="profile-divider"></div>
             </div>
 
             <div class="profile-layout">
                 <aside class="profile-sidebar">
                     <div class="profile-card">
-                        <div id="profile-avatar" class="profile-avatar">U</div>
+                        <div id="profile-avatar" class="profile-avatar" role="button" tabindex="0" aria-label="Clica para mudar a cor do avatar">U</div>
                         <div id="profile-name" class="profile-name">Utilizador</div>
                         <div id="profile-role" class="profile-role">Conta CocoRoot</div>
-                        <div class="profile-level-badge"><i class="bi bi-leaf" aria-hidden="true"></i> Nível 2 ·
-                            Cultivador</div>
+                        <div class="profile-level-badge">🌱 Nível 2 · Cultivador</div>
                         <div class="profile-progress-title">Progresso geral</div>
                         <div class="profile-progress-track cr-tooltip"
                             style="--cr-tt: 'Completa os Módulos 3 e 4 para terminar';">
@@ -42,7 +40,7 @@
                                 <strong id="profile-stat-parcelas">0</strong>
                                 <span>Parcelas</span>
                             </div>
-                            <div class="profile-mini-stat cr-tooltip" style="--cr-tt: 'Tens 38 tarefas por completar';">
+                            <div class="profile-mini-stat cr-tooltip" style="--cr-tt: 'Tarefas por completar';">
                                 <strong id="profile-stat-pendentes" class="profile-stat-pendentes">0</strong>
                                 <span>Pendentes</span>
                             </div>
@@ -56,10 +54,15 @@
                 </aside>
 
                 <main class="profile-main">
+
+                    <!-- Dados da Conta -->
                     <section class="profile-card">
                         <div class="profile-section-head">
                             <div class="profile-section-title">Dados da Conta</div>
-                            <button id="profile-save-btn" class="btn sm" type="button">Guardar Alterações</button>
+                            <div class="profile-save-actions">
+                                <span id="profile-unsaved" class="profile-unsaved-badge" hidden>● Alterações não guardadas</span>
+                                <button id="profile-save-btn" class="btn sm" type="button">Guardar Alterações</button>
+                            </div>
                         </div>
                         <div class="profile-grid">
                             <div class="form-group">
@@ -82,22 +85,23 @@
                         <div id="profile-save-status" class="profile-save-status" hidden></div>
                     </section>
 
+                    <!-- Preferências -->
                     <section class="profile-card">
                         <div class="profile-section-title">Preferências</div>
                         <div class="profile-toggles">
                             <label class="profile-toggle">
                                 <input id="pref-alertas" type="checkbox">
-                                <i class="bi bi-bell" aria-hidden="true"></i>
+                                <span aria-hidden="true">🔔</span>
                                 <span>Receber alertas de tarefas</span>
                             </label>
                             <label class="profile-toggle">
                                 <input id="pref-resumo" type="checkbox">
-                                <i class="bi bi-envelope" aria-hidden="true"></i>
+                                <span aria-hidden="true">📧</span>
                                 <span>Resumo semanal por email</span>
                             </label>
                             <label class="profile-toggle">
                                 <input id="pref-comunidade" type="checkbox">
-                                <i class="bi bi-people" aria-hidden="true"></i>
+                                <span aria-hidden="true">👥</span>
                                 <span>Notificações da comunidade</span>
                             </label>
                         </div>
@@ -106,10 +110,42 @@
                         <div id="profile-chips-count" class="profile-chips-count">0 interesses seleccionados</div>
                     </section>
 
+                    <!-- Segurança -->
+                    <section class="profile-card">
+                        <div class="profile-section-head">
+                            <div class="profile-section-title">Segurança</div>
+                            <button id="profile-pwd-toggle-btn" class="btn outline sm" type="button">Alterar password</button>
+                        </div>
+                        <p class="profile-pwd-hint" id="profile-pwd-hint">Mantém a conta segura alterando a password regularmente.</p>
+                        <div id="profile-pwd-form" hidden>
+                            <div class="form-group" style="margin-bottom:12px;">
+                                <label for="profile-pwd-atual">Password atual</label>
+                                <input id="profile-pwd-atual" type="password" placeholder="••••••••" autocomplete="current-password">
+                            </div>
+                            <div class="profile-grid">
+                                <div class="form-group">
+                                    <label for="profile-pwd-nova">Nova password</label>
+                                    <input id="profile-pwd-nova" type="password" placeholder="Mín. 6 caracteres" autocomplete="new-password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-pwd-confirmar">Confirmar</label>
+                                    <input id="profile-pwd-confirmar" type="password" placeholder="Repete a nova password" autocomplete="new-password">
+                                </div>
+                            </div>
+                            <div id="profile-pwd-status" class="profile-save-status" hidden></div>
+                            <div class="profile-pwd-actions">
+                                <button id="profile-pwd-cancel-btn" class="btn outline sm" type="button">Cancelar</button>
+                                <button id="profile-pwd-save-btn" class="btn sm" type="button">Guardar password</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Atividade recente -->
                     <section class="profile-card">
                         <div class="profile-section-title">Atividade recente</div>
                         <div id="profile-activity" class="profile-activity"></div>
                     </section>
+
                 </main>
             </div>
         </section>

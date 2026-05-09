@@ -64,6 +64,36 @@ class UsuarioRepository {
         ];
     }
 
+    public function atualizar(int $id, string $nome, string $email): array {
+        $stmt = $this->db->prepare(
+            "UPDATE utilizador SET ut_nome = ?, ut_email = ? WHERE ut_id = ?"
+        );
+        $stmt->execute([$nome, $email, $id]);
+        $updated = $this->buscarPorId($id);
+        if (!$updated) throw new \Exception('Utilizador não encontrado após atualização.');
+        return $updated;
+    }
+
+    public function buscarPorIdComSenha(int $id): ?array {
+        $stmt = $this->db->prepare(
+            "SELECT ut_id, ut_nome, ut_email, ut_password FROM utilizador WHERE ut_id = ?"
+        );
+        $stmt->execute([$id]);
+        $dados = $stmt->fetch() ?: null;
+        if (!$dados) return null;
+        return [
+            'id'    => (int)$dados['ut_id'],
+            'nome'  => $dados['ut_nome'],
+            'email' => $dados['ut_email'],
+            'senha' => $dados['ut_password'],
+        ];
+    }
+
+    public function atualizarSenha(int $id, string $senhaHash): void {
+        $stmt = $this->db->prepare("UPDATE utilizador SET ut_password = ? WHERE ut_id = ?");
+        $stmt->execute([$senhaHash, $id]);
+    }
+
     private function mapUser(array $dados, bool $withPassword): array {
         $user = [
             'id' => (int)$dados['ut_id'],

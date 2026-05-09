@@ -62,6 +62,8 @@ $routes = [
             'registar' => ['method' => 'POST', 'handler' => 'registar'],
             'registrar' => ['method' => 'POST', 'handler' => 'registar'],
             'perfil' => ['method' => 'GET', 'handler' => 'perfil', 'needs_id' => true],
+            'atualizar' => ['method' => 'POST', 'handler' => 'atualizar', 'needs_id' => true],
+            'alterar-password' => ['method' => 'POST', 'handler' => 'alterarPassword', 'needs_id' => true],
         ],
     ],
     'parcelas' => [
