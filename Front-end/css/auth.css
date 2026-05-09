@@ -148,7 +148,7 @@ body.auth-page {
 }
 
 .auth-alt a:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .auth-form .btn,
