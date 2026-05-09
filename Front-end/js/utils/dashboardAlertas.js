@@ -42,6 +42,7 @@ function getCultivoProfile(cultivoName) {
     if (category === 'frutiferas') return { category, label: 'Frutíferas', minSoilHumidity: 28, highEt0: 4.8, criticalEt0: 5.8, skipRainMm: 5, hotTemp: 31 };
     if (category === 'ervas') return { category, label: 'Ervas aromáticas', minSoilHumidity: 30, highEt0: 4.0, criticalEt0: 5.0, skipRainMm: 4, hotTemp: 29 };
     if (category === 'raizes') return { category, label: 'Raízes', minSoilHumidity: 26, highEt0: 4.6, criticalEt0: 5.6, skipRainMm: 5, hotTemp: 30 };
+    if (category === 'flores') return { category, label: 'Flores', minSoilHumidity: 35, highEt0: 3.8, criticalEt0: 4.8, skipRainMm: 3, hotTemp: 28 };
     return { category: 'geral', label: 'Cultivo', minSoilHumidity: 29, highEt0: 4.5, criticalEt0: 5.5, skipRainMm: 5, hotTemp: 30 };
 }
 
