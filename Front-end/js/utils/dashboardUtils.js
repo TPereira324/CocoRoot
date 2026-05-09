@@ -95,10 +95,11 @@ function pickCultivoCategory(cultivoName) {
     const t = normalizeText(cultivoName);
     if (!t) return 'geral';
     const has = (...words) => words.some((w) => t.includes(normalizeText(w)));
-    if (has('alface', 'couve', 'espinafre', 'rúcula', 'rucula', 'repolho')) return 'folhosas';
-    if (has('tomate', 'pimento', 'pepino', 'abobrinha', 'courgette', 'beringela', 'melancia', 'melao', 'melão', 'morango')) return 'frutiferas';
-    if (has('ervas', 'manjericão', 'manjericao', 'hortelã', 'hortela', 'salsa', 'coentros', 'alecrim', 'orégãos', 'oregãos', 'oregano', 'cebolinho')) return 'ervas';
+    if (has('alface', 'couve', 'espinafre', 'rúcula', 'rucula', 'repolho', 'microgreens')) return 'folhosas';
+    if (has('tomate', 'pimento', 'pimentão', 'pimentao', 'pepino', 'abobrinha', 'courgette', 'beringela', 'melancia', 'melao', 'melão', 'morango', 'mirtilo')) return 'frutiferas';
+    if (has('ervas', 'manjericão', 'manjericao', 'hortelã', 'hortela', 'salsa', 'coentros', 'alecrim', 'orégãos', 'oregãos', 'oregano', 'cebolinho', 'cannabis')) return 'ervas';
     if (has('batata', 'cenoura', 'beterraba', 'nabo', 'rabanete')) return 'raizes';
+    if (has('orquídea', 'orquidea', 'rosa', 'rosas')) return 'flores';
     return 'geral';
 }
 
