@@ -284,6 +284,34 @@
     border-bottom: 0;
 }
 
+.field-error-hint {
+    color: #b42318;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 6px;
+    padding-left: 2px;
+    line-height: 1.4;
+}
+
+.cultivo-form-group input.field-invalid {
+    border-color: #b42318;
+    background: rgba(180, 35, 24, 0.05);
+}
+
+.cultivo-substrate-preview {
+    max-width: 470px;
+    margin: 16px auto 0;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: rgba(47, 143, 61, 0.09);
+    border: 1px solid rgba(47, 143, 61, 0.28);
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(27, 27, 27, 0.82);
+    text-align: center;
+    letter-spacing: 0;
+}
+
 @media (max-width: 760px) {
     .cultivo-page .page-content {
         padding: 24px 18px 38px;
