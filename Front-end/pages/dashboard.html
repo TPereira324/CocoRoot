@@ -50,8 +50,8 @@
                 <button class="tab dash-tab active" type="button" data-tab="parcelas">Parcelas</button>
                 <button class="tab dash-tab" type="button" data-tab="tarefas">Tarefas</button>
                 <button class="tab dash-tab" type="button" data-tab="monitorizacao">Monitorização</button>
-                <button class="tab dash-tab" type="button" data-tab="visualizacao">Visualização</button>
-                <button class="tab dash-tab" type="button" data-tab="clima">Clima</button>
+<button class="tab dash-tab" type="button" data-tab="clima">Clima</button>
+                <button class="tab dash-tab" type="button" data-tab="relatorios">Relatórios</button>
             </div>
 
             <section data-panel="parcelas" class="dash-panel">
@@ -77,6 +77,10 @@
                 <div id="farm-viz-container"
                     style="position:relative;width:100%;height:500px;border-radius:12px;overflow:hidden;background:#87ceeb;">
                     <canvas id="farm-viz-canvas" style="display:block;width:100%;height:100%;"></canvas>
+                    <button type="button" onclick="window.cocoRootSetDashTab?.('parcelas')"
+                        style="position:absolute;top:12px;left:12px;display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;border:none;background:rgba(0,0,0,0.4);color:rgba(255,255,255,0.9);font-size:13px;font-weight:700;cursor:pointer;backdrop-filter:blur(4px);">
+                        <i class="bi bi-arrow-left" aria-hidden="true"></i> Voltar
+                    </button>
                     <div id="farm-viz-info"
                         style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(30,20,5,0.88);border:2px solid #c8922a;border-radius:12px;padding:10px 22px;color:#fff;font-size:14px;text-align:center;pointer-events:none;white-space:nowrap;">
                     </div>
@@ -88,6 +92,117 @@
 
             <section data-panel="clima" class="dash-panel" hidden>
                 <div id="dashboard-clima" class="panel-grid"></div>
+            </section>
+
+            <section data-panel="relatorios" class="dash-panel" hidden>
+                <div class="reports-shell" style="padding:0;background:transparent;">
+                    <div class="reports-head">
+                        <div class="reports-title">Relatórios</div>
+                        <div class="reports-subtitle">Analise produtividade e planeie o crescimento.</div>
+                        <div class="reports-divider" aria-hidden="true"></div>
+                    </div>
+
+                    <div class="reports-toolbar">
+                        <div class="reports-control">
+                            <label for="reports-period">Período</label>
+                            <select id="reports-period" class="reports-select">
+                                <option value="7d">Últimos 7 dias</option>
+                                <option value="30d" selected>Últimos 30 dias</option>
+                                <option value="90d">Últimos 90 dias</option>
+                            </select>
+                        </div>
+                        <div class="reports-control">
+                            <label for="reports-focus">Foco</label>
+                            <select id="reports-focus" class="reports-select">
+                                <option value="geral" selected>Visão geral</option>
+                                <option value="rega">Rega</option>
+                                <option value="tarefas">Tarefas</option>
+                            </select>
+                        </div>
+                        <button id="reports-refresh" class="btn sm outline" type="button">
+                            <i class="bi bi-arrow-repeat" aria-hidden="true"></i> Atualizar
+                        </button>
+                        <button id="reports-export-csv" class="btn sm outline" type="button">
+                            <i class="bi bi-file-earmark-spreadsheet" aria-hidden="true"></i> CSV
+                        </button>
+                        <button id="reports-export-pdf" class="btn sm outline" type="button">
+                            <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i> PDF
+                        </button>
+                    </div>
+
+                    <div class="reports-stats-grid">
+                        <article class="reports-stat-card">
+                            <div class="reports-stat-label">Produtividade Mensal</div>
+                            <div id="stat-productividade" class="reports-stat-value reports-loading-line reports-loading-short"></div>
+                            <div class="reports-stat-meta">Comparado com o mês anterior</div>
+                        </article>
+                        <article class="reports-stat-card">
+                            <div class="reports-stat-label">Eficiência da Rega</div>
+                            <div id="stat-rega" class="reports-stat-value reports-loading-line reports-loading-short"></div>
+                            <div class="reports-stat-meta">Baseado nos últimos 30 dias</div>
+                        </article>
+                        <article class="reports-stat-card">
+                            <div class="reports-stat-label">Tarefas Concluídas</div>
+                            <div id="stat-tarefas" class="reports-stat-value reports-loading-line reports-loading-short"></div>
+                            <div class="reports-stat-meta">Atividades concluídas no ciclo atual</div>
+                        </article>
+                    </div>
+
+                    <div class="reports-chart-grid">
+                        <article class="reports-chart-card">
+                            <div class="reports-chart-head">
+                                <h2 class="reports-chart-title">Produtividade por Semana</h2>
+                                <span class="reports-loading-pill">A carregar...</span>
+                            </div>
+                            <div id="reports-line-chart" class="reports-line-chart" aria-hidden="true">
+                                <div id="reports-line-wave" class="reports-line-wave"></div>
+                                <div id="reports-line-points" class="reports-line-points"></div>
+                                <div id="reports-line-tooltip" class="reports-line-tooltip" hidden></div>
+                            </div>
+                        </article>
+                        <article class="reports-chart-card">
+                            <div class="reports-chart-head">
+                                <h2 class="reports-chart-title">Distribuição e Performance</h2>
+                                <span class="reports-loading-pill">A carregar...</span>
+                            </div>
+                            <div class="reports-resource-layout">
+                                <div id="reports-bars" class="reports-bars" aria-hidden="true">
+                                    <div class="reports-bar reports-loading-line" style="height:45%"></div>
+                                    <div class="reports-bar reports-loading-line" style="height:72%"></div>
+                                    <div class="reports-bar reports-loading-line" style="height:58%"></div>
+                                    <div class="reports-bar reports-loading-line" style="height:88%"></div>
+                                    <div class="reports-bar reports-loading-line" style="height:66%"></div>
+                                    <div class="reports-bar reports-loading-line" style="height:54%"></div>
+                                </div>
+                                <div class="reports-donut-shell">
+                                    <div id="reports-donut" class="reports-donut reports-loading-line">
+                                        <div id="reports-donut-value" class="reports-donut-value">--</div>
+                                    </div>
+                                    <div id="reports-donut-label" class="reports-donut-label">Performance global</div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="reports-sections-grid">
+                        <article class="reports-block">
+                            <h2 class="reports-block-title">Resumo Semanal</h2>
+                            <p id="reports-summary-copy" class="reports-block-copy">A processar dados de produtividade, irrigação e alertas...</p>
+                            <ul id="reports-summary-list" class="reports-list">
+                                <li class="reports-loading-line"></li>
+                                <li class="reports-loading-line"></li>
+                                <li class="reports-loading-line"></li>
+                            </ul>
+                        </article>
+                        <article class="reports-block">
+                            <h2 class="reports-block-title">Planeamento de Crescimento</h2>
+                            <p class="reports-block-copy">As recomendações serão disponibilizadas após o carregamento completo das estatísticas.</p>
+                            <div class="reports-actions">
+                                <a href="registrar-cultivo.html" class="btn sm outline">Adicionar Cultivo</a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
             </section>
         </div>
     </div>
@@ -104,6 +219,9 @@
     <script src="../js/vendor/OrbitControls.js"></script>
     <script src="../js/controllers/dashboard.js"></script>
     <script src="../js/controllers/dashboardFarmVisualization.js"></script>
+    <script src="../js/utils/relatoriosUtils.js"></script>
+    <script src="../js/views/relatoriosRender.js"></script>
+    <script src="../js/controllers/relatorios.js"></script>
     <script>
         (function () {
             const tabs = Array.from(document.querySelectorAll('.tab[data-tab]'));
@@ -115,13 +233,10 @@
                     if (isActive) p.removeAttribute('hidden');
                     else p.setAttribute('hidden', '');
                 });
+                if (name === 'visualizacao') window.cocoRootFarmVisualizationResize?.();
             }
-            tabs.forEach((t) => t.addEventListener('click', () => {
-                setActive(t.dataset.tab);
-                if (t.dataset.tab === 'visualizacao') {
-                    window.cocoRootFarmVisualizationResize?.();
-                }
-            }));
+            tabs.forEach((t) => t.addEventListener('click', () => setActive(t.dataset.tab)));
+            window.cocoRootSetDashTab = setActive;
             setActive('parcelas');
         })();
     </script>

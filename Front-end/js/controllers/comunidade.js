@@ -13,50 +13,72 @@ document.addEventListener('DOMContentLoaded', async () => {
         errorBox.textContent = message || '';
     };
 
+    const CAT_META = {
+        duvidas: { label: 'Dúvida', icon: 'bi-question-circle', color: '#2563eb', bg: 'rgba(37,99,235,0.09)', border: 'rgba(37,99,235,0.28)' },
+        dicas: { label: 'Dica', icon: 'bi-lightbulb', color: '#16a34a', bg: 'rgba(22,163,74,0.09)', border: 'rgba(22,163,74,0.28)' },
+        experiencias: { label: 'Experiência', icon: 'bi-stars', color: '#d97706', bg: 'rgba(217,119,6,0.09)', border: 'rgba(217,119,6,0.30)' },
+    };
+
+    const getInitials = (name) => {
+        const parts = String(name || 'U').trim().split(/\s+/);
+        if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+        return String(name || 'U').slice(0, 2).toUpperCase();
+    };
+
+    const formatRelativeTime = (dateValue) => {
+        if (!dateValue) return '';
+        const date = new Date(dateValue);
+        if (Number.isNaN(date.getTime())) return '';
+        const diffMs = Date.now() - date.getTime();
+        const diffMin = Math.floor(diffMs / 60000);
+        const diffH = Math.floor(diffMin / 60);
+        const diffD = Math.floor(diffH / 24);
+        if (diffMin < 2) return 'Agora mesmo';
+        if (diffMin < 60) return `Há ${diffMin} min`;
+        if (diffH < 24) return `Há ${diffH}h`;
+        if (diffD < 7) return `Há ${diffD} dia${diffD !== 1 ? 's' : ''}`;
+        return new Intl.DateTimeFormat('pt-PT', { day: '2-digit', month: '2-digit', year: '2-digit' }).format(date);
+    };
+
     const renderStats = (posts) => {
         if (!statsRoot) return;
-        const counters = {
+        const counts = {
             todos: posts.length,
-            duvidas: posts.filter((post) => post.categoria === 'duvidas').length,
-            dicas: posts.filter((post) => post.categoria === 'dicas').length,
-            experiencias: posts.filter((post) => post.categoria === 'experiencias').length,
+            duvidas: posts.filter((p) => p.categoria === 'duvidas').length,
+            dicas: posts.filter((p) => p.categoria === 'dicas').length,
+            experiencias: posts.filter((p) => p.categoria === 'experiencias').length,
         };
 
         statsRoot.innerHTML = `
-            <div class="stat-item">
-                <span class="stat-num">${counters.todos}</span>
-                <span class="stat-label">Todos</span>
+            <div class="cstat-item">
+                <i class="bi bi-chat-square-text cstat-icon" aria-hidden="true"></i>
+                <div class="cstat-body">
+                    <span class="cstat-num">${counts.todos}</span>
+                    <span class="cstat-label">Publicações</span>
+                </div>
             </div>
-            <div class="stat-item">
-                <span class="stat-num">${counters.duvidas}</span>
-                <span class="stat-label">Dúvidas</span>
+            <div class="cstat-item cstat-duvidas">
+                <i class="bi bi-question-circle cstat-icon" aria-hidden="true"></i>
+                <div class="cstat-body">
+                    <span class="cstat-num">${counts.duvidas}</span>
+                    <span class="cstat-label">Dúvidas</span>
+                </div>
             </div>
-            <div class="stat-item">
-                <span class="stat-num">${counters.dicas}</span>
-                <span class="stat-label">Dicas</span>
+            <div class="cstat-item cstat-dicas">
+                <i class="bi bi-lightbulb cstat-icon" aria-hidden="true"></i>
+                <div class="cstat-body">
+                    <span class="cstat-num">${counts.dicas}</span>
+                    <span class="cstat-label">Dicas</span>
+                </div>
             </div>
-            <div class="stat-item">
-                <span class="stat-num">${counters.experiencias}</span>
-                <span class="stat-label">Experiências</span>
+            <div class="cstat-item cstat-experiencias">
+                <i class="bi bi-stars cstat-icon" aria-hidden="true"></i>
+                <div class="cstat-body">
+                    <span class="cstat-num">${counts.experiencias}</span>
+                    <span class="cstat-label">Experiências</span>
+                </div>
             </div>
         `;
-    };
-
-    const formatRelativeMeta = (post) => {
-        const author = post?.autor?.nome || 'Utilizador';
-        const date = post?.data ? new Date(post.data) : null;
-        if (!date || Number.isNaN(date.getTime())) {
-            return `${author} · ${post?.comentarios ?? 0} respostas`;
-        }
-
-        const text = new Intl.DateTimeFormat('pt-PT', {
-            day: '2-digit',
-            month: '2-digit',
-            year: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-        }).format(date);
-        return `${author} · ${text}`;
     };
 
     const renderPosts = (posts, activeCategory) => {
@@ -66,21 +88,46 @@ document.addEventListener('DOMContentLoaded', async () => {
             : posts.filter((post) => post.categoria === activeCategory);
 
         if (filtered.length === 0) {
-            postsRoot.innerHTML = '<div class="card"><div style="color:var(--muted);line-height:1.6;">Sem publicações para esta categoria.</div></div>';
+            postsRoot.innerHTML = `
+                <div class="community-empty">
+                    <i class="bi bi-inbox community-empty-icon" aria-hidden="true"></i>
+                    <div class="community-empty-text">Sem publicações nesta categoria.</div>
+                    <div class="community-empty-sub">Sê o primeiro a partilhar!</div>
+                </div>`;
             return;
         }
 
-        postsRoot.innerHTML = filtered.map((post) => `
-            <a class="community-post" data-cat="${post.categoria || 'outros'}" href="comunidade-post.html?id=${post.id}">
-                <div class="community-post-top">
-                    <div class="community-post-user">${post?.autor?.nome || 'Utilizador'}</div>
-                    <div class="community-post-time">${formatRelativeMeta(post)}</div>
-                </div>
-                <div class="community-post-title">${post.titulo || 'Sem título'}</div>
-                <div class="community-post-excerpt">${post.conteudo || 'Sem conteúdo.'}</div>
-                <div class="post-badge ${post.categoria || 'outros'}">${post.categoria_label || 'Outro'}</div>
-            </a>
-        `).join('');
+        postsRoot.innerHTML = filtered.map((post) => {
+            const cat = CAT_META[post.categoria] || { label: 'Outro', icon: 'bi-chat', color: '#6b7280', bg: 'rgba(107,114,128,0.09)', border: 'rgba(107,114,128,0.24)' };
+            const author = String(post?.autor?.nome || 'Utilizador');
+            const initials = getInitials(author);
+            const timeText = formatRelativeTime(post?.data);
+            const replies = Number(post?.comentarios ?? post?.respostas ?? 0);
+            const excerpt = String(post.conteudo || '').slice(0, 160).trim();
+            const excerptText = excerpt.length < String(post.conteudo || '').trim().length ? `${excerpt}…` : excerpt;
+            return `
+                <a class="community-post cat-${post.categoria || 'outros'}" href="comunidade-post.html?id=${post.id}">
+                    <div class="post-avatar" aria-hidden="true" style="background:${cat.color};">${initials}</div>
+                    <div class="post-body">
+                        <div class="post-meta-row">
+                            <span class="post-author">${author}</span>
+                            <span class="post-badge ${post.categoria || 'outros'}" style="background:${cat.bg};border-color:${cat.border};color:${cat.color};">
+                                <i class="bi ${cat.icon}" aria-hidden="true"></i> ${cat.label}
+                            </span>
+                            ${timeText ? `<span class="post-time">${timeText}</span>` : ''}
+                        </div>
+                        <div class="post-title">${post.titulo || 'Sem título'}</div>
+                        ${excerptText ? `<div class="post-excerpt">${excerptText}</div>` : ''}
+                        <div class="post-footer">
+                            <span class="post-replies">
+                                <i class="bi bi-chat" aria-hidden="true"></i>
+                                ${replies === 0 ? 'Sem respostas' : `${replies} resposta${replies !== 1 ? 's' : ''}`}
+                            </span>
+                            <span class="post-read-more">Ler mais <i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                </a>`;
+        }).join('');
     };
 
     const publishToggleBtn = document.getElementById('publish-toggle-btn');

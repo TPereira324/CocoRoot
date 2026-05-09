@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const btn = e.target?.closest?.('[data-parcela-id]');
                 if (!btn) return;
                 const parcelaId = btn.getAttribute('data-parcela-id');
-                document.querySelector('.tab[data-tab="visualizacao"]')?.click();
+                window.cocoRootSetDashTab?.('visualizacao');
                 window.cocoRootFarmVisualizationShow?.(parcelas, parcelaId);
             });
         }
