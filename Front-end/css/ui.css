@@ -62,8 +62,6 @@ html {
     background: rgba(27, 27, 27, 0.08);
 }
 
-<<<<<<< HEAD
-=======
 a:not(.btn):not(.nav-link):not(.nav-logo):not(.card-link):not(.back-link):not(.auth-back):not(.post-link-wrap) {
     text-decoration: none;
     background-image: linear-gradient(currentColor, currentColor);
@@ -77,7 +75,6 @@ a:not(.btn):not(.nav-link):not(.nav-logo):not(.card-link):not(.back-link):not(.a
     background-size: 100% 2px;
     color: var(--green-primary, #2d6a2d);
 }
->>>>>>> 8539304f2016b4ff39445ba8313c9f2dbd86d82b
 
 body::before {
     content: "";
