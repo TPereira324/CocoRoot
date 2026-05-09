@@ -5,34 +5,38 @@ document.addEventListener("DOMContentLoaded", () => {
     const assetPrefix = isInPages ? '../' : '';
 
     const headerHTML = `
-    <nav class="nav">
+    <nav class="nav" data-cr-nav>
         <a href="principal.html" class="nav-logo" aria-label="CocoRoot">
             <img src="${assetPrefix}image/logo.jpeg" alt="" class="nav-brand">
             <span class="nav-title">CocoRoot</span>
         </a>
-        <button class="nav-btn nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#cr-nav-collapse"
-            aria-controls="cr-nav-collapse" aria-expanded="false" aria-label="Menu">
-            <i class="bi bi-list" aria-hidden="true"></i>
+        <button class="nav-btn nav-toggle" type="button" aria-controls="cr-nav-collapse" aria-expanded="false"
+            aria-label="Menu" data-cr-nav-toggle>
+            <span class="nav-burger" aria-hidden="true">
+                <span></span><span></span><span></span>
+            </span>
         </button>
-        <div class="cr-nav-collapse collapse" id="cr-nav-collapse">
+        <div class="cr-nav-collapse" id="cr-nav-collapse" data-cr-nav-menu>
             <div class="nav-links">
                 <a href="noticias.html" class="nav-link ${currentPath.includes('noticias') || currentPath.includes('post') ? 'active' : ''}">Notícias</a>
                 <a href="dashboard.html" class="nav-link ${currentPath.includes('dashboard') || currentPath.includes('registrar-cultivo') ? 'active' : ''}">Dashboard</a>
-<a href="comunidade.html" class="nav-link ${currentPath.includes('comunidade') ? 'active' : ''}">Comunidade</a>
+                <a href="comunidade.html" class="nav-link ${currentPath.includes('comunidade') ? 'active' : ''}">Comunidade</a>
                 <a href="comecar.html" class="nav-link ${currentPath.includes('comecar') ? 'active' : ''}">Começar do Zero</a>
                 <a href="sobre.html" class="nav-link ${currentPath.includes('sobre') ? 'active' : ''}">Sobre nós</a>
                 ${user && user.role === 'admin' ? '<a href="dashboard.html?admin=true" class="nav-link active">Admin</a>' : ''}
+                <span class="nav-indicator" aria-hidden="true"></span>
             </div>
             <div class="nav-right">
                 ${user ? `
                     <a href="perfil.html" class="nav-link ${currentPath.includes('perfil') ? 'active' : ''}" style="display:inline-flex;align-items:center;gap:6px;"><i class="bi bi-person-circle" aria-hidden="true"></i> ${user.nome}</a>
                     <a href="#" id="logout-btn" class="nav-link nav-logout"><i class="bi bi-box-arrow-right" aria-hidden="true"></i> Sair</a>
                 ` : `
-                    <a href="login.html" class="btn outline cr-tooltip cr-tt-login"><i class="bi bi-box-arrow-in-right" aria-hidden="true"></i> Entrar</a>
+                    <a href="login.html" class="btn outline nav-cta cr-tooltip cr-tt-login"><i class="bi bi-box-arrow-in-right" aria-hidden="true"></i> Entrar</a>
                     <a href="registo.html" class="btn outline cr-tooltip cr-tt-registo"><i class="bi bi-person-plus" aria-hidden="true"></i> Criar Conta</a>
                 `}
             </div>
         </div>
+        <div class="nav-overlay" aria-hidden="true" data-cr-nav-overlay></div>
     </nav>
     `;
 
@@ -49,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="footer-col-title">Produto</div>
                 <div class="footer-links">
                     <a href="comecar.html">Começar do zero</a>
-                    <a href="relatorios.html">Relatórios</a>
                     <a href="principal.html#funcionalidades">Funcionalidades</a>
                     <a href="principal.html#como-funciona">Como funciona</a>
                 </div>
@@ -101,41 +104,88 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    const ensureBootstrapBundle = () => {
-        if (window.bootstrap && window.bootstrap.Collapse) return Promise.resolve(true);
+    const setupMobileNav = () => {
+        const nav = document.querySelector('[data-cr-nav]');
+        const toggle = document.querySelector('[data-cr-nav-toggle]');
+        const menu = document.querySelector('[data-cr-nav-menu]');
+        const overlay = document.querySelector('[data-cr-nav-overlay]');
+        if (!nav || !toggle || !menu) return;
 
-        const existing = document.querySelector('script[data-cr-bootstrap="bundle"]');
-        if (existing) {
-            return new Promise((resolve) => {
-                existing.addEventListener('load', () => resolve(true), { once: true });
-                existing.addEventListener('error', () => resolve(false), { once: true });
-            });
-        }
+        const close = () => {
+            nav.classList.remove('nav--open');
+            toggle.setAttribute('aria-expanded', 'false');
+        };
 
-        return new Promise((resolve) => {
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
-            script.defer = true;
-            script.setAttribute('data-cr-bootstrap', 'bundle');
-            script.addEventListener('load', () => resolve(true), { once: true });
-            script.addEventListener('error', () => resolve(false), { once: true });
-            document.head.appendChild(script);
+        const open = () => {
+            nav.classList.add('nav--open');
+            toggle.setAttribute('aria-expanded', 'true');
+        };
+
+        toggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (nav.classList.contains('nav--open')) close();
+            else open();
+        });
+
+        (overlay || menu).addEventListener('click', (e) => {
+            if (e.target && e.target.closest && e.target.closest('.cr-nav-collapse')) return;
+            close();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Escape') return;
+            close();
+        });
+
+        menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
+            if (window.innerWidth > 768) return;
+            close();
+        }));
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) close();
         });
     };
 
-    ensureBootstrapBundle().then((ok) => {
-        if (!ok) return;
-        const collapseEl = document.getElementById('cr-nav-collapse');
-        if (!collapseEl || !window.bootstrap) return;
+    const setupNavIndicator = () => {
+        const linksRoot = document.querySelector('.nav-links');
+        const indicator = linksRoot ? linksRoot.querySelector('.nav-indicator') : null;
+        if (!linksRoot || !indicator) return;
 
-        const collapse = window.bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false });
-        const closeOnMobile = () => {
-            if (window.innerWidth > 980) return;
-            collapse.hide();
+        const set = (link) => {
+            if (!(link instanceof Element)) {
+                linksRoot.style.setProperty('--cr-ind-o', '0');
+                return;
+            }
+            const rootRect = linksRoot.getBoundingClientRect();
+            const rect = link.getBoundingClientRect();
+            const x = rect.left - rootRect.left + 10;
+            const w = Math.max(0, rect.width - 20);
+            linksRoot.style.setProperty('--cr-ind-x', `${x}px`);
+            linksRoot.style.setProperty('--cr-ind-s', `${w}`);
+            linksRoot.style.setProperty('--cr-ind-o', '1');
         };
 
-        collapseEl.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeOnMobile));
-    });
+        const active = linksRoot.querySelector('.nav-link.active');
+        if (active) set(active);
+
+        const onHover = (e) => {
+            const link = e.target && e.target.closest ? e.target.closest('.nav-link') : null;
+            if (!link) return;
+            set(link);
+        };
+
+        if (window.matchMedia && window.matchMedia('(hover: hover)').matches) {
+            linksRoot.addEventListener('pointerenter', onHover, true);
+            linksRoot.addEventListener('pointermove', onHover, true);
+            linksRoot.addEventListener('pointerleave', () => set(active), true);
+        }
+
+        window.addEventListener('resize', () => set(active));
+    };
+
+    setupMobileNav();
+    setupNavIndicator();
 
     const ensureToastRoot = () => {
         let root = document.querySelector('.toast-root');
@@ -188,8 +238,29 @@ document.addEventListener("DOMContentLoaded", () => {
         const heroPick = `${assetPrefix}image/planta.jpeg`;
         const asidePick = `${assetPrefix}image/image%2013.png`;
 
-        if (hero) hero.style.backgroundImage = `url('${heroPick}')`;
+        if (hero) hero.style.setProperty('--hero-image', `url('${heroPick}')`);
         if (aside) aside.style.backgroundImage = `url('${asidePick}')`;
+    };
+
+    const setupHeroEffects = () => {
+        if (!document.body.classList.contains('home-page')) return;
+        const hero = document.querySelector('.hero');
+        if (!reduceMotion && hero) {
+            let ticking = false;
+            const update = () => {
+                ticking = false;
+                const y = Math.min(80, Math.max(0, window.scrollY * 0.15));
+                hero.style.setProperty('--hero-parallax', `${y}px`);
+            };
+            const requestUpdate = () => {
+                if (ticking) return;
+                ticking = true;
+                window.requestAnimationFrame(update);
+            };
+            window.addEventListener('scroll', requestUpdate, { passive: true });
+            window.addEventListener('resize', requestUpdate);
+            update();
+        }
     };
 
     const initImageFade = (root = document) => {
@@ -212,6 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     initImageFade(document);
     setupHomeImageVariation();
+    setupHeroEffects();
 
     const setupScrollProgress = () => {
         const doc = document.documentElement;
@@ -279,7 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let ticking = false;
         const update = () => {
             ticking = false;
-            nav.classList.toggle('nav--scrolled', window.scrollY > 60);
+            nav.classList.toggle('nav--scrolled', window.scrollY > 50);
         };
         const requestUpdate = () => {
             if (ticking) return;
@@ -370,7 +442,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     animateIn(el);
                     observer.unobserve(el);
                 });
-            }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' })
+            }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' })
             : null;
 
         const applyStagger = (root = document) => {
@@ -378,11 +450,13 @@ document.addEventListener("DOMContentLoaded", () => {
             containerSelectors.forEach((sel) => {
                 Array.from(root.querySelectorAll(sel)).forEach((c) => containers.add(c));
             });
+            Array.from(root.querySelectorAll('.stagger-children')).forEach((c) => containers.add(c));
 
             containers.forEach((container) => {
                 const items = Array.from(container.children).filter((child) => child instanceof Element && child.classList.contains('animate-on-scroll'));
                 if (items.length < 2) return;
                 items.forEach((item, idx) => {
+                    item.setAttribute('data-delay', String(idx));
                     item.style.setProperty('--d', `${idx * 70}ms`);
                 });
             });
