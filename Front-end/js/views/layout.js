@@ -241,6 +241,39 @@ document.addEventListener("DOMContentLoaded", () => {
         setupScrollProgress();
     }
 
+    const setupBackToTop = () => {
+        if (document.body.classList.contains('auth-page')) return;
+        if (document.querySelector('.cr-to-top')) return;
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'cr-to-top';
+        btn.setAttribute('aria-label', 'Voltar ao topo');
+        btn.innerHTML = '<i class="bi bi-arrow-up" aria-hidden="true"></i>';
+        document.body.appendChild(btn);
+
+        let ticking = false;
+        const update = () => {
+            ticking = false;
+            btn.classList.toggle('cr-to-top--show', window.scrollY > 600);
+        };
+        const requestUpdate = () => {
+            if (ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(update);
+        };
+
+        window.addEventListener('scroll', requestUpdate, { passive: true });
+        window.addEventListener('resize', requestUpdate);
+        update();
+
+        btn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+        });
+    };
+
+    setupBackToTop();
+
     const setupNavbarScroll = () => {
         const nav = document.querySelector('.nav');
         if (!nav) return;
