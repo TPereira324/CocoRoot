@@ -10,23 +10,29 @@ document.addEventListener("DOMContentLoaded", () => {
             <img src="${assetPrefix}image/logo.jpeg" alt="" class="nav-brand">
             <span class="nav-title">CocoRoot</span>
         </a>
-        <div class="nav-links">
-            <a href="noticias.html" class="nav-link ${currentPath.includes('noticias') || currentPath.includes('post') ? 'active' : ''}">Notícias</a>
-            <a href="dashboard.html" class="nav-link ${currentPath.includes('dashboard') || currentPath.includes('registrar-cultivo') ? 'active' : ''}">Dashboard</a>
-            <a href="relatorios.html" class="nav-link ${currentPath.includes('relatorios') ? 'active' : ''}">Relatórios</a>
-            <a href="comunidade.html" class="nav-link ${currentPath.includes('comunidade') ? 'active' : ''}">Comunidade</a>
-            <a href="comecar.html" class="nav-link ${currentPath.includes('comecar') ? 'active' : ''}">Começar do Zero</a>
-            <a href="sobre.html" class="nav-link ${currentPath.includes('sobre') ? 'active' : ''}">Sobre nós</a>
-            ${user && user.role === 'admin' ? '<a href="dashboard.html?admin=true" class="nav-link active">Admin</a>' : ''}
-        </div>
-        <div class="nav-right">
-            ${user ? `
-                <a href="perfil.html" class="nav-link ${currentPath.includes('perfil') ? 'active' : ''}" style="display:inline-flex;align-items:center;gap:6px;"><i class="bi bi-person-circle" aria-hidden="true"></i> ${user.nome}</a>
-                <a href="#" id="logout-btn" class="nav-link nav-logout"><i class="bi bi-box-arrow-right" aria-hidden="true"></i> Sair</a>
-            ` : `
-                <a href="login.html" class="btn outline cr-tooltip cr-tt-login"><i class="bi bi-box-arrow-in-right" aria-hidden="true"></i> Entrar</a>
-                <a href="registo.html" class="btn outline cr-tooltip cr-tt-registo"><i class="bi bi-person-plus" aria-hidden="true"></i> Criar Conta</a>
-            `}
+        <button class="nav-btn nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#cr-nav-collapse"
+            aria-controls="cr-nav-collapse" aria-expanded="false" aria-label="Menu">
+            <i class="bi bi-list" aria-hidden="true"></i>
+        </button>
+        <div class="cr-nav-collapse collapse" id="cr-nav-collapse">
+            <div class="nav-links">
+                <a href="noticias.html" class="nav-link ${currentPath.includes('noticias') || currentPath.includes('post') ? 'active' : ''}">Notícias</a>
+                <a href="dashboard.html" class="nav-link ${currentPath.includes('dashboard') || currentPath.includes('registrar-cultivo') ? 'active' : ''}">Dashboard</a>
+                <a href="relatorios.html" class="nav-link ${currentPath.includes('relatorios') ? 'active' : ''}">Relatórios</a>
+                <a href="comunidade.html" class="nav-link ${currentPath.includes('comunidade') ? 'active' : ''}">Comunidade</a>
+                <a href="comecar.html" class="nav-link ${currentPath.includes('comecar') ? 'active' : ''}">Começar do Zero</a>
+                <a href="sobre.html" class="nav-link ${currentPath.includes('sobre') ? 'active' : ''}">Sobre nós</a>
+                ${user && user.role === 'admin' ? '<a href="dashboard.html?admin=true" class="nav-link active">Admin</a>' : ''}
+            </div>
+            <div class="nav-right">
+                ${user ? `
+                    <a href="perfil.html" class="nav-link ${currentPath.includes('perfil') ? 'active' : ''}" style="display:inline-flex;align-items:center;gap:6px;"><i class="bi bi-person-circle" aria-hidden="true"></i> ${user.nome}</a>
+                    <a href="#" id="logout-btn" class="nav-link nav-logout"><i class="bi bi-box-arrow-right" aria-hidden="true"></i> Sair</a>
+                ` : `
+                    <a href="login.html" class="btn outline cr-tooltip cr-tt-login"><i class="bi bi-box-arrow-in-right" aria-hidden="true"></i> Entrar</a>
+                    <a href="registo.html" class="btn outline cr-tooltip cr-tt-registo"><i class="bi bi-person-plus" aria-hidden="true"></i> Criar Conta</a>
+                `}
+            </div>
         </div>
     </nav>
     `;
@@ -95,6 +101,42 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = 'principal.html';
         });
     }
+
+    const ensureBootstrapBundle = () => {
+        if (window.bootstrap && window.bootstrap.Collapse) return Promise.resolve(true);
+
+        const existing = document.querySelector('script[data-cr-bootstrap="bundle"]');
+        if (existing) {
+            return new Promise((resolve) => {
+                existing.addEventListener('load', () => resolve(true), { once: true });
+                existing.addEventListener('error', () => resolve(false), { once: true });
+            });
+        }
+
+        return new Promise((resolve) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
+            script.defer = true;
+            script.setAttribute('data-cr-bootstrap', 'bundle');
+            script.addEventListener('load', () => resolve(true), { once: true });
+            script.addEventListener('error', () => resolve(false), { once: true });
+            document.head.appendChild(script);
+        });
+    };
+
+    ensureBootstrapBundle().then((ok) => {
+        if (!ok) return;
+        const collapseEl = document.getElementById('cr-nav-collapse');
+        if (!collapseEl || !window.bootstrap) return;
+
+        const collapse = window.bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false });
+        const closeOnMobile = () => {
+            if (window.innerWidth > 980) return;
+            collapse.hide();
+        };
+
+        collapseEl.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeOnMobile));
+    });
 
     const ensureToastRoot = () => {
         let root = document.querySelector('.toast-root');

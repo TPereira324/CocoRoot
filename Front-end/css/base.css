@@ -175,6 +175,26 @@ body {
     gap: 12px;
 }
 
+.nav-toggle {
+    display: none;
+    margin-left: auto;
+}
+
+.cr-nav-collapse {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 18px;
+}
+
+@media (min-width: 981px) {
+    .cr-nav-collapse.collapse:not(.show) {
+        display: flex;
+    }
+}
+
 .nav-btn {
     border: 1px solid rgba(47, 143, 61, 0.40);
     background: rgba(255, 255, 255, 0.92);
@@ -192,6 +212,10 @@ body {
     border-radius: 10px;
     box-shadow: none;
     transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.nav-btn.nav-toggle {
+    display: none;
 }
 
 .nav-btn:hover {
