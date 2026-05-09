@@ -8,9 +8,11 @@ body.home-page {
     position: relative;
     padding: 92px 80px;
     min-height: 62vh;
-    background-image: url('../image/planta.jpeg');
+    --hero-image: url('../image/planta.jpeg');
+    --hero-parallax: 0px;
+    background-image: radial-gradient(900px 420px at 20% 0%, rgba(245, 252, 245, 0.42), rgba(230, 240, 230, 0.10) 55%, transparent 70%), var(--hero-image);
     background-size: cover;
-    background-position: center;
+    background-position: center, center calc(50% + var(--hero-parallax));
     border-bottom: 1px solid rgba(47, 111, 59, 0.14);
     overflow: hidden;
 }
@@ -40,6 +42,82 @@ body.home-page {
     color: rgba(255, 255, 255, 0.96);
 }
 
+.hero-title {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-title::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(31, 60, 19, 0.82);
+    transform-origin: left;
+    animation: hero-reveal 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 0.1s;
+}
+
+.hero-title::before {
+    content: "";
+    position: absolute;
+    top: 0.12em;
+    height: 0.92em;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.92);
+    transform: translateX(-8px);
+    animation: hero-cursor 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 0.1s;
+}
+
+.hero .hero-subtitle {
+    animation: hero-fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 0.4s;
+}
+
+.hero-actions {
+    animation: hero-fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 0.55s;
+}
+
+@keyframes hero-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes hero-reveal {
+    from {
+        transform: scaleX(1);
+    }
+
+    to {
+        transform: scaleX(0);
+    }
+}
+
+@keyframes hero-cursor {
+    0% {
+        opacity: 1;
+        transform: translateX(-8px);
+    }
+
+    85% {
+        opacity: 1;
+        transform: translateX(100%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
 .hero .hero-subtitle {
     color: rgba(255, 255, 255, 0.86);
 }
@@ -53,6 +131,40 @@ body.home-page {
 .hero .btn.outline:hover {
     background: rgba(255, 255, 255, 0.18);
     border-color: rgba(255, 255, 255, 0.62);
+}
+
+.hero-actions .btn:not(.outline) {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-actions .btn:not(.outline)::after {
+    content: "";
+    position: absolute;
+    top: -30%;
+    bottom: -30%;
+    width: 42px;
+    left: -60px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    transform: skewX(-18deg);
+    opacity: 0;
+}
+
+@media (hover: hover) {
+    .hero-actions .btn:not(.outline):hover::after {
+        opacity: 1;
+        animation: hero-shimmer 0.55s ease forwards;
+    }
+}
+
+@keyframes hero-shimmer {
+    from {
+        transform: translateX(0) skewX(-18deg);
+    }
+
+    to {
+        transform: translateX(520px) skewX(-18deg);
+    }
 }
 
 .section {
@@ -101,12 +213,12 @@ body.home-page {
 }
 
 .card {
-    border: 1px solid rgba(47, 111, 59, 0.12);
+    border: var(--card-border);
     display: block;
     padding: 18px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.92);
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+    border-radius: var(--card-radius);
+    background: var(--card-bg);
+    box-shadow: var(--card-shadow);
     transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
 
@@ -116,11 +228,7 @@ body.home-page {
     display: block;
 }
 
-.card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 20px 44px rgba(0, 0, 0, 0.12);
-    border-color: rgba(47, 143, 61, 0.22);
-}
+
 
 .card-icon {
     width: 40px;

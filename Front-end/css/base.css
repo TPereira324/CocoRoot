@@ -175,9 +175,10 @@ body {
     gap: 12px;
 }
 
-.nav-toggle {
+.nav-btn.nav-toggle {
     display: none;
     margin-left: auto;
+    padding: 0 12px;
 }
 
 .cr-nav-collapse {
@@ -189,10 +190,8 @@ body {
     margin-left: 18px;
 }
 
-@media (min-width: 981px) {
-    .cr-nav-collapse.collapse:not(.show) {
-        display: flex;
-    }
+.nav-overlay {
+    display: none;
 }
 
 .nav-btn {
@@ -214,8 +213,48 @@ body {
     transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease, border-color 160ms ease;
 }
 
-.nav-btn.nav-toggle {
-    display: none;
+.nav-burger {
+    width: 18px;
+    height: 12px;
+    display: inline-block;
+    position: relative;
+}
+
+.nav-burger span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: 999px;
+    background: rgba(47, 111, 59, 0.92);
+    transform-origin: center;
+    transition: transform 0.2s ease, opacity 0.2s ease, top 0.2s ease;
+}
+
+.nav-burger span:nth-child(1) {
+    top: 0;
+}
+
+.nav-burger span:nth-child(2) {
+    top: 5px;
+}
+
+.nav-burger span:nth-child(3) {
+    top: 10px;
+}
+
+.nav.nav--open .nav-burger span:nth-child(1) {
+    top: 5px;
+    transform: rotate(45deg);
+}
+
+.nav.nav--open .nav-burger span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav.nav--open .nav-burger span:nth-child(3) {
+    top: 5px;
+    transform: rotate(-45deg);
 }
 
 .nav-btn:hover {
