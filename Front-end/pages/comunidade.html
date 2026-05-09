@@ -19,7 +19,7 @@
                         <div class="community-subtitle">Partilha experiências, tira dúvidas e aprende com outros agricultores</div>
                     </div>
                     <button id="publish-toggle-btn" class="btn community-compose-btn cr-tooltip cr-tt-publicar" type="button">
-                        <i class="bi bi-plus-lg" aria-hidden="true"></i>
+                        <span aria-hidden="true">+</span>
                         <span>Nova publicação</span>
                     </button>
                 </div>
@@ -31,7 +31,7 @@
             <div id="publish-form-section" style="margin-bottom:20px;" hidden>
                 <div class="community-compose-card">
                     <div class="community-compose-header">
-                        <i class="bi bi-pencil-square" aria-hidden="true"></i>
+                        <span aria-hidden="true">✏️</span>
                         <span class="community-compose-title">Nova Publicação</span>
                     </div>
                     <div id="publish-error" class="community-compose-error" hidden></div>
@@ -56,10 +56,9 @@
                                 </select>
                             </div>
                             <div class="community-compose-actions">
+                                <span id="publish-char-counter" class="publish-char-counter">0 / 1200</span>
                                 <button type="button" id="publish-cancel-btn" class="btn outline sm">Cancelar</button>
-                                <button type="submit" id="publish-submit-btn" class="btn sm">
-                                    <i class="bi bi-send" aria-hidden="true"></i> Publicar
-                                </button>
+                                <button type="submit" id="publish-submit-btn" class="btn sm">Publicar</button>
                             </div>
                         </div>
                     </form>
@@ -68,19 +67,22 @@
 
             <div id="community-stats" class="community-stats-strip" aria-label="Estatísticas da comunidade"></div>
 
+            <div class="community-toolbar">
+                <div class="community-search-wrap">
+                    <input type="search" id="community-search" class="community-search-input" placeholder="Pesquisar publicações...">
+                </div>
+                <div class="community-sort-btns" role="group" aria-label="Ordenar por">
+                    <button class="sort-pill active" type="button" data-sort="recentes">Recentes</button>
+                    <button class="sort-pill" type="button" data-sort="populares">🔥 Populares</button>
+                    <button class="sort-pill" type="button" data-sort="sem-resposta">Sem resposta</button>
+                </div>
+            </div>
+
             <div class="tabs community-tabs" role="tablist" aria-label="Categorias">
-                <button class="tab active" type="button" data-cat="todos">
-                    Todos
-                </button>
-                <button class="tab tab-duvidas" type="button" data-cat="duvidas">
-                    <i class="bi bi-question-circle" aria-hidden="true"></i> Dúvidas
-                </button>
-                <button class="tab tab-dicas" type="button" data-cat="dicas">
-                    <i class="bi bi-lightbulb" aria-hidden="true"></i> Dicas
-                </button>
-                <button class="tab tab-experiencias" type="button" data-cat="experiencias">
-                    <i class="bi bi-stars" aria-hidden="true"></i> Experiências
-                </button>
+                <button class="tab active" type="button" data-cat="todos">Todos</button>
+                <button class="tab tab-duvidas" type="button" data-cat="duvidas">❓ Dúvidas</button>
+                <button class="tab tab-dicas" type="button" data-cat="dicas">💡 Dicas</button>
+                <button class="tab tab-experiencias" type="button" data-cat="experiencias">🌟 Experiências</button>
             </div>
 
             <div id="posts" class="community-posts"></div>
