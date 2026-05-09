@@ -1,42 +1,40 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome - CocoRoot</title>
-    <link rel="stylesheet" href="../css/layout.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Boas-vindas - CocoRoot</title>
+    <link rel="stylesheet" href="../css/cocoroot.css">
 </head>
 
-<body class="auth-body">
-    <div id="app" class="welcome-page">
-        <div class="welcome-container">
-            <div class="welcome-image">
-                <img src="../image/Coco.jpeg" alt="Coconuts">
-            </div>
-            <div class="welcome-content">
-                <div class="logo-section">
-                    <div class="logo-icon">
-                        <img src="../image/logo.jpeg" alt="CocoRoot Logo">
-                    </div>
-                    <h1 class="brand-name">CocoRoot</h1>
-                    <p class="slogan">Gestão inteligente para os seus cultivos</p>
-                </div>
+<body class="auth-page">
+    <div class="auth-img">
+        <a href="principal.html" class="auth-back" aria-label="Voltar"><i class="bi bi-chevron-left" aria-hidden="true"></i></a>
+    </div>
 
-                <ul class="features-list">
+    <div class="auth-form">
+        <div class="auth-panel">
+            <div class="auth-logo">
+                <img src="../image/logo.jpeg" alt="CocoRoot" class="auth-brand">
+            </div>
+
+            <div class="auth-copy">
+                <h1 class="auth-title">Gestão inteligente para os seus cultivos</h1>
+                <ul class="auth-points">
                     <li>Monitorize as suas culturas em tempo real</li>
                     <li>Receba alertas e dicas personalizadas</li>
                     <li>Aprenda com outros agricultores</li>
                 </ul>
+            </div>
 
-                <div class="button-group">
-                    <button class="btn-primary" onclick="location.href='login.html'">Entrar</button>
-                    <button class="btn-secondary" onclick="location.href='registo.html'">Registar-me</button>
-                </div>
+            <div class="btn-group">
+                <a href="login.html" class="btn full">Entrar</a>
+                <a href="registo.html" class="btn outline full">Registar-me</a>
             </div>
         </div>
     </div>
+    <script src="../js/views/layout.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,986 @@
+.step-checklist li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.step-check {
+    width: 22px;
+    height: 22px;
+    border: 2px solid #222;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+}
+
+.step-check.done {
+    background: #222;
+    color: #fff;
+}
+
+.step-checklist li.active-step .step-check {
+    border-color: var(--primary);
+}
+
+.step-checklist li.active-step>div:last-child>div:first-child {
+    color: var(--primary);
+}
+
+.materiais-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.materiais-list {
+    list-style: none;
+}
+
+.materiais-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 14px;
+}
+
+.bullet {
+    width: 8px;
+    height: 8px;
+    background: #222;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.dashboard-page .page-content {
+    max-width: 1280px;
+    padding-top: 36px;
+    padding-bottom: 56px;
+}
+
+.dashboard-shell {
+    padding: 28px 28px 36px;
+    border-radius: 24px;
+    background: #edf4eb;
+    border: 1px solid rgba(83, 121, 72, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.dashboard-page .dash-header {
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.dashboard-page .dash-hello {
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+}
+
+.dashboard-page .dash-sub {
+    margin-top: 8px;
+    color: rgba(32, 32, 32, 0.78);
+    font-size: 18px;
+}
+
+.dash-divider {
+    height: 2px;
+    background: rgba(124, 84, 52, 0.75);
+    margin-bottom: 22px;
+}
+
+.dash-error {
+    margin-bottom: 16px;
+    color: #8a1f11;
+}
+
+.dashboard-page .dash-actions {
+    gap: 12px;
+}
+
+.dash-action-btn,
+.dash-action-btn-secondary {
+    min-height: 44px;
+}
+
+.dash-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+    margin-bottom: 28px;
+}
+
+.dash-stat-card {
+    min-height: 108px;
+    padding: 20px 18px;
+    border-radius: 18px;
+    border: 1.5px solid rgba(63, 142, 68, 0.72);
+    background: rgba(255, 255, 255, 0.74);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 10px 24px rgba(40, 81, 34, 0.04);
+}
+
+.dash-stat-label {
+    font-size: 15px;
+    font-weight: 800;
+    color: rgba(27, 27, 27, 0.92);
+}
+
+.dashboard-page .dash-value {
+    margin-top: 8px;
+    font-size: 34px;
+    font-weight: 900;
+    color: var(--deep);
+    line-height: 1.1;
+}
+
+.dash-stat-meta {
+    margin-top: 8px;
+    min-height: 34px;
+    font-size: 12px;
+    line-height: 1.45;
+    color: rgba(27, 27, 27, 0.6);
+}
+
+.dash-tabs {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+    margin: 0 0 26px;
+    padding: 6px;
+    border-radius: 999px;
+    background: rgba(27, 27, 27, 0.12);
+}
+
+.dash-tab {
+    min-width: 0;
+    height: 46px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: rgba(27, 27, 27, 0.92);
+    font-size: 14px;
+    font-weight: 800;
+    box-shadow: none;
+}
+
+.dash-tab.active {
+    background: rgba(255, 255, 255, 0.95);
+    color: rgba(27, 27, 27, 0.96);
+    box-shadow: 0 6px 18px rgba(27, 27, 27, 0.08);
+}
+
+.dash-panel {
+    min-height: 340px;
+}
+
+.dash-cultivos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+    align-items: start;
+}
+
+.dash-cultivo-card {
+    min-height: 300px;
+    padding: 14px 14px 18px;
+    border: 1.5px solid rgba(63, 142, 68, 0.72);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 22px rgba(31, 60, 19, 0.06);
+    display: flex;
+    flex-direction: column;
+}
+
+.dash-cultivo-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.dash-cultivo-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(145deg, #ffffff, #dcdcdc);
+    color: rgba(27, 27, 27, 0.92);
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.75), inset 0 -7px 14px rgba(0, 0, 0, 0.12);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.dash-cultivo-icon--frutiferas {
+    background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0) 48%), linear-gradient(145deg, #ff5c76, #c5152d);
+    color: #fff;
+}
+
+.dash-cultivo-icon--folhosas {
+    background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0) 48%), linear-gradient(145deg, #44d96d, #1c7a36);
+    color: #fff;
+}
+
+.dash-cultivo-icon--ervas {
+    background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0) 48%), linear-gradient(145deg, #1fbf9a, #0c6b55);
+    color: #fff;
+}
+
+.dash-cultivo-icon--raizes {
+    background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0) 48%), linear-gradient(145deg, #ffb44a, #c96a00);
+    color: #fff;
+}
+
+.dash-cultivo-icon--geral {
+    background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 55%), linear-gradient(145deg, #ffffff, #dcdcdc);
+    color: rgba(27, 27, 27, 0.92);
+}
+
+.dash-cultivo-badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(27, 27, 27, 0.12);
+    color: rgba(27, 27, 27, 0.72);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.dash-cultivo-name {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 10px;
+}
+
+.dash-cultivo-meta {
+    color: rgba(27, 27, 27, 0.66);
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.dash-cultivo-metrics {
+    display: grid;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.dash-cultivo-metric {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14px;
+}
+
+.dash-cultivo-metric span {
+    color: rgba(27, 27, 27, 0.68);
+}
+
+.dash-cultivo-metric strong {
+    font-size: 13px;
+    color: rgba(27, 27, 27, 0.96);
+}
+
+.dash-cultivo-link {
+    margin-top: 20px;
+    border: 0;
+    background: transparent;
+    color: #2f7a36;
+    font-weight: 800;
+    cursor: pointer;
+    align-self: center;
+}
+
+.dash-detail-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(17, 23, 17, 0.72);
+}
+
+.dash-detail-modal[hidden] {
+    display: none;
+}
+
+.dash-detail-shell {
+    width: min(980px, 100%);
+    max-height: min(90vh, 820px);
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 24px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.dash-detail-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(27, 27, 27, 0.08);
+    color: #1b1b1b;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.dash-detail-header {
+    padding: 28px 28px 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.dash-detail-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1b1b1b;
+}
+
+.dash-detail-stage {
+    font-size: 14px;
+    color: rgba(27, 27, 27, 0.64);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.dash-detail-scene {
+    width: 100%;
+    min-height: 420px;
+    background: radial-gradient(circle at top, rgba(248, 255, 241, 0.95), rgba(235, 242, 229, 0.98));
+}
+
+.dash-detail-description {
+    padding: 18px 28px 24px;
+    color: rgba(27, 27, 27, 0.78);
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+.dash-detail-fallback {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 32px;
+}
+
+.dash-detail-fallback-icon {
+    font-size: 64px;
+    margin-bottom: 18px;
+}
+
+.farm-visualization-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.8fr);
+    gap: 24px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.farm-scene {
+    min-height: 520px;
+    border-radius: 24px;
+    overflow: hidden;
+    background: radial-gradient(circle at top, #eaf5e7, #cfe5d0 45%, #d7e6d5 100%);
+    box-shadow: inset 0 0 0 1px rgba(24, 80, 20, 0.08), 0 18px 36px rgba(20, 58, 18, 0.12);
+}
+
+.farm-info-card {
+    min-height: 520px;
+    padding: 24px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 20px 40px rgba(18, 67, 24, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.farm-info-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #16471a;
+}
+
+.farm-info-status {
+    font-size: 15px;
+    color: rgba(20, 47, 20, 0.83);
+    line-height: 1.6;
+}
+
+.farm-progress-bar {
+    width: 100%;
+    height: 16px;
+    border-radius: 999px;
+    background: rgba(23, 70, 28, 0.1);
+    overflow: hidden;
+}
+
+.farm-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #57c260, #1f7d3f);
+    transition: width 0.4s ease;
+}
+
+.farm-info-note {
+    margin-top: auto;
+    font-size: 14px;
+    color: rgba(20, 47, 20, 0.68);
+    line-height: 1.7;
+}
+
+.dash-add-card {
+    min-height: 300px;
+    padding: 18px;
+    border-radius: 18px;
+    background: #3f9a42;
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 800;
+    text-align: center;
+    box-shadow: 0 12px 24px rgba(63, 154, 66, 0.24);
+}
+
+.dash-empty-card {
+    min-height: 300px;
+    padding: 20px;
+    border-radius: 20px;
+    border: 1.5px solid rgba(63, 142, 68, 0.34);
+    background: rgba(255, 255, 255, 0.84);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.dash-add-icon {
+    font-size: 42px;
+    line-height: 1;
+}
+
+.dash-list-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.dash-task-summary {
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(63, 142, 68, 0.18);
+    color: rgba(27, 27, 27, 0.72);
+    line-height: 1.6;
+}
+
+.dash-task-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.dash-task-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dash-task-section-title {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    color: rgba(27, 27, 27, 0.74);
+}
+
+.dash-task-row {
+    width: 100%;
+    padding: 16px 18px;
+    border: 1.5px solid rgba(63, 142, 68, 0.52);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dash-task-row-static {
+    cursor: default;
+}
+
+.dash-task-main {
+    min-width: 0;
+}
+
+.dash-task-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+
+.dash-task-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: rgba(27, 27, 27, 0.96);
+}
+
+.dash-task-tag {
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(27, 27, 27, 0.12);
+    color: #5d8e56;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: lowercase;
+}
+
+.dash-task-sub {
+    color: rgba(27, 27, 27, 0.72);
+    line-height: 1.5;
+}
+
+.dash-task-check {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 2px solid #2f8f3d;
+    color: #2f8f3d;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    font-size: 15px;
+}
+
+.dash-task-check.is-done {
+    background: #2f8f3d;
+    color: #fff;
+}
+
+.dashboard-page .dash-card {
+    padding: 20px;
+    border-radius: 18px;
+    border: 1px solid rgba(63, 142, 68, 0.24);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 10px 22px rgba(31, 60, 19, 0.05);
+}
+
+.dashboard-page .dash-card-title {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: none;
+    margin-bottom: 16px;
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.monitor-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.monitor-group {
+    border-bottom: 1px solid rgba(27, 27, 27, 0.18);
+    padding-bottom: 16px;
+}
+
+.monitor-group:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.monitor-group-toggle {
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.monitor-group-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.monitor-group-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: rgba(27, 27, 27, 0.96);
+}
+
+.monitor-group-meta {
+    color: rgba(27, 27, 27, 0.62);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.monitor-group-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: #2f8f3d;
+}
+
+.monitor-group-right i {
+    font-size: 20px;
+    transition: transform 160ms ease;
+}
+
+.monitor-group.is-open .monitor-group-right i {
+    transform: rotate(180deg);
+}
+
+.monitor-group-pill {
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(176, 37, 24, 0.08);
+    color: #a33a22;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.monitor-group-panel {
+    display: none;
+    margin-top: 16px;
+}
+
+.monitor-group.is-open .monitor-group-panel {
+    display: block;
+}
+
+.monitor-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.monitor-card {
+    padding: 16px 16px 18px;
+    border-radius: 16px;
+    border: 1.5px solid rgba(147, 68, 58, 0.7);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 10px 18px rgba(31, 60, 19, 0.04);
+}
+
+.monitor-card.is-empty {
+    border-style: dashed;
+    border-color: rgba(147, 68, 58, 0.38);
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.monitor-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 16px;
+    color: #4d6f2c;
+}
+
+.monitor-card-top i {
+    font-size: 24px;
+}
+
+.monitor-card-badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(27, 27, 27, 0.1);
+    color: rgba(27, 27, 27, 0.62);
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.monitor-card-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(27, 27, 27, 0.82);
+}
+
+.monitor-card-value {
+    margin-top: 8px;
+    font-size: 22px;
+    font-weight: 900;
+    color: rgba(27, 27, 27, 0.98);
+}
+
+.monitor-card.is-empty .monitor-card-value {
+    font-size: 18px;
+    color: rgba(27, 27, 27, 0.6);
+}
+
+.monitor-card-trend {
+    margin-top: 10px;
+    font-size: 12px;
+    color: rgba(27, 27, 27, 0.54);
+}
+
+.monitor-warm .monitor-card-top,
+.monitor-water .monitor-card-top {
+    color: #3f6f2b;
+}
+
+.monitor-panel-note {
+    margin-top: 14px;
+    color: rgba(27, 27, 27, 0.62);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.weather-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.weather-hero {
+    padding: 18px 18px 0;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #52b54f 0%, #4dae4b 100%);
+    color: rgba(255, 255, 255, 0.98);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px 20px;
+    box-shadow: 0 12px 24px rgba(63, 154, 66, 0.18);
+}
+
+.weather-hero-main {
+    min-width: 0;
+}
+
+.weather-hero-label {
+    font-size: 15px;
+    opacity: 0.92;
+}
+
+.weather-hero-temp {
+    margin-top: 4px;
+    font-size: 54px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.weather-hero-desc {
+    font-size: 22px;
+    margin-top: 4px;
+}
+
+.weather-hero-icon {
+    font-size: 44px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+.weather-hero-stats {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 10px 0 0;
+    margin-top: 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.weather-hero-stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding-bottom: 14px;
+}
+
+.weather-hero-stats span {
+    font-size: 13px;
+    opacity: 0.86;
+}
+
+.weather-hero-stats strong {
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.weather-forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.weather-day-card {
+    padding: 12px 14px;
+    border-radius: 16px;
+    border: 1.5px solid rgba(147, 68, 58, 0.72);
+    background: rgba(255, 255, 255, 0.92);
+    text-align: center;
+    box-shadow: 0 10px 18px rgba(31, 60, 19, 0.04);
+}
+
+.weather-day-name {
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.weather-day-icon {
+    font-size: 34px;
+    color: rgba(27, 27, 27, 0.88);
+    margin-bottom: 6px;
+}
+
+.weather-day-temp {
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+.weather-day-desc {
+    margin-top: 4px;
+    color: rgba(27, 27, 27, 0.64);
+    font-size: 12px;
+    min-height: 32px;
+}
+
+.weather-day-meta {
+    margin-top: 10px;
+    display: grid;
+    gap: 6px;
+    justify-content: center;
+    font-size: 12px;
+    color: rgba(27, 27, 27, 0.7);
+}
+
+.weather-day-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+}
+
+.chart-ph {
+    border: 1px solid rgba(27, 27, 27, 0.12);
+    background: rgba(31, 60, 19, 0.06);
+    width: 100%;
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+.side-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.alert-list,
+.task-list {
+    list-style: none;
+}
+
+.alert-item,
+.task-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+@media (max-width: 1120px) {
+    .dash-cultivos-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dash-stats-grid {
+        gap: 18px;
+    }
+
+    .monitor-cards-grid,
+    .weather-forecast-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .dashboard-page .page-content {
+        padding: 24px 18px 38px;
+    }
+
+    .dashboard-shell {
+        padding: 20px 16px 28px;
+        border-radius: 18px;
+    }
+
+    .dash-stats-grid,
+    .dash-cultivos-grid,
+    .dash-tabs {
+        grid-template-columns: 1fr;
+    }
+
+    .dash-tab {
+        width: 100%;
+    }
+
+    .dash-task-row {
+        align-items: flex-start;
+    }
+
+    .monitor-group-toggle {
+        align-items: flex-start;
+    }
+
+    .monitor-cards-grid,
+    .weather-hero-stats,
+    .weather-forecast-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .weather-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .weather-hero-icon {
+        justify-content: flex-start;
+    }
+}

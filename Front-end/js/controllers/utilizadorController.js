@@ -3,7 +3,7 @@ class UtilizadorController {
         this.model = model;
         this.view = view;
         this.currentStep = 1;
-        this.maxStep = 5;
+        this.maxStep = 6;
     }
 
     init() {
@@ -36,10 +36,31 @@ class UtilizadorController {
         const currentStepEl = document.getElementById(`step-${this.currentStep}`);
         if (!currentStepEl) return true;
 
-        const inputs = currentStepEl.querySelectorAll('input');
-        for (const input of inputs) {
-            if (!input.checkValidity()) {
-                input.reportValidity();
+        const fields = currentStepEl.querySelectorAll('input, select');
+        for (const field of fields) {
+            if (field.id === 'country_code') {
+                const code = (field.value || '').trim();
+                if (!code) {
+                    const countryError = document.getElementById('country-error');
+                    if (countryError) countryError.style.display = 'block';
+                    field.style.borderColor = 'red';
+                    field.focus();
+                    return false;
+                }
+            }
+            if (field.id === 'phone') {
+                const phone = (field.value || '').trim();
+                const validPhonePattern = /^[0-9]{9}$/;
+                if (!validPhonePattern.test(phone)) {
+                    const phoneError = document.getElementById('phone-error');
+                    if (phoneError) phoneError.style.display = 'block';
+                    field.style.borderColor = 'red';
+                    field.reportValidity();
+                    return false;
+                }
+            }
+            if (!field.checkValidity()) {
+                field.reportValidity();
                 return false;
             }
         }
@@ -81,18 +102,22 @@ class UtilizadorController {
         const userData = Object.fromEntries(formData.entries());
 
         try {
+            if (userData.country_code && userData.phone) {
+                userData.phone = `${userData.country_code}${String(userData.phone).trim()}`;
+                delete userData.country_code;
+            }
             if (this.model && typeof this.model.register === 'function') {
                 const result = await this.model.register(userData);
-                if (result && (result.status === 'error' || result.success === false)) {
-                    this.view.displayMessage(result.message || 'Falha ao registar.', true);
+                if (!result || result.success !== true) {
+                    this.view.displayMessage(result?.message || 'Falha ao registrar.', true);
                     return;
                 }
             }
 
-            this.view.displayMessage('Registo concluído com sucesso!');
+            this.view.displayMessage('Cadastro concluído com sucesso!');
             window.location.href = 'login.html';
         } catch (e) {
-            this.view.displayMessage('Falha ao registar.', true);
+            this.view.displayMessage('Falha ao registrar.', true);
         }
     }
 }

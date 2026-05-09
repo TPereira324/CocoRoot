@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notícias - CocoRoot</title>
+    <link rel="stylesheet" href="../css/cocoroot.css">
+</head>
+
+<body class="app-page cr-sheet">
+    <div class="page-content">
+        <section class="news-shell">
+            <div class="news-head">
+                <div class="news-title">Notícias e Artigos</div>
+                <div class="news-subtitle">Mantenha-se atualizado com dicas e histórias da comunidade</div>
+                <div class="news-divider"></div>
+            </div>
+
+            <div class="news-stats" id="news-stats"></div>
+
+            <div class="news-filters" role="tablist" aria-label="Filtros">
+                <button class="news-filter active" type="button" data-filter="all">Todos</button>
+                <button class="news-filter" type="button" data-filter="news">Novidades</button>
+                <button class="news-filter" type="button" data-filter="tips">Dicas Técnicas</button>
+                <button class="news-filter" type="button" data-filter="stories">Histórias</button>
+            </div>
+
+            <div class="article-list" id="article-list"></div>
+        </section>
+    </div>
+    <script src="../js/views/layout.js"></script>
+    <script>
+        (function () {
+            const key = 'cocoRootFavorites';
+            const read = () => {
+                try {
+                    const raw = localStorage.getItem(key);
+                    return raw ? JSON.parse(raw) : [];
+                } catch {
+                    return [];
+                }
+            };
+            const write = (list) => localStorage.setItem(key, JSON.stringify(list || []));
+            const favorites = new Set(read().map(String));
+            const articles = [
+                {
+                    id: '1',
+                    category: 'tips',
+                    label: 'Dicas Técnicas',
+                    title: 'Como Maximizar a Produção de Morangos em Fibra de Coco',
+                    excerpt: 'Descubra as melhores práticas para cultivar morangos saudáveis e produtivos usando substrato de fibra de coco.',
+                    date: '02/03/2026',
+                    image: ''
+                },
+                {
+                    id: '2',
+                    category: 'news',
+                    label: 'Novidades',
+                    title: 'Novidades: Sistema de Monitorização Automática Disponível',
+                    excerpt: 'A plataforma COCOROOT agora oferece monitorização em tempo real com sensores inteligentes.',
+                    date: '01/03/2026',
+                    image: ''
+                },
+                {
+                    id: '3',
+                    category: 'stories',
+                    label: 'Histórias de Agricultores',
+                    title: 'História de Sucesso: Agricultor Duplica Produção em 6 Meses',
+                    excerpt: 'Conheça a jornada de Pedro Costa que transformou sua pequena horta numa operação sustentável e lucrativa.',
+                    date: '28/02/2026',
+                    image: ''
+                },
+                {
+                    id: '4',
+                    category: 'tips',
+                    label: 'Dicas Técnicas',
+                    title: 'Preparação do Substrato: Erros Comuns e Como Evitá-los',
+                    excerpt: 'Pequenos ajustes na hidratação e drenagem fazem grande diferença na estabilidade da fibra de coco.',
+                    date: '24/02/2026',
+                    image: ''
+                },
+                {
+                    id: '5',
+                    category: 'news',
+                    label: 'Novidades',
+                    title: 'Comunidade CocoRoot Recebe Novos Guias Interativos',
+                    excerpt: 'Os novos módulos trazem acompanhamento passo a passo para agricultores iniciantes e experientes.',
+                    date: '20/02/2026',
+                    image: ''
+                }
+            ];
+
+            const hashText = (text) => {
+                const s = String(text || '');
+                let h = 0;
+                for (let i = 0; i < s.length; i += 1) h = ((h << 5) - h) + s.charCodeAt(i);
+                return Math.abs(h);
+            };
+
+            const pickFrom = (list, seed) => {
+                const arr = Array.isArray(list) ? list : [];
+                if (arr.length === 0) return '';
+                return arr[hashText(seed) % arr.length];
+            };
+
+            const pools = {
+                tips: ['../image/image%2013.png', '../image/image%2014.png', '../image/image%2015.png', '../image/planta.jpeg'],
+                news: ['../image/Coco.jpeg', '../image/Rectangle%2022.png', '../image/Frame%202.png'],
+                stories: ['../image/Frame%202.png', '../image/planta.jpeg', '../image/Rectangle%2022.png']
+            };
+
+            const dayKey = new Date().toISOString().slice(0, 10);
+            articles.forEach((article) => {
+                const pool = pools[article.category] || pools.tips;
+                article.image = pickFrom(pool, `${dayKey}:${article.category}:${article.id}`);
+            });
+
+            const statsRoot = document.getElementById('news-stats');
+            const listRoot = document.getElementById('article-list');
+            const filters = Array.from(document.querySelectorAll('.news-filter[data-filter]'));
+            let activeFilter = 'all';
+
+            const renderStats = () => {
+                const total = articles.length;
+                const newsCount = articles.filter((item) => item.category === 'news').length;
+                const tipsCount = articles.filter((item) => item.category === 'tips').length;
+                const favCount = articles.filter((item) => favorites.has(item.id)).length;
+                const stats = [
+                    { value: total, label: 'Total de Artigos' },
+                    { value: newsCount, label: 'Novidades' },
+                    { value: tipsCount, label: 'Dicas Técnicas' },
+                    { value: favCount, label: 'Favoritos' }
+                ];
+                statsRoot.innerHTML = stats.map((item) => `
+                    <div class="news-stat">
+                        <div class="news-stat-value">${item.value}</div>
+                        <div class="news-stat-label">${item.label}</div>
+                    </div>
+                `).join('');
+            };
+
+            const renderArticles = () => {
+                const filtered = activeFilter === 'all'
+                    ? articles
+                    : articles.filter((item) => item.category === activeFilter);
+
+                listRoot.innerHTML = filtered.map((article) => `
+                    <a class="article-item" href="post.html?id=${article.id}">
+                        <div class="article-img img-ph">
+                            <img src="${article.image}" alt="${article.title}" style="width:100%;height:100%;object-fit:cover;">
+                        </div>
+                        <div class="article-content">
+                            <div class="article-tag ${article.category === 'stories' ? 'story' : ''}">${article.label}</div>
+                            <div class="article-title">${article.title}</div>
+                            <div class="article-excerpt">${article.excerpt}</div>
+                            <div class="article-meta"><i class="bi bi-calendar-event" aria-hidden="true"></i><span>${article.date}</span></div>
+                        </div>
+                        <div class="article-heart ${favorites.has(article.id) ? 'is-liked' : ''}" data-id="${article.id}">
+                            <button type="button" aria-label="${favorites.has(article.id) ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}">
+                                <i class="bi ${favorites.has(article.id) ? 'bi-heart-fill' : 'bi-heart'}" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </a>
+                `).join('');
+
+                const items = Array.from(document.querySelectorAll('.article-heart[data-id]'));
+                items.forEach((root) => {
+                    const id = String(root.getAttribute('data-id') || '');
+                    const btn = root.querySelector('button');
+                    const icon = root.querySelector('i');
+                    if (!btn || !icon || !id) return;
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (favorites.has(id)) {
+                            favorites.delete(id);
+                            window.CocoRootToast && window.CocoRootToast('Favoritos', 'Removido dos favoritos');
+                        } else {
+                            favorites.add(id);
+                            window.CocoRootToast && window.CocoRootToast('Favoritos', 'Adicionado aos favoritos');
+                        }
+                        write(Array.from(favorites));
+                        renderStats();
+                        renderArticles();
+                    });
+                });
+            };
+
+            filters.forEach((button) => {
+                button.addEventListener('click', () => {
+                    activeFilter = button.dataset.filter || 'all';
+                    filters.forEach((item) => item.classList.toggle('active', item === button));
+                    renderArticles();
+                });
+            });
+
+            renderStats();
+            renderArticles();
+        })();
+    </script>
+</body>
+
+</html>

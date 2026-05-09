@@ -1,26 +1,28 @@
 class UtilizadorModel {
     async register(userData) {
         try {
-            const response = await fetch('../../Back-end/registrar.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(userData),
-            });
+            const data = window.CocoRootApi && typeof window.CocoRootApi.fetchJson === 'function'
+                ? await window.CocoRootApi.fetchJson('usuarios/registar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData),
+                })
+                : await fetch(
+                    new URL('usuarios/registar', window.CocoRootConfig?.apiBaseUrl || new URL('api.php/', new URL('../Back-end/', window.location.href))).toString(),
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(userData),
+                    }
+                ).then((response) => response.json().catch(() => null));
 
-            if (!response.ok) {
-                throw new Error('Request failed');
+            if (!data) {
+                return { success: false, message: 'Servidor indisponível para cadastro.' };
             }
 
-            return await response.json();
+            return data;
         } catch (error) {
-            try {
-                const users = JSON.parse(localStorage.getItem('users')) || [];
-                users.push(userData);
-                localStorage.setItem('users', JSON.stringify(users));
-                return { success: true };
-            } catch (e) {
-                return { status: 'error', message: 'Falha na ligação com o servidor.' };
-            }
+            return { success: false, message: error?.message || 'Falha na ligação ao servidor de cadastro.' };
         }
     }
 }

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Começar do Zero - CocoRoot</title>
+    <link rel="stylesheet" href="../css/cocoroot.css">
+</head>
+
+<body class="app-page cr-sheet">
+    <div class="page-content">
+        <section class="guide-shell">
+            <div class="guide-head">
+                <div>
+                    <div class="guide-title">Começar do Zero - Guia</div>
+                    <div class="guide-subtitle">Guia passo a passo para começar a utilizar substrato de fibra de coco
+                        nos seus cultivos</div>
+                </div>
+            </div>
+
+            <div class="guide-progress-label">O seu progresso:</div>
+            <div class="guide-progress-box">
+                <div class="guide-progress-bar">
+                    <div class="guide-progress-fill" id="guide-progress-fill"></div>
+                    <div class="guide-progress-percent" id="guide-progress-percent">0%</div>
+                </div>
+            </div>
+            <div class="guide-progress-meta"><span id="guide-progress-count">0 / 4</span> status</div>
+
+            <div class="modules-grid" id="modules-grid"></div>
+
+            <div class="guide-login-box" id="login-notice" hidden>
+                <div class="guide-login-icon"><i class="bi bi-lock-fill" aria-hidden="true"></i></div>
+                <div class="guide-login-copy">
+                    <div class="guide-login-title">Inicie sessão para acompanhar o seu progresso</div>
+                    <div class="guide-login-text">Os módulos desbloqueiam-se progressivamente após realizar o primeiro.
+                    </div>
+                </div>
+                <a href="login.html" class="btn outline">Entrar</a>
+            </div>
+        </section>
+
+        <script>
+            (function () {
+                const readUser = () => {
+                    try {
+                        const raw = localStorage.getItem('user');
+                        return raw ? JSON.parse(raw) : null;
+                    } catch {
+                        return null;
+                    }
+                };
+                const user = readUser();
+                const completedKey = 'cocoRootCompletedModules';
+                const readCompletedStore = () => {
+                    try {
+                        const raw = localStorage.getItem(completedKey);
+                        return raw ? JSON.parse(raw) : {};
+                    } catch {
+                        return {};
+                    }
+                };
+                const userId = user?.id != null ? String(user.id) : null;
+                const completedStore = readCompletedStore();
+                const completedModules = userId && Array.isArray(completedStore[userId])
+                    ? completedStore[userId]
+                    : [];
+                const modules = {
+                    1: { title: 'Introdução', status: 'Em curso' },
+                    2: { title: 'Preparação do Substrato', status: 'Em breve' },
+                    3: { title: 'Plantio e Rega', status: 'Em breve' },
+                    4: { title: 'Manutenção', status: 'Em breve' },
+                };
+                const moduleEntries = Object.entries(modules)
+                    .map(([k, v]) => ({ id: Number(k), ...v }))
+                    .sort((a, b) => a.id - b.id);
+
+                if (!user || !user.id) {
+                    const notice = document.getElementById('login-notice');
+                    if (notice) {
+                        notice.hidden = false;
+                        notice.classList.remove('hidden');
+                    }
+                } else {
+                    const notice = document.getElementById('login-notice');
+                    if (notice) {
+                        notice.hidden = true;
+                        notice.classList.add('hidden');
+                        notice.style.display = 'none';
+                    }
+                }
+
+                const grid = document.getElementById('modules-grid');
+                if (grid) {
+                    grid.innerHTML = '';
+                    moduleEntries.forEach((module) => {
+                        const isCompleted = completedModules.includes(module.id);
+                        const isUnlocked = module.id === 1 || completedModules.includes(module.id - 1);
+                        const isLocked = !isUnlocked;
+
+                        const a = document.createElement('a');
+                        a.href = `comecar-modulo.html?mod=${module.id}`;
+                        a.className = 'module-card' + (isLocked ? ' locked' : '') + (isCompleted ? ' completed' : '') + (!isLocked && !isCompleted && module.id === 1 ? ' current' : '');
+                        a.id = `mod-${module.id}`;
+                        if (isLocked) {
+                            a.setAttribute('aria-disabled', 'true');
+                            a.addEventListener('click', (e) => e.preventDefault());
+                        }
+
+                        const icon = isCompleted ? 'check-lg' : (isLocked ? 'lock' : 'check');
+                        const action = isCompleted ? 'Rever' : (isLocked ? '' : 'Fazer');
+                        const pill = isCompleted ? 'Concluído' : module.status;
+
+                        a.innerHTML = `
+                            <div class="module-card-top">
+                                <div class="module-icon"><i class="bi bi-${icon}" aria-hidden="true"></i></div>
+                                <div class="module-pill">${pill}</div>
+                            </div>
+                            <div class="module-name">Módulo ${module.id}</div>
+                            <div class="module-caption">${module.title}</div>
+                            <div class="module-card-bottom">
+                                <div class="module-action">${action ? `${action} ->` : ''}</div>
+                                <div class="module-lock">${isLocked ? '<i class="bi bi-lock" aria-hidden="true"></i>' : ''}</div>
+                            </div>
+                        `;
+
+                        grid.appendChild(a);
+                    });
+                }
+
+                const total = moduleEntries.length || 1;
+                const progress = (completedModules.length / total) * 100;
+                const fill = document.getElementById('guide-progress-fill');
+                if (fill) fill.style.width = progress + '%';
+                const percent = document.getElementById('guide-progress-percent');
+                if (percent) percent.textContent = Math.round(progress) + '%';
+                const count = document.getElementById('guide-progress-count');
+                if (count) count.textContent = `${completedModules.length} / ${total}`;
+            })();
+        </script>
+    </div>
+    <script src="../js/views/layout.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artigo - CocoRoot</title>
+    <link rel="stylesheet" href="../css/cocoroot.css">
+</head>
+
+<body class="app-page">
+    <div class="page-content news-detail-page">
+        <section class="news-shell">
+            <div class="news-head">
+                <div class="news-title">Notícias e Artigos</div>
+                <div class="news-subtitle">Mantenha-se atualizado com dicas e histórias da comunidade</div>
+                <div class="news-divider"></div>
+            </div>
+
+            <div class="news-detail-titlebar">
+                <h1 id="post-title" class="news-detail-title">Como Maximizar a Produção de Morangos em Fibra de Coco
+                </h1>
+                <div class="detalhe-actions">
+                    <div class="article-heart" id="post-share" aria-label="Partilhar">
+                        <button type="button" aria-label="Partilhar"><i class="bi bi-share"
+                                aria-hidden="true"></i></button>
+                    </div>
+                    <div class="article-heart" id="post-like" aria-label="Adicionar aos favoritos">
+                        <button type="button" aria-label="Favoritar"><i class="bi bi-heart"
+                                aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detalhe-img img-ph"></div>
+
+            <div class="news-detail-body">
+                <div id="post-body" class="news-article-copy"></div>
+                <a href="noticias.html" class="news-more">ler mais...</a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id') || '1';
+            const data = {
+                '1': {
+                    title: 'Como Maximizar a Produção de Morangos em Fibra de Coco',
+                    img: '../image/planta.jpeg',
+                    body: 'Cultivar morangos usando técnicas de hidroponia oferece uma maneira única de desfrutar de frutas frescas e saborosas durante todo o ano. Este método acelera o crescimento das plantas e aumenta a produção em comparação com o cultivo tradicional no solo. Você também pode cultivar morangos em ambientes internos ou em espaços pequenos, o que o torna perfeito para iniciantes. Sistema Hidropônico Utilizamos água de forma eficiente, reduzindo o desperdício e promovendo a sustentabilidade. Ao adotar essa abordagem, você contribui para práticas ecologicamente corretas e, ao mesmo tempo, desfruta da satisfação de cultivar seus próprios alimentos.'
+                },
+                '2': {
+                    title: 'Novidades: Sistema de Monitorização Automática Disponível',
+                    img: '../image/Coco.jpeg',
+                    body: 'A CocoRoot lança um novo sistema de monitorização automática pensado para agricultores que precisam de acompanhar humidade, temperatura e comportamento do substrato ao longo do dia. A novidade permite mais controlo, decisões mais rápidas e menos desperdício de recursos. Com relatórios simples e alertas em tempo real, o processo torna-se mais previsível e eficiente.'
+                },
+                '3': {
+                    title: 'História de Sucesso: Agricultor Duplica Produção em 6 Meses',
+                    img: '../image/planta.jpeg',
+                    body: 'Pedro Costa começou com uma pequena área experimental e, ao adaptar corretamente a drenagem, o plano de rega e a rotina de acompanhamento, conseguiu duplicar a produção em apenas seis meses. O caso mostra como pequenas melhorias operacionais, aliadas a dados consistentes, podem transformar uma exploração agrícola e criar uma operação mais estável e rentável.'
+                },
+                '4': {
+                    title: 'Preparação do Substrato: Erros Comuns e Como Evitá-los',
+                    img: '../image/Coco.jpeg',
+                    body: 'A preparação do substrato continua a ser uma das etapas mais críticas no arranque do cultivo em fibra de coco. Erros simples, como excesso de água, drenagem deficiente ou falta de uniformidade na hidratação, comprometem o desempenho da plantação. Com um processo bem definido, é possível garantir estabilidade, melhor absorção de nutrientes e maior previsibilidade no desenvolvimento das culturas.'
+                },
+                '5': {
+                    title: 'Comunidade CocoRoot Recebe Novos Guias Interativos',
+                    img: '../image/planta.jpeg',
+                    body: 'Os novos guias interativos da CocoRoot foram desenvolvidos para simplificar tarefas e ajudar produtores em diferentes estágios de aprendizagem. O objetivo é criar um percurso prático, visual e fácil de seguir, com recomendações úteis, passos claros e conteúdos diretamente aplicáveis ao dia a dia de quem trabalha com substrato de fibra de coco.'
+                }
+            };
+            const post = data[id] || data['1'];
+            document.getElementById('post-title').textContent = post.title;
+            document.title = post.title + ' - CocoRoot';
+
+            const img = document.querySelector('.detalhe-img');
+            if (img) {
+                img.innerHTML = `<img src="${post.img}" style="width:100%;height:100%;object-fit:cover;" alt="${post.title}">`;
+            }
+
+            const bodyRoot = document.getElementById('post-body');
+            if (bodyRoot) {
+                bodyRoot.textContent = post.body;
+            }
+
+            const key = 'cocoRootFavorites';
+            const read = () => {
+                try {
+                    const raw = localStorage.getItem(key);
+                    return raw ? JSON.parse(raw) : [];
+                } catch {
+                    return [];
+                }
+            };
+            const write = (list) => localStorage.setItem(key, JSON.stringify(list || []));
+            const favorites = new Set(read().map(String));
+
+            const likeRoot = document.getElementById('post-like');
+            const shareRoot = document.getElementById('post-share');
+            const likeIcon = likeRoot ? likeRoot.querySelector('i') : null;
+
+            const syncLike = () => {
+                const liked = favorites.has(String(id));
+                if (likeRoot) likeRoot.classList.toggle('is-liked', liked);
+                if (likeIcon) likeIcon.className = liked ? 'bi bi-heart-fill' : 'bi bi-heart';
+                if (likeRoot) likeRoot.setAttribute('aria-label', liked ? 'Remover dos favoritos' : 'Adicionar aos favoritos');
+            };
+            syncLike();
+
+            if (likeRoot) {
+                likeRoot.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const k = String(id);
+                    if (favorites.has(k)) {
+                        favorites.delete(k);
+                        window.CocoRootToast && window.CocoRootToast('Favoritos', 'Removido dos favoritos');
+                    } else {
+                        favorites.add(k);
+                        window.CocoRootToast && window.CocoRootToast('Favoritos', 'Adicionado aos favoritos');
+                    }
+                    write(Array.from(favorites));
+                    syncLike();
+                });
+            }
+
+            if (shareRoot) {
+                const shareBtn = shareRoot.querySelector('button');
+                (shareBtn || shareRoot).addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    const url = window.location.href;
+                    try {
+                        if (navigator.share) {
+                            await navigator.share({ title: post.title, url });
+                        } else if (navigator.clipboard && navigator.clipboard.writeText) {
+                            await navigator.clipboard.writeText(url);
+                            window.CocoRootToast && window.CocoRootToast('Partilha', 'Link copiado');
+                        } else {
+                            window.CocoRootToast && window.CocoRootToast('Partilha', 'Não foi possível partilhar');
+                        }
+                    } catch {
+                        window.CocoRootToast && window.CocoRootToast('Partilha', 'Não foi possível partilhar');
+                    }
+                });
+            }
+        })();
+    </script>
+    <script src="../js/views/layout.js"></script>
+</body>
+
+</html>

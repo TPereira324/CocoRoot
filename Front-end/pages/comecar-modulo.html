@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo - CocoRoot</title>
+    <link rel="stylesheet" href="../css/cocoroot.css">
+</head>
+
+<body class="app-page cr-sheet">
+    <div class="page-content module-page">
+        <section class="guide-shell">
+            <div class="module-header">
+                <div>
+                    <div class="module-heading" id="modulo-title">Introdução</div>
+                    <div class="module-subheading" id="modulo-kicker">Módulo 1</div>
+                </div>
+                <div id="modulo-status" class="guide-status">Em curso</div>
+            </div>
+
+            <div class="module-divider"></div>
+
+            <div class="module-img img-ph"></div>
+
+            <div class="module-divider"></div>
+
+            <div class="module-body">
+                <div>
+                    <div class="module-section-title">Passo a Passo</div>
+                    <ul class="step-checklist" id="module-steps"></ul>
+                </div>
+
+                <div class="module-side">
+                    <div class="materials-title">Materiais necessários</div>
+                    <ul class="materials-list" id="module-materials"></ul>
+                    <div class="module-actions">
+                        <button id="finish-module" class="btn">Concluir módulo</button>
+                        <a id="next-module" href="comecar-modulo.html?mod=2" class="btn" hidden>Módulo 2 -></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        (function () {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const params = new URLSearchParams(window.location.search);
+            const mod = parseInt(params.get('mod') || '1', 10);
+            const completedKey = 'cocoRootCompletedModules';
+            const progressKey = 'cocoRootModuleProgress';
+
+            if (!user) {
+                const pageContent = document.querySelector('.page-content');
+                pageContent.innerHTML = `
+                    <div class="guide-shell module-empty-state">
+                        <div class="module-empty-icon">🔒</div>
+                        <div class="module-empty-title">Inicie sessão para continuar</div>
+                        <div class="module-empty-text">Precisa de ter sessão iniciada para visualizar e realizar os módulos.</div>
+                        <a href="login.html" class="btn">Iniciar sessão</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const userId = String(user.id ?? 'anon');
+            const readCompletedStore = () => {
+                try {
+                    const raw = localStorage.getItem(completedKey);
+                    return raw ? JSON.parse(raw) : {};
+                } catch {
+                    return {};
+                }
+            };
+            const writeCompletedStore = (store) => {
+                localStorage.setItem(completedKey, JSON.stringify(store || {}));
+            };
+            const completedStore = readCompletedStore();
+            let completedModules = Array.isArray(completedStore[userId]) ? completedStore[userId] : [];
+
+            if (mod > 1 && !completedModules.includes(mod - 1)) {
+                alert('Precisa de concluir o módulo anterior primeiro.');
+                window.location.href = 'comecar.html';
+                return;
+            }
+
+            const modules = {
+                1: {
+                    title: 'Introdução',
+                    imgs: [
+                        { src: '../image/image 13.png', alt: 'Vasos com ervas aromáticas num ambiente de cultivo doméstico organizado' },
+                        { src: '../image/Coco.jpeg', alt: 'Cocos e fibras, referência ao cultivo em fibra de coco' }
+                    ],
+                    steps: [
+                        { title: 'Preparar o espaço de trabalho', description: 'Organize materiais e assegure ventilação e limpeza.' },
+                        { title: 'Verificar drenagem', description: 'Garanta escoamento e retenção equilibrados.' },
+                        { title: 'Medir humidade', description: 'Comece com valores base para ajustar a rega.' },
+                        { title: 'Registar no painel', description: 'Salve medições e notas para acompanhamento.' },
+                    ],
+                    materials: [
+                        'Balde / recipiente',
+                        'Medidor de pH/EC (opcional)',
+                        'Regador / sistema de rega',
+                        'Luvas e tesoura',
+                    ],
+                },
+                2: {
+                    title: 'Preparação do substrato',
+                    imgs: [
+                        { src: '../image/image 14.png', alt: 'Fibra de coco (substrato) com textura visível, close-up' },
+                        { src: '../image/Coco.jpeg', alt: 'Cocos e fibras, base do substrato de fibra de coco' }
+                    ],
+                    steps: [
+                        { title: 'Hidratar a fibra de coco', description: 'Deixe a fibra expandir com água limpa antes de usar.' },
+                        { title: 'Lavar e drenar', description: 'Reduza excesso de sais e garanta boa drenagem.' },
+                        { title: 'Ajustar pH/EC (opcional)', description: 'Meça e ajuste conforme o tipo de cultivo.' },
+                        { title: 'Preparar mistura final', description: 'Combine componentes e deixe pronto para o plantio.' },
+                    ],
+                    materials: [
+                        'Fibra de coco (bloco ou solta)',
+                        'Água limpa',
+                        'Peneira ou saco de drenagem',
+                        'Medidor de pH/EC (opcional)',
+                    ],
+                },
+                3: {
+                    title: 'Plantio e rega',
+                    imgs: [
+                        { src: '../image/planta.jpeg', alt: 'Muda a crescer em substrato, início do plantio' }
+                    ],
+                    steps: [
+                        { title: 'Escolher recipiente/área', description: 'Defina o local e o tipo de vaso/parcela.' },
+                        { title: 'Plantar corretamente', description: 'Respeite profundidade e espaçamento recomendados.' },
+                        { title: 'Regar no arranque', description: 'Faça uma primeira rega controlada para assentar o substrato.' },
+                        { title: 'Definir rotina de rega', description: 'Ajuste a frequência com base na humidade e clima.' },
+                    ],
+                    materials: [
+                        'Mudas ou sementes',
+                        'Substrato preparado',
+                        'Regador / sistema de rega',
+                        'Marcadores (opcional)',
+                    ],
+                },
+                4: {
+                    title: 'Manutenção',
+                    imgs: [
+                        { src: '../image/Frame 2.png', alt: 'Manutenção: colheita/inspeção com tesoura de poda em plantas' },
+                        { src: '../image/Rectangle 22.png', alt: 'Campo agrícola com agricultor a inspecionar a plantação' }
+                    ],
+                    steps: [
+                        { title: 'Monitorizar humidade', description: 'Verifique regularmente para evitar excesso ou falta de água.' },
+                        { title: 'Acompanhar nutrientes', description: 'Observe sinais e ajuste a adubação quando necessário.' },
+                        { title: 'Controlar pragas/doenças', description: 'Inspecione folhas e aplique medidas preventivas.' },
+                        { title: 'Registar evolução', description: 'Guarde notas e fotos para comparar resultados.' },
+                    ],
+                    materials: [
+                        'Caderno/telemóvel para registos',
+                        'Tesoura de poda',
+                        'Pulverizador (opcional)',
+                        'Adubo conforme a cultura (opcional)',
+                    ],
+                },
+            };
+            const current = modules[mod] || modules[1];
+            document.getElementById('modulo-kicker').textContent = 'Módulo ' + (modules[mod] ? mod : 1);
+            document.getElementById('modulo-title').textContent = current.title;
+
+            const todayKey = (() => {
+                const d = new Date();
+                const y = d.getFullYear();
+                const m = String(d.getMonth() + 1).padStart(2, '0');
+                const day = String(d.getDate()).padStart(2, '0');
+                return `${y}${m}${day}`;
+            })();
+
+            const seedNumber = (text) => {
+                const s = String(text ?? '');
+                let h = 2166136261;
+                for (let i = 0; i < s.length; i += 1) {
+                    h ^= s.charCodeAt(i);
+                    h = Math.imul(h, 16777619);
+                }
+                return h >>> 0;
+            };
+
+            const pickImage = (entry) => {
+                const list = Array.isArray(entry?.imgs) ? entry.imgs : [];
+                if (!list.length) return null;
+                const seed = seedNumber(`${userId}|${mod}|${todayKey}|${entry.title}`);
+                return list[seed % list.length];
+            };
+
+            const chosenImage = pickImage(current);
+            const imgPlaceholder = document.querySelector('.module-img');
+            if (imgPlaceholder) {
+                const src = chosenImage?.src ? encodeURI(chosenImage.src) : '';
+                const alt = chosenImage?.alt || current.title;
+                imgPlaceholder.innerHTML = `<img src="${src}" style="width:100%;height:100%;object-fit:cover;" alt="${alt}">`;
+            }
+
+            const next = mod + 1;
+            const nextBtn = document.getElementById('next-module');
+            const finishBtn = document.getElementById('finish-module');
+            const statusEl = document.getElementById('modulo-status');
+            const stepsRoot = document.getElementById('module-steps');
+            const materialsRoot = document.getElementById('module-materials');
+            const lastModuleId = Math.max(...Object.keys(modules).map((k) => Number(k)).filter((n) => Number.isFinite(n)));
+
+            const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+            const readProgressStore = () => {
+                try {
+                    const raw = localStorage.getItem(progressKey);
+                    return raw ? JSON.parse(raw) : {};
+                } catch {
+                    return {};
+                }
+            };
+
+            const writeProgressStore = (store) => {
+                localStorage.setItem(progressKey, JSON.stringify(store || {}));
+            };
+
+            const store = readProgressStore();
+            const userProgress = (store[userId] && typeof store[userId] === 'object') ? store[userId] : {};
+            const totalSteps = Array.isArray(current.steps) ? current.steps.length : 0;
+            let progress = clamp(Number(userProgress[String(mod)] || 0), 0, totalSteps);
+            if (completedModules.includes(mod)) {
+                progress = totalSteps;
+                userProgress[String(mod)] = progress;
+                store[userId] = userProgress;
+                writeProgressStore(store);
+            }
+
+            const renderStatus = () => {
+                const isCompleted = completedModules.includes(mod);
+                if (!statusEl) return;
+                if (isCompleted) {
+                    statusEl.textContent = 'Concluído';
+                    return;
+                }
+                statusEl.textContent = 'Em curso';
+            };
+
+            const markModuleCompleted = () => {
+                const completed = Array.isArray(completedStore[userId]) ? [...completedStore[userId]] : [];
+                if (!completed.includes(mod)) {
+                    completed.push(mod);
+                    completedStore[userId] = completed;
+                    writeCompletedStore(completedStore);
+                }
+                completedModules = completed;
+
+                progress = totalSteps;
+                userProgress[String(mod)] = progress;
+                store[userId] = userProgress;
+                writeProgressStore(store);
+
+                renderSteps();
+                renderStatus();
+                syncButtons();
+            };
+
+            const renderSteps = () => {
+                if (!stepsRoot) return;
+                stepsRoot.innerHTML = '';
+                const steps = Array.isArray(current.steps) ? current.steps : [];
+                steps.forEach((step, idx) => {
+                    const stepNumber = idx + 1;
+                    const isDone = stepNumber <= progress;
+                    const isActive = stepNumber === progress + 1 && progress < totalSteps;
+
+                    const li = document.createElement('li');
+                    li.dataset.step = String(stepNumber);
+                    li.tabIndex = 0;
+                    li.classList.toggle('active-step', isActive);
+
+                    const check = document.createElement('div');
+                    check.className = 'step-check' + (isDone ? ' done' : '');
+                    check.textContent = isDone ? '✓' : '';
+
+                    const body = document.createElement('div');
+                    body.style.flex = '1';
+
+                    const title = document.createElement('div');
+                    title.className = 'step-title-row';
+                    title.textContent = step?.title || `Passo ${stepNumber}`;
+
+                    const desc = document.createElement('div');
+                    desc.className = 'step-desc-row';
+                    desc.textContent = step?.description || '';
+
+                    body.appendChild(title);
+                    body.appendChild(desc);
+
+                    li.appendChild(check);
+                    li.appendChild(body);
+
+                    const selectStep = () => {
+                        if (completedModules.includes(mod)) {
+                            progress = totalSteps;
+                            renderSteps();
+                            renderStatus();
+                            return;
+                        }
+                        progress = clamp(stepNumber, 0, totalSteps);
+                        userProgress[String(mod)] = progress;
+                        store[userId] = userProgress;
+                        writeProgressStore(store);
+                        renderSteps();
+                        renderStatus();
+                        if (finishBtn) finishBtn.disabled = progress < totalSteps;
+                        if (mod === lastModuleId && progress >= totalSteps) {
+                            markModuleCompleted();
+                        }
+                    };
+
+                    li.addEventListener('click', selectStep);
+                    li.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            selectStep();
+                        }
+                    });
+
+                    stepsRoot.appendChild(li);
+                });
+            };
+
+            const renderMaterials = () => {
+                const items = Array.isArray(current.materials) ? current.materials : [];
+                if (materialsRoot) {
+                    materialsRoot.innerHTML = '';
+                    items.forEach((text) => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<div class="bullet"></div><div style="flex:1;">${text}</div>`;
+                        materialsRoot.appendChild(li);
+                    });
+                }
+            };
+
+            const syncButtons = () => {
+                const isCompleted = completedModules.includes(mod);
+                if (finishBtn) {
+                    finishBtn.disabled = !isCompleted && progress < totalSteps;
+                    if (isCompleted && mod >= lastModuleId) {
+                        finishBtn.textContent = 'Concluído';
+                    } else {
+                        finishBtn.textContent = isCompleted ? 'Voltar ao Guia' : 'Concluir Módulo';
+                    }
+                }
+                if (nextBtn) {
+                    if (mod >= lastModuleId) {
+                        nextBtn.hidden = true;
+                        nextBtn.textContent = '';
+                        nextBtn.removeAttribute('href');
+                        nextBtn.classList.remove('is-disabled');
+                    } else if (modules[next]) {
+                        nextBtn.hidden = false;
+                        nextBtn.setAttribute('href', 'comecar-modulo.html?mod=' + next);
+                        nextBtn.textContent = 'Módulo ' + next + ' ->';
+                        nextBtn.classList.toggle('is-disabled', !isCompleted);
+                    } else {
+                        nextBtn.hidden = true;
+                    }
+                }
+            };
+
+            renderSteps();
+            renderMaterials();
+            renderStatus();
+            syncButtons();
+            if (mod === lastModuleId && progress >= totalSteps && !completedModules.includes(mod)) {
+                markModuleCompleted();
+            }
+
+            finishBtn.addEventListener('click', () => {
+                if (completedModules.includes(mod)) {
+                    window.location.href = 'comecar.html';
+                    return;
+                }
+                if (progress < totalSteps) {
+                    alert('Conclua todos os passos antes de finalizar o módulo.');
+                    return;
+                }
+                markModuleCompleted();
+
+                window.location.href = 'comecar.html';
+            });
+
+            document.title = 'Módulo ' + (modules[mod] ? mod : 1) + ' - CocoRoot';
+        })();
+    </script>
+    <script src="../js/views/layout.js"></script>
+</body>
+
+</html>

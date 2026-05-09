@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const model = new UtilizadorModel();
     const view = new UtilizadorView();
     const controller = new UtilizadorController(model, view);
+    window.CocoRootRegister = { controller };
 
     function setViewportHeight() {
         const vh = window.innerHeight * 0.01;

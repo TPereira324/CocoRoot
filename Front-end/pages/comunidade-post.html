@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post - Comunidade - CocoRoot</title>
+    <link rel="stylesheet" href="../css/cocoroot.css">
+</head>
+
+<body class="app-page">
+    <div class="page-content community-detail-page">
+        <section class="community-shell">
+            <div class="community-head">
+                <div class="community-title">Comunidade</div>
+                <div class="community-subtitle"><a href="comunidade.html">Rede de agricultores.</a></div>
+                <div class="community-divider"></div>
+            </div>
+
+            <div id="community-post-error" class="dash-card" style="margin-bottom:16px;color:#8a1f11;" hidden></div>
+
+            <div id="c-badge" class="community-topic">Dúvida</div>
+            <div id="c-title" class="community-detail-title">Como controlar a humidade no substrato?</div>
+            <div id="c-meta" class="community-detail-meta">João Lopes</div>
+
+            <div class="community-detail-card">
+                <div id="c-body" class="community-detail-body"></div>
+            </div>
+
+            <div class="community-section">
+                <div class="community-section-title" id="community-comments-title">2 Respostas</div>
+                <div id="community-comments" class="community-replies"></div>
+            </div>
+
+            <div class="community-section">
+                <div class="community-form-title">Escreve a tua resposta</div>
+                <form id="community-comment-form" class="community-form">
+                    <div class="form-group">
+                        <textarea id="community-comment-input" rows="4" placeholder="|"></textarea>
+                    </div>
+                    <div class="community-form-actions">
+                        <button class="btn" type="submit">Publicar -></button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+    <script src="../js/utils/config.js"></script>
+    <script src="../js/utils/api.js"></script>
+    <script src="../js/controllers/comunidadePost.js"></script>
+    <script src="../js/views/layout.js"></script>
+</body>
+
+</html>

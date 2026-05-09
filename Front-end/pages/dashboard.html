@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CocoRoot</title>
+    <link rel="stylesheet" href="../css/cocoroot.css">
+</head>
+
+<body class="app-page dashboard-page">
+    <div class="page-content">
+        <div class="dashboard-shell">
+            <div class="dash-header">
+                <div>
+                    <div class="dash-hello">Olá, <span id="dashboard-user-name">utilizador</span>!</div>
+                    <div id="dashboard-greeting-text" class="dash-sub">A carregar dados do servidor...</div>
+                </div>
+                <div class="dash-actions">
+                    <a href="comecar.html" class="btn sm dash-action-btn cr-tooltip cr-tt-dash-comecar">Começar do
+                        Zero</a>
+                    <a href="noticias.html"
+                        class="btn sm dash-action-btn dash-action-btn-secondary cr-tooltip cr-tt-dash-noticias">Ver
+                        Notícias</a>
+                </div>
+            </div>
+
+            <div class="dash-divider" aria-hidden="true"></div>
+
+            <div id="dashboard-error" class="dash-card dash-error" hidden></div>
+
+            <div class="dash-stats-grid">
+                <div class="dash-stat-card">
+                    <div class="dash-stat-label">Parcelas Ativas</div>
+                    <div id="dashboard-parcelas-count" class="dash-value">0</div>
+                </div>
+                <div class="dash-stat-card">
+                    <div class="dash-stat-label">Tarefas Pendentes</div>
+                    <div id="dashboard-tarefas-count" class="dash-value">0</div>
+                    <div id="dashboard-tarefas-label" class="dash-stat-meta">Sem tarefas</div>
+                </div>
+                <div class="dash-stat-card">
+                    <div class="dash-stat-label">Alertas</div>
+                    <div id="dashboard-alertas-count" class="dash-value">0</div>
+                    <div id="dashboard-alertas-label" class="dash-stat-meta">Sem alertas</div>
+                </div>
+            </div>
+
+            <div class="tabs dash-tabs" role="tablist" aria-label="Dashboard">
+                <button class="tab dash-tab active" type="button" data-tab="parcelas">Parcelas</button>
+                <button class="tab dash-tab" type="button" data-tab="tarefas">Tarefas</button>
+                <button class="tab dash-tab" type="button" data-tab="monitorizacao">Monitorização</button>
+                <button class="tab dash-tab" type="button" data-tab="visualizacao">Visualização</button>
+                <button class="tab dash-tab" type="button" data-tab="clima">Clima</button>
+            </div>
+
+            <section data-panel="parcelas" class="dash-panel">
+                <div id="dashboard-parcelas-list" class="dash-cultivos-grid">
+                    <a href="registrar-cultivo.html" class="dash-add-card cr-tooltip cr-tt-add-cultivo">
+                        <span class="dash-add-icon" aria-hidden="true">+</span>
+                        <span>Adicionar cultivo</span>
+                    </a>
+                </div>
+            </section>
+
+            <section data-panel="tarefas" class="dash-panel" hidden>
+                <div class="dash-list-shell">
+                    <div id="dashboard-tarefas-list" class="stack"></div>
+                </div>
+            </section>
+
+            <section data-panel="monitorizacao" class="dash-panel" hidden>
+                <div id="dashboard-monitorizacao" class="panel-grid"></div>
+            </section>
+
+            <section data-panel="visualizacao" class="dash-panel" hidden>
+                <div id="farm-viz-container"
+                    style="position:relative;width:100%;height:500px;border-radius:12px;overflow:hidden;background:#87ceeb;">
+                    <canvas id="farm-viz-canvas" style="display:block;width:100%;height:100%;"></canvas>
+                    <div id="farm-viz-info"
+                        style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(30,20,5,0.88);border:2px solid #c8922a;border-radius:12px;padding:10px 22px;color:#fff;font-size:14px;text-align:center;pointer-events:none;white-space:nowrap;">
+                    </div>
+                    <div
+                        style="position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.4);color:rgba(255,255,255,0.8);font-size:11px;padding:4px 10px;border-radius:8px;pointer-events:none;">
+                        Arrasta para rodar · Scroll para zoom</div>
+                </div>
+            </section>
+
+            <section data-panel="clima" class="dash-panel" hidden>
+                <div id="dashboard-clima" class="panel-grid"></div>
+            </section>
+        </div>
+    </div>
+
+    <script src="../js/utils/config.js"></script>
+    <script src="../js/utils/api.js"></script>
+    <script src="../js/utils/dashboardUtils.js"></script>
+    <script src="../js/utils/dashboardWeather.js"></script>
+    <script src="../js/utils/dashboardTasks.js"></script>
+    <script src="../js/utils/dashboardAlertas.js"></script>
+    <script src="../js/views/dashboardViews.js"></script>
+    <script src="../js/views/dashboardMonitor.js"></script>
+    <script src="../js/vendor/three.min.js"></script>
+    <script src="../js/vendor/OrbitControls.js"></script>
+    <script src="../js/controllers/dashboard.js"></script>
+    <script src="../js/controllers/dashboardFarmVisualization.js"></script>
+    <script>
+        (function () {
+            const tabs = Array.from(document.querySelectorAll('.tab[data-tab]'));
+            const panels = Array.from(document.querySelectorAll('[data-panel]'));
+            function setActive(name) {
+                tabs.forEach((t) => t.classList.toggle('active', t.dataset.tab === name));
+                panels.forEach((p) => {
+                    const isActive = p.dataset.panel === name;
+                    if (isActive) p.removeAttribute('hidden');
+                    else p.setAttribute('hidden', '');
+                });
+            }
+            tabs.forEach((t) => t.addEventListener('click', () => {
+                setActive(t.dataset.tab);
+                if (t.dataset.tab === 'visualizacao') {
+                    window.cocoRootFarmVisualizationResize?.();
+                }
+            }));
+            setActive('parcelas');
+        })();
+    </script>
+    <script src="../js/views/layout.js"></script>
+</body>
+
+</html>
