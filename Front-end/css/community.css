@@ -194,15 +194,15 @@
 /* New post card layout */
 .community-post {
     display: flex;
-    gap: 14px;
-    padding: 16px 18px;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
     border: 1px solid rgba(47, 143, 61, 0.2);
     border-left: 4px solid rgba(47, 143, 61, 0.45);
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.90);
-    text-decoration: none;
-    color: inherit;
     transition: transform 100ms, box-shadow 100ms, border-left-color 140ms;
+    overflow: hidden;
 }
 
 .community-post:hover {
@@ -570,6 +570,230 @@
     }
 }
 
+/* ── Post link wrap ── */
+.post-link-wrap {
+    display: flex;
+    flex: 1;
+    gap: 14px;
+    min-width: 0;
+    padding: 16px 18px;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ── Community toolbar ── */
+.community-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+
+.community-search-wrap {
+    flex: 1;
+    min-width: 180px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.community-search-icon {
+    position: absolute;
+    left: 11px;
+    color: rgba(27, 27, 27, 0.38);
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.community-search-input {
+    width: 100%;
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid rgba(27, 27, 27, 0.18);
+    border-radius: 10px;
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.92);
+    outline: none;
+    transition: border-color 140ms, box-shadow 140ms;
+}
+
+.community-search-input:focus {
+    border-color: rgba(47, 143, 61, 0.5);
+    box-shadow: 0 0 0 3px rgba(47, 143, 61, 0.10);
+}
+
+.community-sort-btns {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.sort-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 34px;
+    padding: 0 14px;
+    border: 1px solid rgba(27, 27, 27, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.88);
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(27, 27, 27, 0.68);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 130ms, color 130ms, border-color 130ms;
+}
+
+.sort-pill:hover {
+    background: rgba(47, 143, 61, 0.08);
+    border-color: rgba(47, 143, 61, 0.28);
+    color: rgba(47, 111, 59, 0.92);
+}
+
+.sort-pill.active {
+    background: rgba(47, 111, 59, 0.12);
+    border-color: rgba(47, 111, 59, 0.36);
+    color: rgba(47, 111, 59, 0.96);
+}
+
+/* ── Like button ── */
+.post-like-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 14px 14px;
+    border: none;
+    border-left: 1px solid rgba(27, 27, 27, 0.07);
+    border-radius: 0;
+    background: transparent;
+    color: rgba(27, 27, 27, 0.38);
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 150ms, background 150ms;
+    flex-shrink: 0;
+    align-self: stretch;
+    line-height: 1;
+}
+
+.post-like-btn:hover {
+    background: rgba(239, 68, 68, 0.06);
+    color: rgba(239, 68, 68, 0.7);
+}
+
+.post-like-btn.is-liked {
+    background: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+}
+
+.heart-icon {
+    font-size: 17px;
+    line-height: 1;
+}
+
+.post-like-count {
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+@keyframes like-pulse-anim {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.30); }
+    100% { transform: scale(1); }
+}
+
+.like-pulse {
+    animation: like-pulse-anim 280ms ease;
+}
+
+/* ── NEW / Trending badges ── */
+.post-new-badge {
+    display: inline-flex;
+    align-items: center;
+    height: 18px;
+    padding: 0 7px;
+    border-radius: 999px;
+    background: rgba(22, 163, 74, 0.13);
+    border: 1px solid rgba(22, 163, 74, 0.28);
+    color: #16a34a;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.post-trending-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    height: 18px;
+    padding: 0 7px;
+    border-radius: 999px;
+    background: rgba(249, 115, 22, 0.11);
+    border: 1px solid rgba(249, 115, 22, 0.26);
+    color: #ea580c;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.post-trending {
+    box-shadow: 0 3px 14px rgba(249, 115, 22, 0.07);
+}
+
+/* ── Skeleton loader ── */
+@keyframes skel-shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.skel-pulse {
+    background: linear-gradient(90deg,
+        rgba(27,27,27,0.06) 25%,
+        rgba(27,27,27,0.11) 50%,
+        rgba(27,27,27,0.06) 75%);
+    background-size: 200% 100%;
+    animation: skel-shimmer 1.5s infinite;
+    border-radius: 6px;
+}
+
+.skel-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50% !important;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.skel-line {
+    height: 12px;
+    width: 100%;
+    border-radius: 4px;
+}
+
+.skel-post {
+    pointer-events: none;
+    user-select: none;
+}
+
+/* ── Character counter ── */
+.publish-char-counter {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(27, 27, 27, 0.38);
+    align-self: center;
+    flex-shrink: 0;
+    transition: color 120ms;
+}
+
+.publish-char-counter.char-limit-near  { color: rgba(217, 119, 6, 0.86); }
+.publish-char-counter.char-limit-over  { color: #b42318; font-weight: 800; }
+
 @media (max-width: 600px) {
     .community-head-row {
         flex-direction: column;
@@ -580,7 +804,7 @@
         align-self: flex-start;
     }
 
-    .community-post {
+    .post-link-wrap {
         gap: 10px;
         padding: 14px 14px;
     }
@@ -603,5 +827,20 @@
     .community-compose-actions {
         width: 100%;
         justify-content: flex-end;
+    }
+
+    .community-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .community-sort-btns {
+        flex-wrap: wrap;
+    }
+
+    .sort-pill {
+        padding: 0 10px;
+        font-size: 11px;
     }
 }
