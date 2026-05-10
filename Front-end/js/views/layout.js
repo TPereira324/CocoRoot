@@ -294,6 +294,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     consumeNoticeParam();
 
+    const setupOnlineToasts = () => {
+        const show = (online) => {
+            if (!window.CocoRootToast) return;
+            if (online) window.CocoRootToast('Ligação', 'Ligação restabelecida.', 'success');
+            else window.CocoRootToast('Ligação', 'Sem ligação à internet/servidor.', 'error');
+        };
+        window.addEventListener('online', () => show(true));
+        window.addEventListener('offline', () => show(false));
+    };
+
+    setupOnlineToasts();
+
     const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
     const createScrollBus = () => {

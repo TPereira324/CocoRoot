@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajuda - CocoRoot</title>
+    <link rel="stylesheet" href="../css/cocoroot.css?v=20260510">
+</head>
+
+<body class="app-page cr-sheet">
+    <div class="page-content">
+        <section class="help-shell">
+            <div class="help-head">
+                <div class="help-title">Ajuda</div>
+                <div class="help-subtitle">Respostas rápidas para dúvidas comuns.</div>
+                <div class="help-divider"></div>
+            </div>
+
+            <div class="help-search">
+                <label class="help-search-label" for="help-q">Pesquisar</label>
+                <input id="help-q" class="help-search-input" type="search" placeholder="Ex: pH, EC, login, tarefas…">
+            </div>
+
+            <div id="help-list" class="help-list" aria-live="polite"></div>
+            <div id="help-empty" class="help-empty" hidden>
+                <div class="help-empty-title">Sem resultados</div>
+                <div class="help-empty-text">Tenta outras palavras.</div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        (function () {
+            const q = document.getElementById('help-q');
+            const list = document.getElementById('help-list');
+            const empty = document.getElementById('help-empty');
+            const items = [
+                { k: ['login', 'sessão', 'conta'], t: 'Não consigo entrar', b: 'Confirma e-mail e palavra-passe. Se o servidor estiver offline, o login falha. Tenta novamente e valida se o Back-end está a correr.' },
+                { k: ['dashboard', 'carregar', 'lento'], t: 'O dashboard demora a carregar', b: 'Verifica a ligação ao servidor local e se existem parcelas registadas. Se houver erro de servidor, o dashboard mostra um estado vazio.' },
+                { k: ['pH', 'ph', 'ec', 'condutividade'], t: 'pH e EC na fibra de coco', b: 'Mantém rotina consistente. Mede pH/EC de entrada e de runoff para evitar acumulação de sais. Ajustes pequenos e frequentes tendem a ser melhores.' },
+                { k: ['runoff', 'drenagem', 'sais'], t: 'Porque usar runoff?', b: 'Ajuda a evitar acumulação de sais e mantém o substrato mais uniforme. Em coco, regas curtas e frequentes costumam funcionar melhor.' },
+                { k: ['comunidade', 'publicação', 'apagar'], t: 'Publicações na Comunidade', b: 'Se o servidor não suportar apagar, a publicação pode ser escondida localmente. O objetivo é que não fique “estático” para ti.' },
+                { k: ['módulos', 'começar', 'guia'], t: 'Começar do Zero', b: 'Segue os módulos em ordem. A base é preparar bem o substrato, estabilizar pH/EC e manter uma rotina de rega e observação.' },
+            ];
+
+            const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+            const render = () => {
+                const term = norm(q?.value || '').trim();
+                const filtered = !term
+                    ? items
+                    : items.filter((it) => (it.k || []).some((kw) => norm(kw).includes(term) || term.includes(norm(kw))) || norm(it.t).includes(term) || norm(it.b).includes(term));
+
+                if (!list) return;
+                list.innerHTML = filtered.map((it) => `
+                    <details class="help-item">
+                        <summary class="help-item-title">${it.t}</summary>
+                        <div class="help-item-body">${it.b}</div>
+                    </details>
+                `).join('');
+
+                if (empty) empty.hidden = filtered.length > 0;
+            };
+
+            q?.addEventListener('input', render);
+            render();
+        })();
+    </script>
+    <script src="../js/views/layout.js"></script>
+</body>
+
+</html>

@@ -36,34 +36,52 @@ class UtilizadorController {
         const currentStepEl = document.getElementById(`step-${this.currentStep}`);
         if (!currentStepEl) return true;
 
-        const fields = currentStepEl.querySelectorAll('input, select');
+        const showFieldError = (field, message) => {
+            if (!field) return;
+            field.classList.add('is-invalid');
+            const err = currentStepEl.querySelector(`.field-error[data-for="${field.id}"]`);
+            if (err) {
+                err.textContent = message || 'Campo inválido.';
+                err.classList.add('is-show');
+            }
+        };
+
+        const clearFieldError = (field) => {
+            if (!field) return;
+            field.classList.remove('is-invalid');
+            const err = currentStepEl.querySelector(`.field-error[data-for="${field.id}"]`);
+            if (err) {
+                err.textContent = '';
+                err.classList.remove('is-show');
+            }
+        };
+
+        const fields = Array.from(currentStepEl.querySelectorAll('input, select'))
+            .filter((f) => f instanceof HTMLElement && f.type !== 'hidden');
+
+        fields.forEach((f) => clearFieldError(f));
+        if (this.view && typeof this.view.displayMessage === 'function') this.view.displayMessage('');
+
         for (const field of fields) {
-            if (field.id === 'country_code') {
-                const code = (field.value || '').trim();
-                if (!code) {
-                    const countryError = document.getElementById('country-error');
-                    if (countryError) countryError.style.display = 'block';
-                    field.style.borderColor = 'red';
+            const id = field.id || '';
+            const value = (field.value || '').trim();
+
+            if (id === 'phone') {
+                const validPhonePattern = /^[0-9]{9}$/;
+                if (!validPhonePattern.test(value)) {
+                    showFieldError(field, 'O número deve ter exatamente 9 dígitos.');
                     field.focus();
                     return false;
                 }
             }
-            if (field.id === 'phone') {
-                const phone = (field.value || '').trim();
-                const validPhonePattern = /^[0-9]{9}$/;
-                if (!validPhonePattern.test(phone)) {
-                    const phoneError = document.getElementById('phone-error');
-                    if (phoneError) phoneError.style.display = 'block';
-                    field.style.borderColor = 'red';
-                    field.reportValidity();
-                    return false;
-                }
-            }
+
             if (!field.checkValidity()) {
-                field.reportValidity();
+                showFieldError(field, field.validationMessage || 'Campo inválido.');
+                field.focus();
                 return false;
             }
         }
+
         return true;
     }
 
@@ -94,14 +112,29 @@ class UtilizadorController {
         const confirmPassword = confirmPasswordInput ? confirmPasswordInput.value : '';
 
         if (password !== confirmPassword) {
+            const passwordInputEl = document.getElementById('password');
+            const confirmInputEl = document.getElementById('confirm_password');
+            if (passwordInputEl) passwordInputEl.classList.add('is-invalid');
+            if (confirmInputEl) confirmInputEl.classList.add('is-invalid');
+            const stepEl = document.getElementById(`step-${this.currentStep}`);
+            const err = stepEl ? stepEl.querySelector(`.field-error[data-for="confirm_password"]`) : null;
+            if (err) {
+                err.textContent = 'As palavras-passe não coincidem.';
+                err.classList.add('is-show');
+            }
             this.view.displayMessage('As palavras-passe não coincidem.', true);
             return;
         }
 
         const formData = new FormData(event.target);
         const userData = Object.fromEntries(formData.entries());
+        const submitBtn = event?.target?.querySelector?.('button[type="submit"]') || document.querySelector('#register-form button[type="submit"]');
 
         try {
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('is-loading');
+            }
             if (userData.country_code && userData.phone) {
                 userData.phone = `${userData.country_code}${String(userData.phone).trim()}`;
                 delete userData.country_code;
@@ -118,6 +151,11 @@ class UtilizadorController {
             window.location.href = 'login.html';
         } catch (e) {
             this.view.displayMessage('Falha ao registrar.', true);
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('is-loading');
+            }
         }
     }
 }

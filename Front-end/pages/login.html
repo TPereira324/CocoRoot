@@ -17,10 +17,11 @@
     <div class="auth-form">
         <div class="auth-form-card">
             <div class="auth-form-header">
-                <img src="../image/logo.jpeg" alt="CocoRoot" class="auth-brand">
+                <img src="../image/logo.jpeg" alt="CocoRoot" class="auth-brand" loading="eager" decoding="async" width="148" height="148">
             </div>
 
             <form id="login-form" action="#" method="POST">
+                <div id="login-error" class="form-error" hidden></div>
                 <div class="form-group">
                     <label for="email">Digite o seu e-mail</label>
                     <input type="email" id="email" name="email" placeholder="Ex: maria123@gmail.com" required>
@@ -36,7 +37,7 @@
                     </div>
                 </div>
                 <div class="btn-group">
-                    <button type="submit" class="btn full cr-tooltip cr-tt-login-submit">Entrar</button>
+                    <button type="submit" id="login-submit" class="btn full cr-tooltip cr-tt-login-submit">Entrar</button>
                 </div>
                 <div class="auth-alt">
                     Ainda não tem conta? <a href="registo.html">Registar-me</a>
@@ -64,8 +65,35 @@
         document.getElementById('login-form').addEventListener('submit', async function (e) {
             e.preventDefault();
             const form = document.getElementById('login-form');
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const errorEl = document.getElementById('login-error');
+            const submitBtn = document.getElementById('login-submit');
+            const emailEl = document.getElementById('email');
+            const passwordEl = document.getElementById('password');
+            const email = String(emailEl?.value || '').trim();
+            const password = String(passwordEl?.value || '').trim();
+
+            const setError = (message) => {
+                if (!errorEl) return;
+                errorEl.hidden = !message;
+                errorEl.textContent = message || '';
+            };
+            setError('');
+            emailEl?.classList?.remove('is-invalid');
+            passwordEl?.classList?.remove('is-invalid');
+
+            if (!email) {
+                emailEl?.classList?.add('is-invalid');
+                setError('O e-mail é obrigatório.');
+                emailEl?.focus?.();
+                return;
+            }
+            if (!password) {
+                passwordEl?.classList?.add('is-invalid');
+                setError('A palavra-passe é obrigatória.');
+                passwordEl?.focus?.();
+                return;
+            }
+
             const endpoint = window.CocoRootApi
                 ? window.CocoRootApi.buildBackendUrl('usuarios/login')
                 : new URL('usuarios/login', window.CocoRootConfig?.apiBaseUrl || new URL('api.php/', new URL('../Back-end/', window.location.href))).toString();
@@ -75,6 +103,10 @@
             }
 
             try {
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('is-loading');
+                }
                 const data = window.CocoRootApi && typeof window.CocoRootApi.fetchJson === 'function'
                     ? await window.CocoRootApi.fetchJson('usuarios/login', {
                         method: 'POST',
@@ -89,12 +121,22 @@
 
                 if (data.success) {
                     localStorage.setItem('user', JSON.stringify(data.user));
+                    if (window.CocoRootToast) window.CocoRootToast('Sessão', 'Bem-vindo!', 'success');
                     window.location.href = 'dashboard.html';
                 } else {
-                    alert(data.message || 'Erro ao entrar.');
+                    const msg = data.message || 'Não foi possível iniciar sessão.';
+                    setError(msg);
+                    if (window.CocoRootToast) window.CocoRootToast('Sessão', msg, 'error');
                 }
             } catch (err) {
-                alert(err?.message || 'Erro de ligação ao servidor.');
+                const msg = err?.message || 'Erro de ligação ao servidor.';
+                setError(msg);
+                if (window.CocoRootToast) window.CocoRootToast('Sessão', msg, 'error');
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('is-loading');
+                }
             }
         });
     </script>
