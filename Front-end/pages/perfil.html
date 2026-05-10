@@ -13,14 +13,25 @@
         <section class="profile-shell">
             <div class="profile-head">
                 <div class="profile-title">Meu Perfil</div>
-                <div class="profile-subtitle">Gere os teus dados pessoais, preferências e acompanha a tua evolução.</div>
+                <div class="profile-subtitle">Gere os teus dados pessoais, preferências e acompanha a tua evolução.
+                </div>
                 <div class="profile-divider"></div>
             </div>
 
             <div class="profile-layout">
                 <aside class="profile-sidebar">
                     <div class="profile-card">
-                        <div id="profile-avatar" class="profile-avatar" role="button" tabindex="0" aria-label="Clica para mudar a cor do avatar">U</div>
+                        <div class="profile-avatar-container">
+                            <img id="profile-avatar-img" class="profile-avatar-photo" style="display:none;"
+                                alt="Foto de perfil">
+                            <div id="profile-avatar" class="profile-avatar" role="button" tabindex="0"
+                                aria-label="Clica para mudar a cor do avatar">U</div>
+                            <input type="file" id="profile-avatar-input" class="profile-avatar-input"
+                                accept="image/jpeg,image/png,image/webp,image/gif" style="display:none;">
+                            <button id="profile-avatar-upload-btn" class="profile-avatar-upload-btn" type="button"
+                                title="Carregar foto de perfil"><i class="bi bi-camera" aria-hidden="true"></i></button>
+                        </div>
+                        <div id="profile-avatar-status" class="profile-avatar-status" hidden></div>
                         <div id="profile-name" class="profile-name">Utilizador</div>
                         <div id="profile-role" class="profile-role">Conta CocoRoot</div>
                         <div class="profile-level-badge">🌱 Nível 2 · Cultivador</div>
@@ -60,7 +71,8 @@
                         <div class="profile-section-head">
                             <div class="profile-section-title">Dados da Conta</div>
                             <div class="profile-save-actions">
-                                <span id="profile-unsaved" class="profile-unsaved-badge" hidden>● Alterações não guardadas</span>
+                                <span id="profile-unsaved" class="profile-unsaved-badge" hidden>● Alterações não
+                                    guardadas</span>
                                 <button id="profile-save-btn" class="btn sm" type="button">Guardar Alterações</button>
                             </div>
                         </div>
@@ -114,27 +126,33 @@
                     <section class="profile-card">
                         <div class="profile-section-head">
                             <div class="profile-section-title">Segurança</div>
-                            <button id="profile-pwd-toggle-btn" class="btn outline sm" type="button">Alterar password</button>
+                            <button id="profile-pwd-toggle-btn" class="btn outline sm" type="button">Alterar
+                                password</button>
                         </div>
-                        <p class="profile-pwd-hint" id="profile-pwd-hint">Mantém a conta segura alterando a password regularmente.</p>
+                        <p class="profile-pwd-hint" id="profile-pwd-hint">Mantém a conta segura alterando a password
+                            regularmente.</p>
                         <div id="profile-pwd-form" hidden>
                             <div class="form-group" style="margin-bottom:12px;">
                                 <label for="profile-pwd-atual">Password atual</label>
-                                <input id="profile-pwd-atual" type="password" placeholder="••••••••" autocomplete="current-password">
+                                <input id="profile-pwd-atual" type="password" placeholder="••••••••"
+                                    autocomplete="current-password">
                             </div>
                             <div class="profile-grid">
                                 <div class="form-group">
                                     <label for="profile-pwd-nova">Nova password</label>
-                                    <input id="profile-pwd-nova" type="password" placeholder="Mín. 6 caracteres" autocomplete="new-password">
+                                    <input id="profile-pwd-nova" type="password" placeholder="Mín. 6 caracteres"
+                                        autocomplete="new-password">
                                 </div>
                                 <div class="form-group">
                                     <label for="profile-pwd-confirmar">Confirmar</label>
-                                    <input id="profile-pwd-confirmar" type="password" placeholder="Repete a nova password" autocomplete="new-password">
+                                    <input id="profile-pwd-confirmar" type="password"
+                                        placeholder="Repete a nova password" autocomplete="new-password">
                                 </div>
                             </div>
                             <div id="profile-pwd-status" class="profile-save-status" hidden></div>
                             <div class="profile-pwd-actions">
-                                <button id="profile-pwd-cancel-btn" class="btn outline sm" type="button">Cancelar</button>
+                                <button id="profile-pwd-cancel-btn" class="btn outline sm"
+                                    type="button">Cancelar</button>
                                 <button id="profile-pwd-save-btn" class="btn sm" type="button">Guardar password</button>
                             </div>
                         </div>

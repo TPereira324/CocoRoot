@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!user) return;
 
     const preferencesKey = `cocoRootProfilePrefs:${String(user.id ?? 'anon')}`;
-    const interestsKey   = `cocoRootProfileInterests:${String(user.id ?? 'anon')}`;
+    const interestsKey = `cocoRootProfileInterests:${String(user.id ?? 'anon')}`;
     const avatarColorKey = `cocoRootAvatarColor:${String(user.id ?? 'anon')}`;
-    const extProfileKey  = `cocoRootExtProfile:${String(user.id ?? 'anon')}`;
+    const extProfileKey = `cocoRootExtProfile:${String(user.id ?? 'anon')}`;
 
     const INTERESTS = ['Folhosas', 'Frutíferas', 'Ervas', 'Raízes', 'Hidroponia', 'Flores'];
     const AVATAR_COLORS = [
@@ -24,39 +24,41 @@ document.addEventListener('DOMContentLoaded', async () => {
     let isDirty = false;
 
     // ── DOM refs ──────────────────────────────────────────────────────────────
-    const inputName     = document.getElementById('profile-input-name');
-    const inputEmail    = document.getElementById('profile-input-email');
-    const inputPhone    = document.getElementById('profile-input-phone');
+    const inputName = document.getElementById('profile-input-name');
+    const inputEmail = document.getElementById('profile-input-email');
+    const inputPhone = document.getElementById('profile-input-phone');
     const inputLocation = document.getElementById('profile-input-location');
-    const saveBtn       = document.getElementById('profile-save-btn');
-    const saveStatus    = document.getElementById('profile-save-status');
-    const unsavedBadge  = document.getElementById('profile-unsaved');
-    const avatar        = document.getElementById('profile-avatar');
-    const profileName   = document.getElementById('profile-name');
-    const profileRole   = document.getElementById('profile-role');
-    const statParcelas  = document.getElementById('profile-stat-parcelas');
+    const saveBtn = document.getElementById('profile-save-btn');
+    const saveStatus = document.getElementById('profile-save-status');
+    const unsavedBadge = document.getElementById('profile-unsaved');
+    const avatar = document.getElementById('profile-avatar');
+    const uploadBtn = document.getElementById('profile-upload-btn');
+    const uploadIcon = document.getElementById('profile-upload-icon');
+    const profileName = document.getElementById('profile-name');
+    const profileRole = document.getElementById('profile-role');
+    const statParcelas = document.getElementById('profile-stat-parcelas');
     const statPendentes = document.getElementById('profile-stat-pendentes');
-    const statModulos   = document.getElementById('profile-stat-modulos');
-    const progressFill  = document.getElementById('profile-progress-fill');
-    const progressText  = document.getElementById('profile-progress-text');
+    const statModulos = document.getElementById('profile-stat-modulos');
+    const progressFill = document.getElementById('profile-progress-fill');
+    const progressText = document.getElementById('profile-progress-text');
     const progressTrack = document.querySelector('.profile-progress-track');
-    const chipsRoot     = document.getElementById('profile-chips');
-    const chipsCount    = document.getElementById('profile-chips-count');
-    const activityRoot  = document.getElementById('profile-activity');
-    const prefAlertas   = document.getElementById('pref-alertas');
-    const prefResumo    = document.getElementById('pref-resumo');
+    const chipsRoot = document.getElementById('profile-chips');
+    const chipsCount = document.getElementById('profile-chips-count');
+    const activityRoot = document.getElementById('profile-activity');
+    const prefAlertas = document.getElementById('pref-alertas');
+    const prefResumo = document.getElementById('pref-resumo');
     const prefComunidade = document.getElementById('pref-comunidade');
 
     // Password elements
-    const pwdToggleBtn  = document.getElementById('profile-pwd-toggle-btn');
-    const pwdForm       = document.getElementById('profile-pwd-form');
-    const pwdHint       = document.getElementById('profile-pwd-hint');
-    const pwdAtual      = document.getElementById('profile-pwd-atual');
-    const pwdNova       = document.getElementById('profile-pwd-nova');
-    const pwdConfirmar  = document.getElementById('profile-pwd-confirmar');
-    const pwdStatus     = document.getElementById('profile-pwd-status');
-    const pwdCancelBtn  = document.getElementById('profile-pwd-cancel-btn');
-    const pwdSaveBtn    = document.getElementById('profile-pwd-save-btn');
+    const pwdToggleBtn = document.getElementById('profile-pwd-toggle-btn');
+    const pwdForm = document.getElementById('profile-pwd-form');
+    const pwdHint = document.getElementById('profile-pwd-hint');
+    const pwdAtual = document.getElementById('profile-pwd-atual');
+    const pwdNova = document.getElementById('profile-pwd-nova');
+    const pwdConfirmar = document.getElementById('profile-pwd-confirmar');
+    const pwdStatus = document.getElementById('profile-pwd-status');
+    const pwdCancelBtn = document.getElementById('profile-pwd-cancel-btn');
+    const pwdSaveBtn = document.getElementById('profile-pwd-save-btn');
 
     const fetchOptional = async (path) => {
         try { return await api.fetchJson(path); } catch { return null; }
@@ -75,37 +77,164 @@ document.addEventListener('DOMContentLoaded', async () => {
         el?.addEventListener('input', markDirty);
     });
 
-    // ── Avatar color cycling ──────────────────────────────────────────────────
+    // ── Avatar & Upload ───────────────────────────────────────────────────────
     let colorIdx = readJson(avatarColorKey, 0);
-    const applyAvatarColor = (idx) => {
-        if (avatar) avatar.style.background = AVATAR_COLORS[idx % AVATAR_COLORS.length];
-    };
-    applyAvatarColor(colorIdx);
 
-    const cycleAvatarColor = () => {
-        colorIdx = (colorIdx + 1) % AVATAR_COLORS.length;
-        writeJson(avatarColorKey, colorIdx);
-        applyAvatarColor(colorIdx);
-        avatar?.classList.add('avatar-pulse');
-        setTimeout(() => avatar?.classList.remove('avatar-pulse'), 380);
+    const applyAvatarColor = (idx) => {
+        const ext = readJson(extProfileKey, {});
+        const fotoCaminho = ext.foto || liveUser.foto;
+        const fotoBase64 = ext.fotoBase64;
+
+        if (avatar) {
+            if (fotoBase64 || fotoCaminho) {
+                let baseUrl = '../Back-end/';
+                // Se estiver a usar o Live Server (VS Code), buscar a imagem diretamente ao XAMPP
+                if (['5500', '3000', '5501'].includes(window.location.port)) {
+                    baseUrl = 'http://localhost/CocoRoot/Back-end/';
+                } else if (!window.location.pathname.includes('/Front-end/')) {
+                    baseUrl = '/Back-end/';
+                }
+
+                const finalUrl = fotoBase64 ? fotoBase64 : `${baseUrl}${fotoCaminho}?t=${Date.now()}`;
+                avatar.style.backgroundImage = `url("${finalUrl}")`;
+                avatar.style.backgroundPosition = 'center';
+                avatar.style.backgroundSize = 'cover';
+                avatar.style.backgroundRepeat = 'no-repeat';
+                avatar.textContent = '';
+            } else {
+                avatar.style.background = AVATAR_COLORS[idx % AVATAR_COLORS.length];
+                const initials = String(liveUser.nome || 'U')
+                    .split(' ').filter(Boolean).slice(0, 2)
+                    .map((w) => w[0]?.toUpperCase() || '').join('');
+                avatar.textContent = initials || 'U';
+            }
+        }
     };
-    avatar?.addEventListener('click', cycleAvatarColor);
-    avatar?.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cycleAvatarColor(); } });
+
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/jpeg, image/png, image/webp, image/gif';
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
+
+    fileInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (avatar) avatar.style.opacity = '0.5';
+        try {
+            // Comprimir a imagem no navegador antes de enviar
+            const compressedFile = await new Promise((resolve, reject) => {
+                const img = new Image();
+                const url = URL.createObjectURL(file);
+                img.onload = () => {
+                    URL.revokeObjectURL(url);
+                    const canvas = document.createElement('canvas');
+                    const MAX_SIZE = 800; // Resolução máxima em pixels
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height && width > MAX_SIZE) {
+                        height *= MAX_SIZE / width;
+                        width = MAX_SIZE;
+                    } else if (height > MAX_SIZE) {
+                        width *= MAX_SIZE / height;
+                        height = MAX_SIZE;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    canvas.toBlob((blob) => {
+                        if (blob) {
+                            const compressed = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
+                            const reader = new FileReader();
+                            reader.onload = () => resolve({ file: compressed, base64: reader.result });
+                            reader.readAsDataURL(blob);
+                        } else {
+                            reject(new Error('Erro ao comprimir imagem.'));
+                        }
+                    }, 'image/jpeg', 0.85); // 85% de qualidade
+                };
+                img.onerror = () => reject(new Error('Erro ao ler a imagem.'));
+                img.src = url;
+            });
+
+            const formData = new FormData();
+            formData.append('foto', compressedFile.file);
+
+            // Mostrar a foto instantaneamente ao utilizador antes do servidor responder
+            avatar.style.backgroundImage = `url("${compressedFile.base64}")`;
+            avatar.style.backgroundPosition = 'center';
+            avatar.style.backgroundSize = 'cover';
+            avatar.style.backgroundRepeat = 'no-repeat';
+            avatar.textContent = '';
+
+            // Usar o handler global da API para garantir que o pedido vai para o XAMPP e não para o Live Server
+            const data = await api.fetchJson(`usuarios/upload-foto/${liveUser.id}`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (data && data.data && data.data.foto) {
+                const ext = readJson(extProfileKey, {});
+                ext.foto = data.data.foto;
+                ext.fotoBase64 = compressedFile.base64; // Guarda a foto localmente para evitar ecrãs brancos
+                writeJson(extProfileKey, ext);
+                liveUser.foto = data.data.foto;
+                applyAvatarColor(colorIdx);
+                if (window.CocoRootToast) window.CocoRootToast('Perfil', 'Foto atualizada com sucesso!');
+            } else throw new Error(data.message || 'Erro ao carregar a foto.');
+        } catch (err) {
+            console.error(err);
+            alert(err.message || 'Não foi possível atualizar a foto.');
+        } finally {
+            fileInput.value = '';
+            if (avatar) avatar.style.opacity = '1';
+        }
+    });
+
+    // Procura elementos específicos (ignorando divs estruturais) para esconder/ativar botões
+    document.querySelectorAll('button, a, span, p, label, i').forEach(el => {
+        const text = (el.textContent || '').trim().toLowerCase();
+        if (text.length > 50) return; // Ignora contentores grandes da página
+
+        const isIcon = el.classList && (
+            el.classList.contains('bi-camera') || el.classList.contains('bi-upload') ||
+            el.classList.contains('fa-camera') || el.classList.contains('fa-upload') ||
+            el.id === 'profile-upload-icon'
+        );
+
+        if (text.includes('alterar foto')) {
+            el.style.display = 'none'; // Não deve funcionar e nem aparecer
+        } else if ((text.includes('carregar foto') || isIcon) && !el.dataset.uploadBound) {
+            el.dataset.uploadBound = '1';
+            el.style.cursor = 'pointer';
+            el.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); fileInput.click(); });
+        }
+    });
+
+    // Forçar a desativação de qualquer ação, clique ou tooltip (texto flutuante) diretamente no círculo da foto
+    if (avatar) {
+        avatar.style.pointerEvents = 'none'; // Impede o clique e o cursor (mãozinha)
+        avatar.removeAttribute('title');     // Remove o texto flutuante nativo do HTML
+        avatar.removeAttribute('onclick');   // Remove qualquer evento de clique que esteja no HTML
+    }
 
     // ── Identity ──────────────────────────────────────────────────────────────
     const updateIdentityUI = () => {
         const ext = readJson(extProfileKey, {});
-        if (inputName)     inputName.value     = liveUser.nome || '';
-        if (inputEmail)    inputEmail.value    = liveUser.email || '';
-        if (inputPhone)    inputPhone.value    = ext.telefone || liveUser.telefone || '';
+        if (inputName) inputName.value = liveUser.nome || '';
+        if (inputEmail) inputEmail.value = liveUser.email || '';
+        if (inputPhone) inputPhone.value = ext.telefone || liveUser.telefone || '';
         if (inputLocation) inputLocation.value = ext.localizacao || liveUser.localizacao || '';
 
-        const initials = String(liveUser.nome || 'U')
-            .split(' ').filter(Boolean).slice(0, 2)
-            .map((w) => w[0]?.toUpperCase() || '').join('');
-        if (avatar)      avatar.textContent  = initials || 'U';
+        applyAvatarColor(colorIdx);
+
         if (profileName) profileName.textContent = liveUser.nome || 'Utilizador';
-        if (profileRole) profileRole.textContent  = liveUser.role === 'admin' ? 'Administrador' : 'Produtor CocoRoot';
+        if (profileRole) profileRole.textContent = liveUser.role === 'admin' ? 'Administrador' : 'Produtor CocoRoot';
     };
 
     const initIdentity = () => {
@@ -116,16 +245,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ── Preferences ───────────────────────────────────────────────────────────
     const initPreferences = () => {
         const prefs = readJson(preferencesKey, { alertas: true, resumo: true, comunidade: true });
-        if (prefAlertas)    prefAlertas.checked    = prefs.alertas !== false;
-        if (prefResumo)     prefResumo.checked     = prefs.resumo !== false;
+        if (prefAlertas) prefAlertas.checked = prefs.alertas !== false;
+        if (prefResumo) prefResumo.checked = prefs.resumo !== false;
         if (prefComunidade) prefComunidade.checked = prefs.comunidade !== false;
 
         [prefAlertas, prefResumo, prefComunidade].forEach((el) => {
             el?.addEventListener('change', () => {
                 writeJson(preferencesKey, {
-                    alertas:     !!prefAlertas?.checked,
-                    resumo:      !!prefResumo?.checked,
-                    comunidade:  !!prefComunidade?.checked,
+                    alertas: !!prefAlertas?.checked,
+                    resumo: !!prefResumo?.checked,
+                    comunidade: !!prefComunidade?.checked,
                 });
                 if (window.CocoRootToast) window.CocoRootToast('Perfil', 'Preferências atualizadas');
             });
@@ -203,9 +332,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const completedModulesList = Array.isArray(completedModulesStore[userId]) ? completedModulesStore[userId] : [];
         const completedModules = completedModulesList.length;
 
-        if (statParcelas)  statParcelas.textContent  = String(parcelas.length);
+        if (statParcelas) statParcelas.textContent = String(parcelas.length);
         if (statPendentes) statPendentes.textContent = String(pending);
-        if (statModulos)   statModulos.textContent   = String(completedModules);
+        if (statModulos) statModulos.textContent = String(completedModules);
 
         const statPendentesCard = statPendentes?.closest('.profile-mini-stat');
         if (statPendentesCard) statPendentesCard.style.setProperty('--cr-tt', `"Tens ${pending} tarefas por completar"`);
@@ -258,12 +387,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     const saveProfile = async () => {
-        const nome       = inputName?.value.trim()     || '';
-        const email      = inputEmail?.value.trim()    || '';
-        const telefone   = inputPhone?.value.trim()    || '';
+        const nome = inputName?.value.trim() || '';
+        const email = inputEmail?.value.trim() || '';
+        const telefone = inputPhone?.value.trim() || '';
         const localizacao = inputLocation?.value.trim() || '';
 
-        if (!nome)  throw new Error('O nome é obrigatório.');
+        if (!nome) throw new Error('O nome é obrigatório.');
         if (!email) throw new Error('O email é obrigatório.');
 
         // Save nome + email to DB
@@ -316,16 +445,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     const openPwdForm = () => {
-        if (pwdForm)  pwdForm.hidden  = false;
-        if (pwdHint)  pwdHint.hidden  = true;
+        if (pwdForm) pwdForm.hidden = false;
+        if (pwdHint) pwdHint.hidden = true;
         if (pwdToggleBtn) pwdToggleBtn.hidden = true;
         setPwdStatus('');
         pwdAtual?.focus();
     };
 
     const closePwdForm = () => {
-        if (pwdForm)  pwdForm.hidden  = true;
-        if (pwdHint)  pwdHint.hidden  = false;
+        if (pwdForm) pwdForm.hidden = true;
+        if (pwdHint) pwdHint.hidden = false;
         if (pwdToggleBtn) pwdToggleBtn.hidden = false;
         [pwdAtual, pwdNova, pwdConfirmar].forEach((el) => { if (el) el.value = ''; });
         setPwdStatus('');
@@ -335,12 +464,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     pwdCancelBtn?.addEventListener('click', closePwdForm);
 
     pwdSaveBtn?.addEventListener('click', async () => {
-        const atual     = pwdAtual?.value     || '';
-        const nova      = pwdNova?.value      || '';
+        const atual = pwdAtual?.value || '';
+        const nova = pwdNova?.value || '';
         const confirmar = pwdConfirmar?.value || '';
 
-        if (!atual)     { setPwdStatus('Introduz a password atual.', true); return; }
-        if (!nova)      { setPwdStatus('Introduz a nova password.', true); return; }
+        if (!atual) { setPwdStatus('Introduz a password atual.', true); return; }
+        if (!nova) { setPwdStatus('Introduz a nova password.', true); return; }
         if (nova.length < 6) { setPwdStatus('A nova password deve ter pelo menos 6 caracteres.', true); return; }
         if (nova !== confirmar) { setPwdStatus('As passwords não coincidem.', true); return; }
 
@@ -371,5 +500,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     initIdentity();
     initPreferences();
     initInterests();
-    try { await loadStats(); } catch {}
+    try { await loadStats(); } catch { }
 });

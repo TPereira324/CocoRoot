@@ -46,7 +46,7 @@ if ($path === '') {
     $jsonResponse([
         'success' => true,
         'message' => 'API online',
-    ]);
+    ], 200);
 }
 
 $segments = array_values(array_filter(explode('/', $path), static fn($segment) => $segment !== ''));
@@ -64,6 +64,7 @@ $routes = [
             'perfil' => ['method' => 'GET', 'handler' => 'perfil', 'needs_id' => true],
             'atualizar' => ['method' => 'POST', 'handler' => 'atualizar', 'needs_id' => true],
             'alterar-password' => ['method' => 'POST', 'handler' => 'alterarPassword', 'needs_id' => true],
+            'upload-foto' => ['method' => 'POST', 'handler' => 'uploadFoto', 'needs_id' => true],
         ],
     ],
     'parcelas' => [

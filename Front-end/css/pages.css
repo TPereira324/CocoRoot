@@ -696,6 +696,70 @@ body.app-page {
     color: rgba(255, 255, 255, 0.96);
     background: linear-gradient(135deg, rgba(47, 143, 61, 0.95), rgba(47, 111, 59, 0.72));
     margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.profile-avatar-container {
+    position: relative;
+    width: fit-content;
+    margin-bottom: 10px;
+}
+
+.profile-avatar-photo {
+    width: 74px;
+    height: 74px;
+    border-radius: 999px;
+    object-fit: cover;
+    border: 2px solid rgba(47, 143, 61, 0.3);
+}
+
+.profile-avatar-input {
+    display: none;
+}
+
+.profile-avatar-upload-btn {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    border: 2px solid rgba(255, 255, 255, 0.95);
+    background: rgba(47, 143, 61, 0.92);
+    color: rgba(255, 255, 255, 0.96);
+    font-size: 16px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background 130ms, transform 130ms;
+    padding: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.profile-avatar-upload-btn:hover {
+    background: rgba(47, 111, 59, 0.95);
+    transform: scale(1.1);
+}
+
+.profile-avatar-upload-btn:active {
+    transform: scale(0.95);
+}
+
+.profile-avatar-status {
+    font-size: 11px;
+    margin-top: 6px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    text-align: center;
+    background: rgba(22, 163, 74, 0.1);
+    color: #16a34a;
+    border: 1px solid rgba(22, 163, 74, 0.3);
+}
+
+.profile-avatar-status.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+    border-color: rgba(239, 68, 68, 0.3);
 }
 
 .profile-avatar::after {
@@ -1034,8 +1098,15 @@ body.app-page {
 }
 
 @keyframes unsaved-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.55; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.55;
+    }
 }
 
 /* ── Password section ── */
@@ -1055,9 +1126,17 @@ body.app-page {
 
 /* ── Avatar pulse on color change ── */
 @keyframes avatar-pulse-anim {
-    0%   { transform: scale(1); }
-    40%  { transform: scale(1.10); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.10);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .profile-avatar.avatar-pulse {
