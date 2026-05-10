@@ -148,7 +148,7 @@
                 listRoot.innerHTML = filtered.map((article) => `
                     <a class="article-item" href="post.html?id=${article.id}">
                         <div class="article-img img-ph">
-                            <img src="${article.image}" alt="${article.title}" style="width:100%;height:100%;object-fit:cover;">
+                            <img src="${article.image}" alt="${article.title}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;">
                         </div>
                         <div class="article-content">
                             <div class="article-tag ${article.category === 'stories' ? 'story' : ''}">${article.label}</div>

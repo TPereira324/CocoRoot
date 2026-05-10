@@ -4,10 +4,49 @@ document.addEventListener("DOMContentLoaded", () => {
     const isInPages = window.location.pathname.includes('/pages/');
     const assetPrefix = isInPages ? '../' : '';
 
+    const ensureHeadAssets = () => {
+        const head = document.head;
+        if (!head) return;
+
+        const ensureMeta = (key, value, attr = 'name') => {
+            const selector = attr === 'property' ? `meta[property="${key}"]` : `meta[name="${key}"]`;
+            let el = head.querySelector(selector);
+            if (!el) {
+                el = document.createElement('meta');
+                el.setAttribute(attr, key);
+                head.appendChild(el);
+            }
+            el.setAttribute('content', value);
+        };
+
+        const ensureLink = (rel, href, extra = {}) => {
+            let el = head.querySelector(`link[rel="${rel}"]`);
+            if (!el) {
+                el = document.createElement('link');
+                el.setAttribute('rel', rel);
+                head.appendChild(el);
+            }
+            el.setAttribute('href', href);
+            Object.entries(extra).forEach(([k, v]) => el.setAttribute(k, v));
+        };
+
+        ensureLink('icon', `${assetPrefix}image/logo.jpeg`, { type: 'image/jpeg' });
+        ensureMeta('theme-color', '#2f6f3b');
+        ensureMeta('description', 'CocoRoot: plataforma de agricultura digital para gerir, monitorizar e otimizar cultivos em fibra de coco.');
+        ensureMeta('og:site_name', 'CocoRoot', 'property');
+        ensureMeta('og:title', document.title || 'CocoRoot', 'property');
+        ensureMeta('og:description', 'Ferramentas para decidir melhor, todos os dias.', 'property');
+        ensureMeta('og:type', 'website', 'property');
+        ensureMeta('og:url', window.location.href, 'property');
+        ensureMeta('og:image', `${assetPrefix}image/logo.jpeg`, 'property');
+    };
+
+    ensureHeadAssets();
+
     const headerHTML = `
     <nav class="nav" data-cr-nav>
         <a href="principal.html" class="nav-logo" aria-label="CocoRoot">
-            <img src="${assetPrefix}image/logo.jpeg" alt="" class="nav-brand">
+            <img src="${assetPrefix}image/logo.jpeg" alt="CocoRoot" class="nav-brand" loading="eager" decoding="async" fetchpriority="high">
             <span class="nav-title">CocoRoot</span>
         </a>
         <button class="nav-btn nav-toggle" type="button" aria-controls="cr-nav-collapse" aria-expanded="false"
@@ -45,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="footer-inner">
             <div>
                 <div class="footer-brand">
-                    <img src="${assetPrefix}image/logo.jpeg" alt="" class="nav-brand">
+                    <img src="${assetPrefix}image/logo.jpeg" alt="CocoRoot" class="nav-brand" loading="lazy" decoding="async">
                     <div class="footer-brand-name">CocoRoot</div>
                 </div>
             </div>
@@ -85,6 +124,13 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector('.nav').outerHTML = headerHTML;
     }
 
+    const syncNavAriaCurrent = () => {
+        const links = Array.from(document.querySelectorAll('.nav .nav-link'));
+        links.forEach((a) => a.removeAttribute('aria-current'));
+        const active = document.querySelector('.nav .nav-link.active');
+        if (active) active.setAttribute('aria-current', 'page');
+    };
+    syncNavAriaCurrent();
 
     if (!document.body.classList.contains('auth-page')) {
         if (document.querySelector('.footer')) {
@@ -198,12 +244,17 @@ document.addEventListener("DOMContentLoaded", () => {
         return root;
     };
 
-    window.CocoRootToast = (title, text) => {
+    window.CocoRootToast = (title, text, type = 'success') => {
         const root = ensureToastRoot();
         const toast = document.createElement('div');
-        toast.className = 'toast';
+        const kind = ['success', 'error', 'info', 'loading'].includes(String(type)) ? String(type) : 'success';
+        toast.className = `toast toast--${kind}`;
+        const icon = kind === 'error' ? 'bi-exclamation-triangle'
+            : kind === 'info' ? 'bi-info-circle'
+                : kind === 'loading' ? 'bi-arrow-repeat'
+                    : 'bi-bell';
         toast.innerHTML = `
-            <div class="toast-icon"><i class="bi bi-bell" aria-hidden="true"></i></div>
+            <div class="toast-icon"><i class="bi ${icon}" aria-hidden="true"></i></div>
             <div style="flex:1;">
                 <div class="toast-title">${title || 'Notificação'}</div>
                 <div class="toast-text">${text || ''}</div>
@@ -215,6 +266,46 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+    const createScrollBus = () => {
+        let ticking = false;
+        const subs = new Set();
+        const run = () => {
+            ticking = false;
+            const y = window.scrollY || 0;
+            subs.forEach((fn) => fn(y));
+        };
+        const request = () => {
+            if (ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(run);
+        };
+        window.addEventListener('scroll', request, { passive: true });
+        window.addEventListener('resize', request);
+        return {
+            subscribe: (fn) => {
+                subs.add(fn);
+                fn(window.scrollY || 0);
+                return () => subs.delete(fn);
+            },
+            request,
+        };
+    };
+
+    const scrollBus = createScrollBus();
+
+    const cleanupServiceWorker = () => {
+        if (!('serviceWorker' in navigator)) return;
+        navigator.serviceWorker.getRegistrations().then((regs) => {
+            const ours = regs.filter((r) => String(r?.active?.scriptURL || r?.installing?.scriptURL || r?.waiting?.scriptURL || '').includes('/sw.js'));
+            return Promise.all(ours.map((r) => r.unregister().catch(() => false)));
+        }).catch(() => { });
+        if ('caches' in window) {
+            caches.keys().then((keys) => Promise.all(keys.filter((k) => String(k).startsWith('cocoroot-')).map((k) => caches.delete(k)))).catch(() => { });
+        }
+    };
+
+    cleanupServiceWorker();
 
     const hashText = (text) => {
         const s = String(text || '');
@@ -246,20 +337,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!document.body.classList.contains('home-page')) return;
         const hero = document.querySelector('.hero');
         if (!reduceMotion && hero) {
-            let ticking = false;
             const update = () => {
-                ticking = false;
                 const y = Math.min(80, Math.max(0, window.scrollY * 0.15));
                 hero.style.setProperty('--hero-parallax', `${y}px`);
             };
-            const requestUpdate = () => {
-                if (ticking) return;
-                ticking = true;
-                window.requestAnimationFrame(update);
-            };
-            window.addEventListener('scroll', requestUpdate, { passive: true });
-            window.addEventListener('resize', requestUpdate);
             update();
+            scrollBus.subscribe(() => update());
         }
     };
 
@@ -267,6 +350,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const images = Array.from(root.querySelectorAll ? root.querySelectorAll('img') : []);
         images.forEach((img) => {
             if (!(img instanceof HTMLImageElement)) return;
+            if (!img.hasAttribute('decoding')) img.decoding = 'async';
+            if (!img.hasAttribute('loading') && !img.closest('.nav-logo')) img.loading = 'lazy';
             if (img.classList.contains('cr-img')) return;
             img.classList.add('cr-img');
 
@@ -287,25 +372,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const setupScrollProgress = () => {
         const doc = document.documentElement;
-        let ticking = false;
-
         const update = () => {
-            ticking = false;
             const scrollTop = doc.scrollTop || document.body.scrollTop || 0;
             const max = (doc.scrollHeight || 0) - (doc.clientHeight || 0);
             const progress = max > 0 ? Math.min(1, Math.max(0, scrollTop / max)) : 0;
             doc.style.setProperty('--cr-scroll', String(progress));
         };
-
-        const requestUpdate = () => {
-            if (ticking) return;
-            ticking = true;
-            window.requestAnimationFrame(update);
-        };
-
-        window.addEventListener('scroll', requestUpdate, { passive: true });
-        window.addEventListener('resize', requestUpdate);
         update();
+        scrollBus.subscribe(() => update());
     };
 
     if (!reduceMotion) {
@@ -323,20 +397,11 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.innerHTML = '<i class="bi bi-arrow-up" aria-hidden="true"></i>';
         document.body.appendChild(btn);
 
-        let ticking = false;
         const update = () => {
-            ticking = false;
             btn.classList.toggle('cr-to-top--show', window.scrollY > 600);
         };
-        const requestUpdate = () => {
-            if (ticking) return;
-            ticking = true;
-            window.requestAnimationFrame(update);
-        };
-
-        window.addEventListener('scroll', requestUpdate, { passive: true });
-        window.addEventListener('resize', requestUpdate);
         update();
+        scrollBus.subscribe(() => update());
 
         btn.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
@@ -348,22 +413,74 @@ document.addEventListener("DOMContentLoaded", () => {
     const setupNavbarScroll = () => {
         const nav = document.querySelector('.nav');
         if (!nav) return;
-        let ticking = false;
         const update = () => {
-            ticking = false;
             nav.classList.toggle('nav--scrolled', window.scrollY > 50);
         };
-        const requestUpdate = () => {
-            if (ticking) return;
-            ticking = true;
-            window.requestAnimationFrame(update);
-        };
-        window.addEventListener('scroll', requestUpdate, { passive: true });
-        window.addEventListener('resize', requestUpdate);
         update();
+        scrollBus.subscribe(() => update());
     };
 
     setupNavbarScroll();
+
+    const setupRovingKeyNav = (root = document) => {
+        const lists = Array.from(root.querySelectorAll ? root.querySelectorAll('[role="tablist"]') : []);
+        lists.forEach((list) => {
+            if (!(list instanceof Element)) return;
+            if (list.dataset.crKeys === '1') return;
+            list.dataset.crKeys = '1';
+            const tabs = Array.from(list.querySelectorAll('button, [role="tab"]')).filter((b) => b instanceof HTMLElement);
+            if (tabs.length < 2) return;
+
+            const sync = () => {
+                const active = tabs.find((t) => t.classList.contains('active')) || tabs[0];
+                tabs.forEach((t) => t.setAttribute('tabindex', t === active ? '0' : '-1'));
+            };
+            sync();
+            tabs.forEach((t) => t.addEventListener('click', sync));
+
+            list.addEventListener('keydown', (e) => {
+                const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
+                if (!keys.includes(e.key)) return;
+                const current = document.activeElement;
+                const idx = tabs.findIndex((t) => t === current);
+                if (idx < 0) return;
+                e.preventDefault();
+                const dir = (e.key === 'ArrowLeft' || e.key === 'ArrowUp') ? -1 : 1;
+                let next = idx;
+                if (e.key === 'Home') next = 0;
+                else if (e.key === 'End') next = tabs.length - 1;
+                else next = (idx + dir + tabs.length) % tabs.length;
+                const target = tabs[next];
+                target.focus();
+                target.click();
+            });
+        });
+
+        const groups = Array.from(root.querySelectorAll ? root.querySelectorAll('[role="group"]') : []);
+        groups.forEach((group) => {
+            if (!(group instanceof Element)) return;
+            if (group.dataset.crKeys === '1') return;
+            const btns = Array.from(group.querySelectorAll('button')).filter((b) => b instanceof HTMLElement);
+            if (btns.length < 2) return;
+            group.dataset.crKeys = '1';
+            group.addEventListener('keydown', (e) => {
+                const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
+                if (!keys.includes(e.key)) return;
+                const current = document.activeElement;
+                const idx = btns.findIndex((t) => t === current);
+                if (idx < 0) return;
+                e.preventDefault();
+                const dir = (e.key === 'ArrowLeft' || e.key === 'ArrowUp') ? -1 : 1;
+                let next = idx;
+                if (e.key === 'Home') next = 0;
+                else if (e.key === 'End') next = btns.length - 1;
+                else next = (idx + dir + btns.length) % btns.length;
+                const target = btns[next];
+                target.focus();
+                target.click();
+            });
+        });
+    };
 
     const setupScrollAnimations = () => {
         const hasIO = 'IntersectionObserver' in window;
@@ -491,6 +608,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 m.addedNodes.forEach((node) => {
                     if (!(node instanceof Element)) return;
                     initImageFade(node);
+                    setupRovingKeyNav(node);
                     apply(node);
                 });
             });
@@ -653,6 +771,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         domObserver.observe(root, { childList: true, subtree: true });
     };
+
+    setupRovingKeyNav(document);
 
     setupScrollAnimations();
     setupCounters();

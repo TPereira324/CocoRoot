@@ -43,6 +43,41 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
+    renderParcelasSkeleton(parcelasContainer);
+    renderTasksSkeleton(tarefasContainer);
+    renderMonitorSkeleton(monitorizacaoContainer);
+    renderClimaSkeleton(climaContainer);
+
+    const userId = String(user.id ?? 'anon');
+    const cacheKey = `cocoRootDashCache:${userId}`;
+    const readCache = () => {
+        try {
+            const raw = localStorage.getItem(cacheKey);
+            if (!raw) return null;
+            const parsed = JSON.parse(raw);
+            if (!parsed || typeof parsed !== 'object') return null;
+            if (Date.now() - Number(parsed.ts || 0) > 10 * 60 * 1000) return null;
+            return parsed;
+        } catch {
+            return null;
+        }
+    };
+    const writeCache = (data) => {
+        try { localStorage.setItem(cacheKey, JSON.stringify({ ...data, ts: Date.now() })); } catch { }
+    };
+
+    const cached = readCache();
+    if (cached) {
+        const parcelas = Array.isArray(cached.parcelas) ? cached.parcelas : [];
+        const tarefas = Array.isArray(cached.tarefas) ? cached.tarefas : [];
+        const alertas = Array.isArray(cached.alertas) ? cached.alertas : [];
+        if (parcelasCount) parcelasCount.textContent = String(parcelas.length);
+        renderParcelas(parcelas, parcelasContainer);
+        updateTaskSummary(tarefas);
+        renderTasks(tarefas, { onlyToday: false, interactive: false }, tarefasContainer);
+        updateAlertsSummary(alertas);
+    }
+
     try {
         const [parcelasResponse, tarefasResponse, alertasResponse, userProfileResponse] = await Promise.all([
             api.fetchJson(`parcelas/listar/${user.id}`),
@@ -55,7 +90,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const serverTarefas = Array.isArray(tarefasResponse?.data) ? tarefasResponse.data : [];
         const serverAlertas = Array.isArray(alertasResponse?.data) ? alertasResponse.data : [];
         const userProfile = userProfileResponse?.data || null;
-        const userId = String(user.id ?? 'anon');
         const localAlertas = getUserLocalAlerts(userId);
         const { defaultClima: clima, weatherByParcelaId } = await fetchWeatherByLocations(api, parcelas, userProfile, user);
 
@@ -121,6 +155,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderMonitorizacao(parcelas, clima, alertas, weatherByParcelaId, monitorizacaoContainer);
         renderClima(clima, climaContainer);
         setError('');
+
+        writeCache({ parcelas, tarefas, alertas });
     } catch (error) {
         if (parcelasCount) parcelasCount.textContent = '0';
         if (tarefasCount) tarefasCount.textContent = '0';

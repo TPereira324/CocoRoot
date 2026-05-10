@@ -399,6 +399,15 @@ body.app-page {
     color: rgba(27, 27, 27, 0.72);
     line-height: 1.85;
     font-size: 16px;
+    max-width: 65ch;
+}
+
+.news-article-copy p {
+    margin: 0 0 14px;
+}
+
+.news-article-copy p:last-child {
+    margin-bottom: 0;
 }
 
 .news-more {

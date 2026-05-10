@@ -3,6 +3,46 @@ function renderEmpty(container, message) {
     container.innerHTML = `<div class="card"><div style="color:var(--muted);line-height:1.6;">${message}</div></div>`;
 }
 
+function renderSkeleton(container, count = 3) {
+    if (!container) return;
+    const blocks = Array.from({ length: Math.max(1, count) }).map(() => `
+        <div class="card" aria-hidden="true">
+            <div class="txt-block">
+                <div class="txt-line title w65"></div>
+                <div class="txt-line w80"></div>
+                <div class="txt-line w50"></div>
+            </div>
+        </div>
+    `).join('');
+    container.innerHTML = blocks;
+}
+
+function renderParcelasSkeleton(parcelasContainer) {
+    if (!parcelasContainer) return;
+    const cards = Array.from({ length: 4 }).map(() => `
+        <article class="dash-cultivo-card" aria-hidden="true">
+            <div class="txt-block">
+                <div class="txt-line title w50"></div>
+                <div class="txt-line w65"></div>
+                <div class="txt-line w40"></div>
+            </div>
+        </article>
+    `).join('');
+    parcelasContainer.innerHTML = `${cards}<a href="registrar-cultivo.html" class="dash-add-card"><span class="dash-add-icon" aria-hidden="true">+</span><span>Adicionar cultivo</span></a>`;
+}
+
+function renderTasksSkeleton(tarefasContainer) {
+    renderSkeleton(tarefasContainer, 2);
+}
+
+function renderMonitorSkeleton(monitorizacaoContainer) {
+    renderSkeleton(monitorizacaoContainer, 2);
+}
+
+function renderClimaSkeleton(climaContainer) {
+    renderSkeleton(climaContainer, 1);
+}
+
 function renderParcelas(parcelas, parcelasContainer) {
     if (!parcelasContainer) return;
     const list = Array.isArray(parcelas) ? parcelas : [];

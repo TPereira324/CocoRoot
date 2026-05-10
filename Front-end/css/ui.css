@@ -212,7 +212,7 @@ summary {
     cursor: pointer;
 }
 
-:is(a, button, input, select, textarea, .btn, .nav-btn, .nav-link, .auth-back, .tab, .filter-tab, .news-filter):focus-visible {
+:is(a, button, input, select, textarea, .btn, .nav-btn, .nav-link, .auth-back, .tab, .filter-tab, .news-filter, .sort-pill):focus-visible {
     outline: 2px solid #2d6a2d;
     outline-offset: 2px;
 }
@@ -330,6 +330,22 @@ summary {
     animation: cocoroot-rise 240ms var(--ease) both;
 }
 
+.toast.toast--success {
+    border-color: rgba(47, 143, 61, 0.22);
+}
+
+.toast.toast--error {
+    border-color: rgba(180, 35, 24, 0.22);
+}
+
+.toast.toast--info {
+    border-color: rgba(37, 99, 235, 0.22);
+}
+
+.toast.toast--loading {
+    border-color: rgba(124, 84, 52, 0.26);
+}
+
 .toast-icon {
     width: 28px;
     height: 28px;
@@ -340,6 +356,24 @@ summary {
     border: 1px solid rgba(47, 143, 61, 0.18);
     color: rgba(31, 60, 19, 0.92);
     flex-shrink: 0;
+}
+
+.toast--error .toast-icon {
+    background: rgba(180, 35, 24, 0.10);
+    border-color: rgba(180, 35, 24, 0.18);
+    color: rgba(180, 35, 24, 0.92);
+}
+
+.toast--info .toast-icon {
+    background: rgba(37, 99, 235, 0.10);
+    border-color: rgba(37, 99, 235, 0.18);
+    color: rgba(37, 99, 235, 0.92);
+}
+
+.toast--loading .toast-icon {
+    background: rgba(124, 84, 52, 0.10);
+    border-color: rgba(124, 84, 52, 0.18);
+    color: rgba(124, 84, 52, 0.92);
 }
 
 .toast-title {
@@ -367,6 +401,18 @@ summary {
     background: rgba(47, 143, 61, 0.92);
     transform-origin: left;
     animation: cocoroot-toast linear both;
+}
+
+.toast--error .toast-bar>div {
+    background: rgba(180, 35, 24, 0.92);
+}
+
+.toast--info .toast-bar>div {
+    background: rgba(37, 99, 235, 0.92);
+}
+
+.toast--loading .toast-bar>div {
+    background: rgba(124, 84, 52, 0.92);
 }
 
 @keyframes cocoroot-toast {
@@ -622,6 +668,34 @@ img.cr-img.cr-img-loaded {
     100% {
         transform: translateY(0) scale(1);
     }
+}
+
+@keyframes cr-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.toast--loading .toast-icon i {
+    animation: cr-spin 900ms linear infinite;
+}
+
+.cr-highlight {
+    background: var(--green-light, #e6f0e6);
+    border-radius: 3px;
+    padding: 0 4px;
+}
+
+.cr-quote {
+    border-left: 3px solid var(--green-primary, #2d6a2d);
+    padding-left: 16px;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: rgba(27, 27, 27, 0.76);
 }
 
 @media (hover: hover) {
