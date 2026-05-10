@@ -265,47 +265,6 @@ document.addEventListener("DOMContentLoaded", () => {
         window.setTimeout(() => toast.remove(), 2700);
     };
 
-    const consumeFlashToast = () => {
-        try {
-            const raw = localStorage.getItem('cocoRootFlashToast');
-            if (!raw) return;
-            localStorage.removeItem('cocoRootFlashToast');
-            const parsed = JSON.parse(raw);
-            if (!parsed || typeof parsed !== 'object') return;
-            window.CocoRootToast(parsed.title || 'Notificação', parsed.text || '', parsed.type || 'info');
-        } catch {
-        }
-    };
-
-    consumeFlashToast();
-
-    const consumeNoticeParam = () => {
-        try {
-            const url = new URL(window.location.href);
-            const notice = url.searchParams.get('notice');
-            if (!notice) return;
-            url.searchParams.delete('notice');
-            const next = url.pathname + (url.searchParams.toString() ? `?${url.searchParams.toString()}` : '') + url.hash;
-            window.history.replaceState(null, '', next);
-            window.CocoRootToast('Sessão', 'Inicia sessão para continuares.', 'info');
-        } catch {
-        }
-    };
-
-    consumeNoticeParam();
-
-    const setupOnlineToasts = () => {
-        const show = (online) => {
-            if (!window.CocoRootToast) return;
-            if (online) window.CocoRootToast('Ligação', 'Ligação restabelecida.', 'success');
-            else window.CocoRootToast('Ligação', 'Sem ligação à internet/servidor.', 'error');
-        };
-        window.addEventListener('online', () => show(true));
-        window.addEventListener('offline', () => show(false));
-    };
-
-    setupOnlineToasts();
-
     const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
     const createScrollBus = () => {

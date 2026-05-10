@@ -13,11 +13,6 @@
     margin-bottom: 14px;
 }
 
-.guide-head > div {
-    flex: 1;
-    min-width: 0;
-}
-
 .guide-title {
     font-size: 34px;
     font-weight: 900;
@@ -30,10 +25,8 @@
     margin-top: 8px;
 }
 
-.guide-divider {
-    height: 2px;
-    background: rgba(124, 84, 52, 0.68);
-    margin: 14px -14px 22px;
+.guide-head .news-divider {
+    margin: 12px 0 18px;
 }
 
 .guide-status {

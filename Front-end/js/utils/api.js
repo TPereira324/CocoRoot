@@ -114,19 +114,10 @@
         }
     }
 
-    function setFlashToast(payload) {
-        try {
-            const raw = JSON.stringify(payload || {});
-            localStorage.setItem('cocoRootFlashToast', raw);
-        } catch {
-        }
-    }
-
     function requireLoggedUser() {
         const user = getLoggedUser();
         if (!user || !user.id) {
-            setFlashToast({ title: 'Sessão', text: 'Inicia sessão para continuares.', type: 'info' });
-            window.location.href = 'login.html?notice=1';
+            window.location.href = 'login.html';
             return null;
         }
         return user;

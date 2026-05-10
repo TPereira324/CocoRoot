@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notícias - CocoRoot</title>
-    <link rel="stylesheet" href="../css/cocoroot.css?v=20260510">
+    <link rel="stylesheet" href="../css/cocoroot.css">
 </head>
 
 <body class="app-page cr-sheet">
@@ -144,11 +144,6 @@
                 const filtered = activeFilter === 'all'
                     ? articles
                     : articles.filter((item) => item.category === activeFilter);
-
-                if (filtered.length === 0) {
-                    listRoot.innerHTML = `<div class="card"><div style="color:var(--muted);line-height:1.6;">Não há artigos para este filtro.</div></div>`;
-                    return;
-                }
 
                 listRoot.innerHTML = filtered.map((article) => `
                     <a class="article-item" href="post.html?id=${article.id}">
