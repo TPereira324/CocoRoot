@@ -341,7 +341,6 @@ body.home-page {
     flex: 1;
 }
 
-/* ── Fibra de Coco section ── */
 .section-coco {
     background: rgba(240, 250, 238, 0.72);
 }
@@ -482,8 +481,6 @@ body.home-page {
         padding: 20px 18px;
     }
 }
-
-/* ── end Fibra de Coco ── */
 
 .cta-section {
     text-align: center;

@@ -145,7 +145,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
         `}).join('');
 
-        // Make deleteComment available to inline onclick
         window.deleteComment = deleteComment;
     };
 
@@ -174,7 +173,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (titleEl) titleEl.textContent = post.titulo || 'Sem título';
             if (badgeEl) badgeEl.textContent = post.categoria_label || 'Outro';
 
-            // Render meta with delete button if author
             if (metaEl) {
                 const deleteBtn = isAuthor ? `<button class="community-delete-post-btn" onclick="if (window.deletePost) window.deletePost()" title="Apagar publicação"><i class="bi bi-trash" aria-hidden="true"></i> Apagar</button>` : '';
                 metaEl.innerHTML = `${post?.autor?.nome || 'Utilizador'} ${deleteBtn}`;
@@ -185,7 +183,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             renderComments(Array.isArray(commentsResponse?.data) ? commentsResponse.data : []);
 
-            // Show/hide comment form
             if (form) {
                 form.hidden = !user?.id;
             }
@@ -227,7 +224,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Make deletePost available to inline onclick
     window.deletePost = deletePost;
 
     await loadPost();

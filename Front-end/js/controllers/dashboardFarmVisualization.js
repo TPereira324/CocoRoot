@@ -5,7 +5,6 @@
     const PLOT_SIZE = 2.8, SPACING = 3.5, GROW_SEC = 3;
     const LABELS = ['Terra vazia', 'Semente', 'A nascer', 'Planta média', 'Crescida 🌿'];
 
-    // ── Materiais e texturas (procedurais) ─────────────────────────────────────
     const makeCanvasTexture = (size, draw, { repeat = 1, colorEncoding = true } = {}) => {
         const canvas = document.createElement('canvas');
         canvas.width = size;
@@ -170,7 +169,6 @@
         }),
     };
 
-    // ── Planta ─────────────────────────────────────────────────────────────────
     const pmat = (c, { roughness = 0.75, metalness = 0 } = {}) =>
         new THREE.MeshStandardMaterial({ color: c, roughness, metalness });
 
@@ -198,7 +196,6 @@
         return { g, seed, stem, leafA, leafB, leafC, fruit, flwr };
     };
 
-    // ── Cor do fruto ───────────────────────────────────────────────────────────
     const fruitColor = (parcela) => {
         try {
             const cat = pickCultivoCategory(getCultivoLabel(parcela));
@@ -209,22 +206,18 @@
         return 0xee2222;
     };
 
-    // ── Criar parcela 3D ────────────────────────────────────────────────────────
     const createPlot = (x, z, parcela) => {
         const root = new THREE.Group();
         root.position.set(x, 0, z);
 
-        // Cama de terra elevada
         const bed = new THREE.Mesh(new THREE.BoxGeometry(PLOT_SIZE, 0.24, PLOT_SIZE), mat.grass);
         bed.position.y = 0.12; bed.receiveShadow = true; bed.castShadow = true;
         root.add(bed);
 
-        // Solo interior
         const soil = new THREE.Mesh(new THREE.BoxGeometry(PLOT_SIZE - 0.26, 0.14, PLOT_SIZE - 0.26), mat.soil);
         soil.position.y = 0.20;
         root.add(soil);
 
-        // Bordas de madeira
         const hs = PLOT_SIZE / 2;
         [[0, -hs, 0], [0, hs, 0], [-hs, 0, Math.PI / 2], [hs, 0, Math.PI / 2]].forEach(([dx, dz, ry]) => {
             const e = new THREE.Mesh(new THREE.BoxGeometry(PLOT_SIZE + 0.04, 0.72, 0.24), mat.wood);
@@ -234,7 +227,6 @@
             root.add(e);
         });
 
-        // Pequenas pedras no solo (detalhe)
         const stoneGeo = new THREE.SphereGeometry(0.045, 10, 10);
         const stones = new THREE.InstancedMesh(stoneGeo, mat.stone, 14);
         stones.castShadow = true;
@@ -256,12 +248,10 @@
         stones.instanceMatrix.needsUpdate = true;
         root.add(stones);
 
-        // Planta
         const plant = buildPlant(fruitColor(parcela));
         plant.g.position.y = 0.24;
         root.add(plant.g);
 
-        // Anel de seleção
         const ring = new THREE.Mesh(
             new THREE.RingGeometry(1.54, 1.82, 32),
             new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, side: THREE.DoubleSide })
@@ -275,7 +265,6 @@
         return root;
     };
 
-    // ── Máquina de estados visual ──────────────────────────────────────────────
     const applyVisual = (plot) => {
         const { state, progress, plant: { seed, stem, leafA, leafB, leafC, fruit, flwr } } = plot.userData;
         seed.visible = state === 1;
@@ -303,7 +292,6 @@
         }
     };
 
-    // ── Grid de parcelas ────────────────────────────────────────────────────────
     const buildGrid = (parcelas) => {
         plots.forEach(p => scene.remove(p)); plots = [];
         const isDemo = parcelas.length === 0;
@@ -314,7 +302,6 @@
         list.forEach((p, i) => {
             const plot = createPlot((i % cols) * SPACING - half, Math.floor(i / cols) * SPACING, p);
             if (isDemo) {
-                // Plots de demonstração: crescimento escalonado para mostrar os 4 estados
                 plot.userData.elapsed = (i % 4) * GROW_SEC * 0.85;
                 startGrow(plot, 4);
             } else {
@@ -339,7 +326,6 @@
         applyVisual(plot);
     };
 
-    // ── Texto de informação ────────────────────────────────────────────────────
     const infoText = (plot) => {
         const p = plot.userData.parcela;
         const label = (window.getParcelaLabel ? getParcelaLabel(p) : null) || p?.nome || 'Parcela';
@@ -348,7 +334,6 @@
         return `${label}${cultivo ? ' · 🌱 ' + cultivo : ''} · ${LABELS[plot.userData.state]}${Number.isFinite(area) ? ' · ' + area.toFixed(0) + 'm²' : ''}`;
     };
 
-    // ── Selecionar parcela ─────────────────────────────────────────────────────
     const selectPlot = (plot) => {
         if (!plot) return;
         plots.forEach(p => { p.userData.ring.material.opacity = 0; });
@@ -359,7 +344,6 @@
         if (!plot.userData.active && plot.userData.state === 0) startGrow(plot, 4);
     };
 
-    // ── Resize ─────────────────────────────────────────────────────────────────
     const resize = () => {
         const c = document.getElementById('farm-viz-container');
         if (!c || !renderer) return;
@@ -369,7 +353,6 @@
         if (camera) { camera.aspect = w / h; camera.updateProjectionMatrix(); }
     };
 
-    // ── Loop de animação ───────────────────────────────────────────────────────
     const tick = () => {
         requestAnimationFrame(tick);
         if (!renderer) return;
@@ -388,7 +371,6 @@
                 applyVisual(plot);
                 if (ud.ring.material.opacity > 0 && infoEl) infoEl.textContent = infoText(plot);
             }
-            // Balanço suave nas plantas crescidas
             if (!ud.active && ud.state >= 3) {
                 [ud.plant.stem, ud.plant.leafA, ud.plant.leafB, ud.plant.leafC].forEach((m, i) => {
                     if (m.visible) m.rotation.z = Math.sin(t * 1.1 + i * 1.3) * 0.05;
@@ -399,7 +381,6 @@
         renderer.render(scene, camera);
     };
 
-    // ── Inicialização (lazy) ───────────────────────────────────────────────────
     const init = () => {
         if (initialized) return;
         const container = document.getElementById('farm-viz-container');
@@ -426,7 +407,7 @@
 
         camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 120);
         camera.position.set(9, 13, 9);
-        camera.lookAt(0, 0, 0);  // orientação explícita antes dos OrbitControls
+        camera.lookAt(0, 0, 0);
 
         controls = new THREE.OrbitControls(camera, canvas);
         controls.enableDamping = true;
@@ -438,7 +419,6 @@
         controls.target.set(0, 0.5, 0);
         controls.update();
 
-        // Luzes
         scene.add(new THREE.HemisphereLight(0xe8f4ff, 0x2a3a22, 0.75));
         const sun = new THREE.DirectionalLight(0xfff0d6, 2.35);
         sun.position.set(14, 22, 10);
@@ -453,7 +433,6 @@
         fill.position.set(-10, 10, -6);
         scene.add(fill);
 
-        // Chão
         const ground = new THREE.Mesh(
             new THREE.PlaneGeometry(80, 80),
             mat.grass
@@ -462,7 +441,6 @@
         ground.receiveShadow = true;
         scene.add(ground);
 
-        // Clique nas parcelas
         const raycaster = new THREE.Raycaster(), pointer = new THREE.Vector2();
         container.addEventListener('pointerdown', (e) => {
             const rect = container.getBoundingClientRect();
@@ -482,7 +460,6 @@
         window.addEventListener('resize', () => requestAnimationFrame(resize));
     };
 
-    // ── API pública ─────────────────────────────────────────────────────────────
     window.cocoRootFarmVisualizationShow = (parcelas, parcelaId) => {
         init();
         const ids = parcelas.map(p => window.getParcelaId ? getParcelaId(p) : String(p?.id || '')).join(',');

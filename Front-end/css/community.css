@@ -90,7 +90,6 @@
     color: rgba(27, 27, 27, 0.48);
 }
 
-/* Community stats strip — new icon-based layout */
 .community-stats-strip {
     display: flex;
     gap: 10px;
@@ -221,7 +220,6 @@
     gap: 10px;
 }
 
-/* New post card layout */
 .community-post {
     display: flex;
     align-items: stretch;
@@ -353,7 +351,6 @@
     opacity: 1;
 }
 
-/* Empty state */
 .community-empty {
     display: flex;
     flex-direction: column;
@@ -379,7 +376,6 @@
     font-size: 13px;
 }
 
-/* Compose card */
 .community-compose-card {
     padding: 20px 22px;
     border-radius: 14px;
@@ -679,7 +675,6 @@
     }
 }
 
-/* ── Post link wrap ── */
 .post-link-wrap {
     display: flex;
     flex: 1;
@@ -690,7 +685,6 @@
     color: inherit;
 }
 
-/* ── Community toolbar ── */
 .community-toolbar {
     display: flex;
     align-items: center;
@@ -767,7 +761,6 @@
     color: rgba(47, 111, 59, 0.96);
 }
 
-/* ── Like button ── */
 .post-actions {
     display: flex;
     align-items: stretch;
@@ -853,7 +846,6 @@
     animation: like-pulse-anim 280ms ease;
 }
 
-/* ── NEW / Trending badges ── */
 .post-new-badge {
     display: inline-flex;
     align-items: center;
@@ -889,7 +881,6 @@
     box-shadow: 0 3px 14px rgba(249, 115, 22, 0.07);
 }
 
-/* ── Skeleton loader ── */
 @keyframes skel-shimmer {
     0% {
         background-position: -200% 0;
@@ -929,7 +920,6 @@
     user-select: none;
 }
 
-/* ── Character counter ── */
 .publish-char-counter {
     font-size: 12px;
     font-weight: 600;

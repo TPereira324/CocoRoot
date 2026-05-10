@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     let liveUser = { ...user };
     let isDirty = false;
 
-    // ── DOM refs ──────────────────────────────────────────────────────────────
     const inputName = document.getElementById('profile-input-name');
     const inputEmail = document.getElementById('profile-input-email');
     const inputPhone = document.getElementById('profile-input-phone');
@@ -49,7 +48,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const prefResumo = document.getElementById('pref-resumo');
     const prefComunidade = document.getElementById('pref-comunidade');
 
-    // Password elements
     const pwdToggleBtn = document.getElementById('profile-pwd-toggle-btn');
     const pwdForm = document.getElementById('profile-pwd-form');
     const pwdHint = document.getElementById('profile-pwd-hint');
@@ -64,7 +62,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         try { return await api.fetchJson(path); } catch { return null; }
     };
 
-    // ── Dirty tracking ────────────────────────────────────────────────────────
     const markDirty = () => {
         isDirty = true;
         if (unsavedBadge) unsavedBadge.hidden = false;
@@ -77,7 +74,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         el?.addEventListener('input', markDirty);
     });
 
-    // ── Avatar & Upload ───────────────────────────────────────────────────────
     let colorIdx = readJson(avatarColorKey, 0);
 
     const applyAvatarColor = (idx) => {
@@ -88,7 +84,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (avatar) {
             if (fotoBase64 || fotoCaminho) {
                 let baseUrl = '../Back-end/';
-                // Se estiver a usar o Live Server (VS Code), buscar a imagem diretamente ao XAMPP
                 if (['5500', '3000', '5501'].includes(window.location.port)) {
                     baseUrl = 'http://localhost/CocoRoot/Back-end/';
                 } else if (!window.location.pathname.includes('/Front-end/')) {
@@ -123,14 +118,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (avatar) avatar.style.opacity = '0.5';
         try {
-            // Comprimir a imagem no navegador antes de enviar
             const compressedFile = await new Promise((resolve, reject) => {
                 const img = new Image();
                 const url = URL.createObjectURL(file);
                 img.onload = () => {
                     URL.revokeObjectURL(url);
                     const canvas = document.createElement('canvas');
-                    const MAX_SIZE = 800; // Resolução máxima em pixels
+                    const MAX_SIZE = 800;
                     let width = img.width;
                     let height = img.height;
 
@@ -156,7 +150,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         } else {
                             reject(new Error('Erro ao comprimir imagem.'));
                         }
-                    }, 'image/jpeg', 0.85); // 85% de qualidade
+                    }, 'image/jpeg', 0.85);
                 };
                 img.onerror = () => reject(new Error('Erro ao ler a imagem.'));
                 img.src = url;
@@ -165,14 +159,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             const formData = new FormData();
             formData.append('foto', compressedFile.file);
 
-            // Mostrar a foto instantaneamente ao utilizador antes do servidor responder
             avatar.style.backgroundImage = `url("${compressedFile.base64}")`;
             avatar.style.backgroundPosition = 'center';
             avatar.style.backgroundSize = 'cover';
             avatar.style.backgroundRepeat = 'no-repeat';
             avatar.textContent = '';
 
-            // Usar o handler global da API para garantir que o pedido vai para o XAMPP e não para o Live Server
             const data = await api.fetchJson(`usuarios/upload-foto/${liveUser.id}`, {
                 method: 'POST',
                 body: formData
@@ -181,7 +173,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (data && data.data && data.data.foto) {
                 const ext = readJson(extProfileKey, {});
                 ext.foto = data.data.foto;
-                ext.fotoBase64 = compressedFile.base64; // Guarda a foto localmente para evitar ecrãs brancos
+                ext.fotoBase64 = compressedFile.base64;
                 writeJson(extProfileKey, ext);
                 liveUser.foto = data.data.foto;
                 applyAvatarColor(colorIdx);
@@ -196,10 +188,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Procura elementos específicos (ignorando divs estruturais) para esconder/ativar botões
     document.querySelectorAll('button, a, span, p, label, i').forEach(el => {
         const text = (el.textContent || '').trim().toLowerCase();
-        if (text.length > 50) return; // Ignora contentores grandes da página
+        if (text.length > 50) return;
 
         const isIcon = el.classList && (
             el.classList.contains('bi-camera') || el.classList.contains('bi-upload') ||
@@ -208,7 +199,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         );
 
         if (text.includes('alterar foto')) {
-            el.style.display = 'none'; // Não deve funcionar e nem aparecer
+            el.style.display = 'none';
         } else if ((text.includes('carregar foto') || isIcon) && !el.dataset.uploadBound) {
             el.dataset.uploadBound = '1';
             el.style.cursor = 'pointer';
@@ -216,14 +207,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Forçar a desativação de qualquer ação, clique ou tooltip (texto flutuante) diretamente no círculo da foto
     if (avatar) {
-        avatar.style.pointerEvents = 'none'; // Impede o clique e o cursor (mãozinha)
-        avatar.removeAttribute('title');     // Remove o texto flutuante nativo do HTML
-        avatar.removeAttribute('onclick');   // Remove qualquer evento de clique que esteja no HTML
+        avatar.style.pointerEvents = 'none';
+        avatar.removeAttribute('title');
+        avatar.removeAttribute('onclick');
     }
 
-    // ── Identity ──────────────────────────────────────────────────────────────
     const updateIdentityUI = () => {
         const ext = readJson(extProfileKey, {});
         if (inputName) inputName.value = liveUser.nome || '';
@@ -242,7 +231,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateIdentityUI();
     };
 
-    // ── Preferences ───────────────────────────────────────────────────────────
     const initPreferences = () => {
         const prefs = readJson(preferencesKey, { alertas: true, resumo: true, comunidade: true });
         if (prefAlertas) prefAlertas.checked = prefs.alertas !== false;
@@ -261,7 +249,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    // ── Interests ─────────────────────────────────────────────────────────────
     const initInterests = () => {
         const selected = new Set(readJson(interestsKey, ['Folhosas', 'Frutíferas']));
         const updateCount = () => {
@@ -286,7 +273,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateCount();
     };
 
-    // ── Activity feed ─────────────────────────────────────────────────────────
     const renderActivity = (items) => {
         if (!activityRoot) return;
         if (!Array.isArray(items) || items.length === 0) {
@@ -303,7 +289,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             </article>`).join('');
     };
 
-    // ── Stats + Activity load ─────────────────────────────────────────────────
     const loadStats = async () => {
         const userId = String(liveUser.id ?? user.id ?? 'anon');
         const completedModulesStore = readJson('cocoRootCompletedModules', {});
@@ -377,7 +362,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderActivity(activities);
     };
 
-    // ── Save profile ──────────────────────────────────────────────────────────
     const showSaveStatus = (msg, isError = false) => {
         if (!saveStatus) return;
         saveStatus.hidden = false;
@@ -395,7 +379,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!nome) throw new Error('O nome é obrigatório.');
         if (!email) throw new Error('O email é obrigatório.');
 
-        // Save nome + email to DB
         const response = await api.fetchJson(`usuarios/atualizar/${liveUser.id}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -403,10 +386,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         if (response?.success === false) throw new Error(response?.message || 'Erro ao guardar.');
 
-        // Save extended fields locally (telefone, localizacao)
         writeJson(extProfileKey, { telefone, localizacao });
 
-        // Update local state
         liveUser = toUserShape({ ...liveUser, nome, email, telefone, localizacao }, liveUser);
         localStorage.setItem('user', JSON.stringify(liveUser));
         updateIdentityUI();
@@ -436,7 +417,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // ── Password change ───────────────────────────────────────────────────────
     const setPwdStatus = (msg, isError = false) => {
         if (!pwdStatus) return;
         pwdStatus.hidden = !msg;
@@ -496,7 +476,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // ── Init ──────────────────────────────────────────────────────────────────
     initIdentity();
     initPreferences();
     initInterests();

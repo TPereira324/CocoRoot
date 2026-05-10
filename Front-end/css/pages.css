@@ -1082,7 +1082,6 @@ body.app-page {
     color: rgba(27, 27, 27, 0.62);
 }
 
-/* ── Profile save actions ── */
 .profile-save-actions {
     display: flex;
     align-items: center;
@@ -1109,7 +1108,6 @@ body.app-page {
     }
 }
 
-/* ── Password section ── */
 .profile-pwd-hint {
     font-size: 13px;
     color: rgba(27, 27, 27, 0.56);
@@ -1124,7 +1122,6 @@ body.app-page {
     margin-top: 14px;
 }
 
-/* ── Avatar pulse on color change ── */
 @keyframes avatar-pulse-anim {
     0% {
         transform: scale(1);
@@ -1143,12 +1140,10 @@ body.app-page {
     animation: avatar-pulse-anim 380ms ease;
 }
 
-/* ── Activity dot urgent ── */
 .profile-activity-dot.is-urgent {
     background: rgba(201, 88, 26, 0.82);
 }
 
-/* ── Profile toggle emoji size ── */
 .profile-toggle span[aria-hidden] {
     font-size: 16px;
     line-height: 1;

@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const api = window.CocoRootApi;
     if (!api) return;
 
-    // ── DOM refs ──────────────────────────────────────────────────────────────
     const statsRoot = document.getElementById('community-stats');
     const postsRoot = document.getElementById('posts');
     const errorBox = document.getElementById('community-error');
@@ -10,13 +9,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tabs = Array.from(document.querySelectorAll('.tab[data-cat]'));
     const sortBtns = Array.from(document.querySelectorAll('.sort-pill[data-sort]'));
 
-    // ── State ─────────────────────────────────────────────────────────────────
     let allPosts = [];
     let currentCategory = 'todos';
     let currentSort = 'recentes';
     let searchQuery = '';
 
-    // ── Seed posts (mostrados quando a API não retorna dados) ─────────────────
     const SEED_POSTS = [
         {
             id: 'seed-1',
@@ -80,14 +77,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         },
     ];
 
-    // ── Category meta ─────────────────────────────────────────────────────────
     const CAT_META = {
         duvidas: { label: 'Dúvida', color: '#2563eb', bg: 'rgba(37,99,235,0.09)', border: 'rgba(37,99,235,0.28)' },
         dicas: { label: 'Dica', color: '#16a34a', bg: 'rgba(22,163,74,0.09)', border: 'rgba(22,163,74,0.28)' },
         experiencias: { label: 'Experiência', color: '#d97706', bg: 'rgba(217,119,6,0.09)', border: 'rgba(217,119,6,0.30)' },
     };
 
-    // ── Likes (localStorage) ──────────────────────────────────────────────────
     const LIKES_KEY = 'cocoRootPostLikes';
     const readLikes = () => { try { return JSON.parse(localStorage.getItem(LIKES_KEY) || '{}'); } catch { return {}; } };
     const writeLikes = (obj) => localStorage.setItem(LIKES_KEY, JSON.stringify(obj));
@@ -103,7 +98,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return isLiked(post.id) ? base + 1 : base;
     };
 
-    // ── Hidden posts (fallback quando o servidor não apaga) ───────────────────
     const HIDDEN_KEY = 'cocoRootHiddenPosts';
     const getHiddenKey = () => {
         const user = api.getLoggedUser();
@@ -123,7 +117,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
     const isHidden = (id) => readHidden().includes(String(id));
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
     const getInitials = (name) => {
         const parts = String(name || 'U').trim().split(/\s+/);
         if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
@@ -159,9 +152,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (base.includes('exper')) return 'experiencias';
         if (base.includes('hist')) return 'experiencias';
         if (base.includes('outro')) {
-            // continua para heurística
         } else if (raw) {
-            // categoria desconhecida mas existe: tenta heurística na mesma
         }
 
         const titulo = normalizeSearch(post?.titulo);
@@ -184,7 +175,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return raw == null ? '' : String(raw);
     };
 
-    // ── Filter + Sort ─────────────────────────────────────────────────────────
     const getFilteredSorted = () => {
         let list = allPosts.slice().filter((p) => !isHidden(p?.id));
         if (currentCategory !== 'todos') list = list.filter((p) => p.categoria === currentCategory);
@@ -214,7 +204,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return list;
     };
 
-    // ── Skeleton ──────────────────────────────────────────────────────────────
     const renderSkeleton = () => {
         if (!postsRoot) return;
         postsRoot.innerHTML = Array.from({ length: 5 }, () => `
@@ -232,7 +221,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>`).join('');
     };
 
-    // ── Stats ─────────────────────────────────────────────────────────────────
     const renderStats = (posts) => {
         if (!statsRoot) return;
         const visible = (Array.isArray(posts) ? posts : []).filter((p) => !isHidden(p?.id));
@@ -258,7 +246,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         `;
     };
 
-    // ── Posts ─────────────────────────────────────────────────────────────────
     const deletePost = async (postId) => {
         if (!confirm('Tem a certeza que deseja apagar esta publicação? Esta ação não pode ser desfeita.')) {
             return;
@@ -389,7 +376,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
 
-        // Add delete button listeners
         postsRoot.querySelectorAll('.post-delete-btn').forEach((btn) => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -400,7 +386,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    // ── Publish form ──────────────────────────────────────────────────────────
     const publishToggleBtn = document.getElementById('publish-toggle-btn');
     const publishFormSection = document.getElementById('publish-form-section');
     const publishForm = document.getElementById('community-publish-form');
@@ -493,7 +478,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // ── Tabs ──────────────────────────────────────────────────────────────────
     tabs.forEach((tab) => {
         tab.addEventListener('click', () => {
             currentCategory = tab.dataset.cat;
@@ -502,7 +486,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    // ── Sort ──────────────────────────────────────────────────────────────────
     sortBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
             currentSort = btn.dataset.sort;
@@ -511,7 +494,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    // ── Search ────────────────────────────────────────────────────────────────
     let searchTimeout;
     searchInput?.addEventListener('input', () => {
         clearTimeout(searchTimeout);
@@ -521,7 +503,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 220);
     });
 
-    // ── Initial load ──────────────────────────────────────────────────────────
     renderSkeleton();
     try {
         const response = await api.fetchJson('forum/listar');
