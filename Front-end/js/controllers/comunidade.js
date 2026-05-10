@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         {
             id: 'seed-1',
             titulo: 'Manchas brancas no substrato — fungo ou misélio?',
-            conteudo: 'Há 3 dias comecei a notar manchas brancas no meu substrato de fibra de coco. As plantas (alface) ainda parecem saudáveis mas estou preocupado. Alguém já passou por isto? Vale a pena tratar com peróxido de hidrogênio diluído ou é melhor trocar o substrato todo?',
+            conteudo: 'Há 3 dias comecei a notar manchas brancas na fibra de coco. As plantas (alface) ainda parecem saudáveis, mas estou preocupado. Alguém já passou por isto? Vale a pena tratar com peróxido de hidrogénio diluído ou é melhor trocar o substrato?',
             categoria: 'duvidas',
             autor: { nome: 'Miguel Ferreira' },
             data: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         {
             id: 'seed-2',
             titulo: 'Dica: lavar bem a fibra antes de usar poupa muito trabalho depois',
-            conteudo: 'Aprendi da forma difícil. A fibra de coco comercial tem muito sal acumulado da origem. Se não lavar com água abundante antes de usar, as raízes sofrem logo nos primeiros dias. Hoje lavo sempre 3 vezes até o pH da água de saída estabilizar. Morango e mirtilo agradecem bastante.',
+            conteudo: 'A fibra de coco pode trazer sais acumulados. Se não lavares antes de usar, as raízes podem sofrer logo no arranque. Eu lavo 2–3 vezes até a água de saída estabilizar e só depois ajusto pH/EC.',
             categoria: 'dicas',
             autor: { nome: 'Ana Costa' },
             data: new Date(Date.now() - 18 * 60 * 60 * 1000).toISOString(),
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         {
             id: 'seed-3',
             titulo: 'Primeira colheita de tomate cherry em coco — 4.2 kg por planta',
-            conteudo: 'Depois de 3 meses a acompanhar pelo CocoRoot, consegui a minha primeira colheita de tomate cherry em fibra de coco. A monitorização de pH e EC fez mesmo diferença. Os frutos ficaram muito mais doces do que no solo. Deixo aqui as minhas configurações caso alguém queira replicar.',
+            conteudo: 'Depois de 3 meses a acompanhar pelo CocoRoot, consegui a minha primeira colheita de tomate cherry em fibra de coco. A monitorização de pH e EC fez diferença. Os frutos ficaram mais consistentes e doces do que no solo.',
             categoria: 'experiencias',
             autor: { nome: 'João Rodrigues' },
             data: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
@@ -50,18 +50,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         },
         {
             id: 'seed-4',
-            titulo: 'Qual o pH ideal para cannabis em substrato de coco?',
-            conteudo: 'Estou a começar o meu primeiro cultivo de cannabis medicinal em fibra de coco. Li que o pH ideal fica entre 5.8 e 6.2, mas alguns dizem 5.5 a 6.0. Qual é a vossa experiência? Estou a usar um sistema de rega por gotejamento e tenho dificuldade em estabilizar.',
+            titulo: 'Gotejadores a entupir no coco — como evitam?',
+            conteudo: 'Estou a usar rega por gotejamento e noto entupimentos frequentes (sobretudo quando faço fertirrega). Que filtros/rotinas usam? Fazem descarga semanal? Estou a tentar manter tudo simples e evitar avarias.',
             categoria: 'duvidas',
             autor: { nome: 'Pedro Alves' },
-            data: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-            comentarios: 8,
-            likes: 11,
+            data: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
+            comentarios: 4,
+            likes: 9,
         },
         {
             id: 'seed-5',
             titulo: 'Como reutilizar a fibra de coco no 2.º e 3.º ciclo',
-            conteudo: 'Depois de um ciclo completo, a fibra de coco não vai para o lixo cá em casa. Esterilizo com vapor de água a 80°C durante 30 minutos, deixo secar, ajusto EC e pH, e reutilizo. Já estou no 3.º ciclo com o mesmo substrato e os resultados continuam consistentes. Poupa muito dinheiro.',
+            conteudo: 'Depois de um ciclo, não mando a fibra fora. Faço uma limpeza, deixo secar bem e volto a ajustar pH/EC antes de reutilizar. Já vou no 3.º ciclo com bons resultados e menos custos.',
             categoria: 'dicas',
             autor: { nome: 'Carla Santos' },
             data: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
@@ -71,32 +71,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         {
             id: 'seed-6',
             titulo: 'Morango em fibra de coco — dois anos de experiência real',
-            conteudo: 'Cultivo morangos em coco há 2 anos e a gestão da rega é sem dúvida o fator mais crítico. O coco seca rápido e o morango é muito sensível a variações de humidade. Uso sensores simples e rego sempre que o substrato passa de 60% de water content. Os frutos ficam muito mais doces do que no solo.',
+            conteudo: 'Cultivo morangos em coco há 2 anos e a gestão da rega é o mais crítico. O coco seca rápido e o morango é sensível a variações. Com regas curtas e frequentes, a consistência melhorou muito.',
             categoria: 'experiencias',
             autor: { nome: 'Susana Lima' },
             data: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
             comentarios: 22,
             likes: 56,
-        },
-        {
-            id: 'seed-7',
-            titulo: 'EC ideal para microgreens em coco — alguém tem experiência?',
-            conteudo: 'Estou a testar microgreens (rabanete e girassol) em fibra de coco fina. Li que o EC deve ser muito baixo, entre 0.8 e 1.2 mS/cm, mas não tenho certeza se devo fazer alguma adubação na fase inicial ou deixar o substrato puro até à germinação.',
-            categoria: 'duvidas',
-            autor: { nome: 'Ricardo Neves' },
-            data: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
-            comentarios: 0,
-            likes: 6,
-        },
-        {
-            id: 'seed-8',
-            titulo: 'Mirtilo em coco: resultado surpreendente após ajuste de pH',
-            conteudo: 'Tinha os mirtilos com crescimento estagnado há semanas. Decidi medir o pH do substrato e estava em 6.4 — muito alto para mirtilo. Baixei para 5.2 com ácido cítrico ao longo de 10 dias e a diferença foi imediata. Em 3 semanas tinham novos ramos e a floração começou. Não subestimem o pH no mirtilo.',
-            categoria: 'experiencias',
-            autor: { nome: 'Filipa Martins' },
-            data: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
-            comentarios: 14,
-            likes: 38,
         },
     ];
 
@@ -122,6 +102,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         const base = Number(post.likes || post.curtidas || 0);
         return isLiked(post.id) ? base + 1 : base;
     };
+
+    // ── Hidden posts (fallback quando o servidor não apaga) ───────────────────
+    const HIDDEN_KEY = 'cocoRootHiddenPosts';
+    const getHiddenKey = () => {
+        const user = api.getLoggedUser();
+        const userId = user?.id ? String(user.id) : 'anon';
+        return `${HIDDEN_KEY}:${userId}`;
+    };
+    const readHidden = () => {
+        try { return JSON.parse(localStorage.getItem(getHiddenKey()) || '[]'); } catch { return []; }
+    };
+    const writeHidden = (ids) => {
+        try { localStorage.setItem(getHiddenKey(), JSON.stringify(Array.from(new Set(ids.map(String))))); } catch { }
+    };
+    const hidePostLocal = (id) => {
+        const ids = readHidden();
+        ids.push(String(id));
+        writeHidden(ids);
+    };
+    const isHidden = (id) => readHidden().includes(String(id));
 
     // ── Helpers ───────────────────────────────────────────────────────────────
     const getInitials = (name) => {
@@ -151,9 +151,42 @@ document.addEventListener('DOMContentLoaded', async () => {
     const normalizeSearch = (str) =>
         String(str || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 
+    const normalizeCategory = (post) => {
+        const raw = String(post?.categoria ?? post?.category ?? post?.tipo ?? '').trim();
+        const base = normalizeSearch(raw);
+        if (base.includes('duvid')) return 'duvidas';
+        if (base.includes('dica')) return 'dicas';
+        if (base.includes('exper')) return 'experiencias';
+        if (base.includes('hist')) return 'experiencias';
+        if (base.includes('outro')) {
+            // continua para heurística
+        } else if (raw) {
+            // categoria desconhecida mas existe: tenta heurística na mesma
+        }
+
+        const titulo = normalizeSearch(post?.titulo);
+        const conteudo = normalizeSearch(post?.conteudo);
+        const text = `${titulo} ${conteudo}`;
+
+        if (text.includes('dica:') || text.includes('dica ') || text.includes('dicas ')) return 'dicas';
+        if (text.includes('experienc') || text.includes('experiência') || text.includes('resultado') || text.includes('colheita')) return 'experiencias';
+        if (String(post?.titulo || '').includes('?') || text.includes('ajuda') || text.includes('como ') || text.includes('qual ') || text.includes('problema')) return 'duvidas';
+        return 'duvidas';
+    };
+
+    const normalizePosts = (posts) => {
+        const list = Array.isArray(posts) ? posts : [];
+        return list.map((p) => ({ ...p, categoria: normalizeCategory(p) }));
+    };
+
+    const getPostAuthorId = (post) => {
+        const raw = post?.autor?.id ?? post?.autor_id ?? post?.ut_id ?? post?.usuario_id ?? post?.user_id ?? null;
+        return raw == null ? '' : String(raw);
+    };
+
     // ── Filter + Sort ─────────────────────────────────────────────────────────
     const getFilteredSorted = () => {
-        let list = allPosts.slice();
+        let list = allPosts.slice().filter((p) => !isHidden(p?.id));
         if (currentCategory !== 'todos') list = list.filter((p) => p.categoria === currentCategory);
         if (searchQuery.trim()) {
             const q = normalizeSearch(searchQuery.trim());
@@ -202,11 +235,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ── Stats ─────────────────────────────────────────────────────────────────
     const renderStats = (posts) => {
         if (!statsRoot) return;
+        const visible = (Array.isArray(posts) ? posts : []).filter((p) => !isHidden(p?.id));
         const c = {
-            todos: posts.length,
-            duvidas: posts.filter((p) => p.categoria === 'duvidas').length,
-            dicas: posts.filter((p) => p.categoria === 'dicas').length,
-            experiencias: posts.filter((p) => p.categoria === 'experiencias').length,
+            todos: visible.length,
+            duvidas: visible.filter((p) => p.categoria === 'duvidas').length,
+            dicas: visible.filter((p) => p.categoria === 'dicas').length,
+            experiencias: visible.filter((p) => p.categoria === 'experiencias').length,
         };
         statsRoot.innerHTML = `
             <div class="cstat-item">
@@ -236,20 +270,38 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        try {
-            await api.fetchJsonDelete(`forum/deletarPublicacao/${postId}`, {
+        const idStr = String(postId);
+        hidePostLocal(idStr);
+        allPosts = allPosts.filter((p) => String(p.id) !== idStr);
+        renderStats(allPosts);
+        renderPosts();
+
+        const payload = JSON.stringify({ ut_id: user.id });
+
+        const tryDelete = async () => {
+            await api.fetchJsonDelete(`forum/deletarPublicacao/${idStr}`, { body: payload });
+            return true;
+        };
+
+        const tryPostFallback = async () => {
+            await api.fetchJson(`forum/deletarPublicacao/${idStr}`, {
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ut_id: user.id,
-                }),
+                body: payload,
             });
+            return true;
+        };
+
+        try {
+            await tryDelete();
             setError('');
-            // Remove do array local
-            allPosts = allPosts.filter(p => p.id !== postId);
-            renderStats(allPosts);
-            renderPosts();
         } catch (error) {
-            setError(error.message || 'Não foi possível apagar a publicação.');
+            try {
+                await tryPostFallback();
+                setError('');
+            } catch {
+                setError('Não foi possível apagar no servidor (mas já não aparece para ti).');
+            }
         }
     };
 
@@ -279,7 +331,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const trending = isTrendingPost(post);
             const rawExcerpt = String(post.conteudo || '').trim();
             const excerpt = rawExcerpt.length > 160 ? `${rawExcerpt.slice(0, 160).trim()}…` : rawExcerpt;
-            const isAuthor = user?.id === post.autor?.id;
+            const isAuthor = user?.id && String(user.id) === getPostAuthorId(post);
 
             return `
                 <div class="community-post cat-${post.categoria || 'outros'}${trending ? ' post-trending' : ''}">
@@ -413,7 +465,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const titulo = String(document.getElementById('publish-titulo')?.value || '').trim();
         const conteudo = String(conteudoTextarea?.value || '').trim();
-        const categoria = String(document.getElementById('publish-categoria')?.value || 'outros');
+        const categoria = String(document.getElementById('publish-categoria')?.value || 'duvidas');
 
         if (!titulo) { setPublishError('O título é obrigatório.'); return; }
         if (!conteudo) { setPublishError('O conteúdo é obrigatório.'); return; }
@@ -430,7 +482,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             closePublishForm();
             const response = await api.fetchJson('forum/listar');
             const apiPosts = Array.isArray(response?.data) ? response.data : [];
-            allPosts = apiPosts.length > 0 ? apiPosts : SEED_POSTS;
+            const normalizedApi = normalizePosts(apiPosts);
+            allPosts = normalizedApi.length > 0 ? normalizedApi : SEED_POSTS;
             renderStats(allPosts);
             renderPosts();
         } catch (err) {
@@ -473,7 +526,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const response = await api.fetchJson('forum/listar');
         const apiPosts = Array.isArray(response?.data) ? response.data : [];
-        allPosts = apiPosts.length > 0 ? apiPosts : SEED_POSTS;
+        const normalizedApi = normalizePosts(apiPosts);
+        allPosts = normalizedApi.length > 0 ? normalizedApi : SEED_POSTS;
         renderStats(allPosts);
         renderPosts();
         setError('');

@@ -24,6 +24,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         errorEl.textContent = message || '';
     };
 
+    const HIDDEN_KEY = 'cocoRootHiddenPosts';
+    const getHiddenKey = () => {
+        const user = api.getLoggedUser();
+        const userId = user?.id ? String(user.id) : 'anon';
+        return `${HIDDEN_KEY}:${userId}`;
+    };
+    const readHidden = () => {
+        try { return JSON.parse(localStorage.getItem(getHiddenKey()) || '[]'); } catch { return []; }
+    };
+    const writeHidden = (ids) => {
+        try { localStorage.setItem(getHiddenKey(), JSON.stringify(Array.from(new Set(ids.map(String))))); } catch { }
+    };
+    const hidePostLocal = (id) => {
+        const ids = readHidden();
+        ids.push(String(id));
+        writeHidden(ids);
+    };
+
     const formatDate = (value) => {
         if (!value) return '';
         const date = new Date(value);
@@ -73,16 +91,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
+        const idStr = String(postId || '');
+        if (!idStr) { setError('Publicação inválida.'); return; }
+
+        hidePostLocal(idStr);
+        const payload = JSON.stringify({ ut_id: user.id });
+
         try {
-            await api.fetchJsonDelete(`forum/deletarPublicacao/${postId}`, {
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ut_id: user.id,
-                }),
-            });
+            await api.fetchJsonDelete(`forum/deletarPublicacao/${idStr}`, { body: payload });
             window.location.href = 'comunidade.html';
         } catch (error) {
-            setError(error.message || 'Não foi possível apagar a publicação.');
+            try {
+                await api.fetchJson(`forum/deletarPublicacao/${idStr}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: payload,
+                });
+                window.location.href = 'comunidade.html';
+            } catch {
+                setError('Não foi possível apagar no servidor (mas já não aparece para ti).');
+                window.setTimeout(() => { window.location.href = 'comunidade.html'; }, 900);
+            }
         }
     };
 
