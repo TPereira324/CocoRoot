@@ -172,6 +172,83 @@ body.cr-sheet .page-content>* {
     line-height: 1;
 }
 
+.bi {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1em;
+    height: 1em;
+    font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    vertical-align: -0.125em;
+}
+
+.bi::before {
+    content: var(--bi, "");
+    line-height: 1;
+}
+
+.bi.bi-lock-fill { --bi: "🔒"; }
+.bi.bi-lock { --bi: "🔒"; }
+.bi.bi-person-circle { --bi: "👤"; }
+.bi.bi-person { --bi: "👤"; }
+.bi.bi-people { --bi: "👥"; }
+.bi.bi-box-arrow-right { --bi: "🚪"; }
+.bi.bi-box-arrow-in-right { --bi: "➡️"; }
+.bi.bi-person-plus { --bi: "➕"; }
+.bi.bi-exclamation-triangle { --bi: "⚠️"; }
+.bi.bi-info-circle { --bi: "ℹ️"; }
+.bi.bi-arrow-repeat { --bi: "🔄"; }
+.bi.bi-bell { --bi: "🔔"; }
+.bi.bi-arrow-up { --bi: "↑"; }
+.bi.bi-arrow-left { --bi: "←"; }
+.bi.bi-arrow-right-short { --bi: "→"; }
+.bi.bi-share { --bi: "🔗"; }
+.bi.bi-heart { --bi: "🤍"; }
+.bi.bi-heart-fill { --bi: "❤️"; }
+.bi.bi-calendar-event { --bi: "📅"; }
+.bi.bi-moisture { --bi: "💧"; }
+.bi.bi-droplet { --bi: "💧"; }
+.bi.bi-droplet-fill { --bi: "💧"; }
+.bi.bi-droplet-half { --bi: "💧"; }
+.bi.bi-wind { --bi: "🌬️"; }
+.bi.bi-thermometer-half { --bi: "🌡️"; }
+.bi.bi-cloud { --bi: "☁️"; }
+.bi.bi-sun { --bi: "☀️"; }
+.bi.bi-cloud-sun { --bi: "⛅"; }
+.bi.bi-cloud-fog2 { --bi: "🌫️"; }
+.bi.bi-cloud-drizzle { --bi: "🌦️"; }
+.bi.bi-cloud-rain { --bi: "🌧️"; }
+.bi.bi-cloud-snow { --bi: "❄️"; }
+.bi.bi-cloud-lightning-rain { --bi: "⛈️"; }
+.bi.bi-camera { --bi: "📷"; }
+.bi.bi-upload { --bi: "⬆️"; }
+.bi.bi-trash { --bi: "🗑️"; }
+.bi.bi-map { --bi: "🗺️"; }
+.bi.bi-graph-up { --bi: "📈"; }
+.bi.bi-cloud-sun { --bi: "⛅"; }
+.bi.bi-sliders { --bi: "🎚️"; }
+.bi.bi-bug { --bi: "🐞"; }
+.bi.bi-house-door { --bi: "🏠"; }
+.bi.bi-file-earmark-spreadsheet { --bi: "📊"; }
+.bi.bi-file-earmark-pdf { --bi: "📄"; }
+.bi.bi-chevron-left { --bi: "←"; }
+.bi.bi-chevron-right { --bi: "→"; }
+.bi.bi-chevron-down { --bi: "▾"; }
+.bi.bi-check { --bi: "✓"; }
+.bi.bi-check2 { --bi: "✓"; }
+.bi.bi-check-lg { --bi: "✓"; }
+.bi.bi-eye { --bi: "👁️"; }
+.bi.bi-eye-slash { --bi: "🙈"; }
+.bi.bi-instagram { --bi: "📷"; }
+.bi.bi-facebook { --bi: "ⓕ"; }
+.bi.bi-leaf { --bi: "🍃"; }
+.bi.bi-tree { --bi: "🌳"; }
+.bi.bi-flower1 { --bi: "🌸"; }
+.bi.bi-flower2 { --bi: "🌼"; }
+
 .auth-back i {
     margin-right: 0;
     font-size: 20px;

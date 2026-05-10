@@ -30,12 +30,10 @@
     margin-top: 8px;
 }
 
-.guide-head .news-divider {
-    width: calc(100% + 28px);
-    margin-left: -14px;
-    margin-right: -14px;
-    margin-top: 12px;
-    margin-bottom: 18px;
+.guide-divider {
+    height: 2px;
+    background: rgba(124, 84, 52, 0.68);
+    margin: 14px -14px 22px;
 }
 
 .guide-status {
