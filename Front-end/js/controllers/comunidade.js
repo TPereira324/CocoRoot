@@ -102,9 +102,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // ── Category meta ─────────────────────────────────────────────────────────
     const CAT_META = {
-        duvidas: { label: 'Dúvida', icon: '❓', color: '#2563eb', bg: 'rgba(37,99,235,0.09)', border: 'rgba(37,99,235,0.28)' },
-        dicas: { label: 'Dica', icon: '💡', color: '#16a34a', bg: 'rgba(22,163,74,0.09)', border: 'rgba(22,163,74,0.28)' },
-        experiencias: { label: 'Experiência', icon: '🌟', color: '#d97706', bg: 'rgba(217,119,6,0.09)', border: 'rgba(217,119,6,0.30)' },
+        duvidas: { label: 'Dúvida', color: '#2563eb', bg: 'rgba(37,99,235,0.09)', border: 'rgba(37,99,235,0.28)' },
+        dicas: { label: 'Dica', color: '#16a34a', bg: 'rgba(22,163,74,0.09)', border: 'rgba(22,163,74,0.28)' },
+        experiencias: { label: 'Experiência', color: '#d97706', bg: 'rgba(217,119,6,0.09)', border: 'rgba(217,119,6,0.30)' },
     };
 
     // ── Likes (localStorage) ──────────────────────────────────────────────────
@@ -210,19 +210,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
         statsRoot.innerHTML = `
             <div class="cstat-item">
-                <span class="cstat-icon" aria-hidden="true">💬</span>
                 <div class="cstat-body"><span class="cstat-num">${c.todos}</span><span class="cstat-label">Publicações</span></div>
             </div>
             <div class="cstat-item cstat-duvidas">
-                <span class="cstat-icon" aria-hidden="true">❓</span>
                 <div class="cstat-body"><span class="cstat-num">${c.duvidas}</span><span class="cstat-label">Dúvidas</span></div>
             </div>
             <div class="cstat-item cstat-dicas">
-                <span class="cstat-icon" aria-hidden="true">💡</span>
                 <div class="cstat-body"><span class="cstat-num">${c.dicas}</span><span class="cstat-label">Dicas</span></div>
             </div>
             <div class="cstat-item cstat-experiencias">
-                <span class="cstat-icon" aria-hidden="true">🌟</span>
                 <div class="cstat-body"><span class="cstat-num">${c.experiencias}</span><span class="cstat-label">Experiências</span></div>
             </div>
         `;
@@ -265,7 +261,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (list.length === 0) {
             postsRoot.innerHTML = `
                 <div class="community-empty">
-                    <span class="community-empty-icon" aria-hidden="true">📭</span>
                     <div class="community-empty-text">${searchQuery.trim() ? 'Nenhum resultado para essa pesquisa.' : 'Sem publicações nesta categoria.'}</div>
                     <div class="community-empty-sub">${searchQuery.trim() ? 'Tenta com outros termos.' : 'Sê o primeiro a partilhar!'}</div>
                 </div>`;
@@ -273,7 +268,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         postsRoot.innerHTML = list.map((post) => {
-            const cat = CAT_META[post.categoria] || { label: 'Outro', icon: '💬', color: '#6b7280', bg: 'rgba(107,114,128,0.09)', border: 'rgba(107,114,128,0.24)' };
+            const cat = CAT_META[post.categoria] || { label: 'Outro', color: '#6b7280', bg: 'rgba(107,114,128,0.09)', border: 'rgba(107,114,128,0.24)' };
             const author = String(post?.autor?.nome || 'Utilizador');
             const initials = getInitials(author);
             const timeText = formatRelativeTime(post?.data);
@@ -294,17 +289,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <div class="post-meta-row">
                                 <span class="post-author">${author}</span>
                                 <span class="post-badge" style="background:${cat.bg};border-color:${cat.border};color:${cat.color};">
-                                    <span aria-hidden="true">${cat.icon}</span> ${cat.label}
+                                    ${cat.label}
                                 </span>
                                 ${newPost ? '<span class="post-new-badge">Novo</span>' : ''}
-                                ${trending ? '<span class="post-trending-badge">🔥 Em destaque</span>' : ''}
+                                ${trending ? '<span class="post-trending-badge">Em destaque</span>' : ''}
                                 ${timeText ? `<span class="post-time">${timeText}</span>` : ''}
                             </div>
                             <div class="post-title">${post.titulo || 'Sem título'}</div>
                             ${excerpt ? `<div class="post-excerpt">${excerpt}</div>` : ''}
                             <div class="post-footer">
                                 <span class="post-replies">
-                                    <span aria-hidden="true">💬</span>
                                     ${replies === 0 ? 'Sem respostas' : `${replies} resposta${replies !== 1 ? 's' : ''}`}
                                 </span>
                                 <span class="post-read-more">Ler mais →</span>
@@ -316,10 +310,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                             data-post-id="${post.id}"
                             aria-label="${liked ? 'Remover gosto' : 'Dar gosto'}"
                             aria-pressed="${liked}">
-                            <span class="heart-icon" aria-hidden="true">${liked ? '♥' : '♡'}</span>
-                            <span class="post-like-count">${likeCount}</span>
+                            <span class="post-like-text">${liked ? 'Gostaste' : 'Gostar'}</span>
+                            <span class="post-like-count">(${likeCount})</span>
                         </button>
-                        ${isAuthor ? `<button type="button" class="post-delete-btn" data-post-id="${post.id}" aria-label="Apagar publicação" title="Apagar"><i class="bi bi-trash" aria-hidden="true"></i></button>` : ''}
+                        ${isAuthor ? `<button type="button" class="post-delete-btn" data-post-id="${post.id}" aria-label="Apagar publicação" title="Apagar">Apagar</button>` : ''}
                     </div>
                 </div>`;
         }).join('');
@@ -335,9 +329,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 btn.classList.toggle('is-liked', nowLiked);
                 btn.setAttribute('aria-pressed', String(nowLiked));
                 btn.setAttribute('aria-label', nowLiked ? 'Remover gosto' : 'Dar gosto');
-                btn.querySelector('.post-like-count').textContent = String(newCount);
-                const heart = btn.querySelector('.heart-icon');
-                if (heart) heart.textContent = nowLiked ? '♥' : '♡';
+                btn.querySelector('.post-like-count').textContent = `(${newCount})`;
+                const textEl = btn.querySelector('.post-like-text');
+                if (textEl) textEl.textContent = nowLiked ? 'Gostaste' : 'Gostar';
                 btn.classList.add('like-pulse');
                 setTimeout(() => btn.classList.remove('like-pulse'), 300);
             });
