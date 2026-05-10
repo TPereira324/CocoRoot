@@ -67,4 +67,34 @@ class ForumController extends Controller {
             $this->erro($e->getMessage(), $status);
         }
     }
+
+    public function deletarPublicacao(int $id): void {
+        try {
+            $dados = $this->input();
+            $usuarioId = (int)($dados['ut_id'] ?? $dados['usuario_id'] ?? 0);
+            $this->forumService->deletarPost($id, $usuarioId);
+            $this->success([], 'Publicação apagada com sucesso!');
+        } catch (Exception $e) {
+            $status = str_contains($e->getMessage(), 'Utilizador inválido') ? 401 : 403;
+            if (str_contains($e->getMessage(), 'não encontrada')) {
+                $status = 404;
+            }
+            $this->erro($e->getMessage(), $status);
+        }
+    }
+
+    public function deletarComentario(int $id): void {
+        try {
+            $dados = $this->input();
+            $usuarioId = (int)($dados['ut_id'] ?? $dados['usuario_id'] ?? 0);
+            $this->forumService->deletarComentario($id, $usuarioId);
+            $this->success([], 'Comentário apagado com sucesso!');
+        } catch (Exception $e) {
+            $status = str_contains($e->getMessage(), 'Utilizador inválido') ? 401 : 403;
+            if (str_contains($e->getMessage(), 'não encontrado')) {
+                $status = 404;
+            }
+            $this->erro($e->getMessage(), $status);
+        }
+    }
 }

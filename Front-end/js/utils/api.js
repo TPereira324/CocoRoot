@@ -75,6 +75,36 @@
         return parseJson(response);
     }
 
+    async function fetchJsonDelete(path, options = {}) {
+        const urls = buildBackendUrlCandidates(path);
+        let lastError = null;
+
+        for (const url of urls) {
+            try {
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json', ...options.headers },
+                    body: options.body,
+                });
+                if (response.status === 404) {
+                    lastError = new Error('Endpoint não encontrado.');
+                    continue;
+                }
+                const data = await response.json().catch(() => null);
+                if (!response.ok) {
+                    const message = data?.message || data?.mensagem || 'Falha ao comunicar com o servidor.';
+                    lastError = new Error(message);
+                    continue;
+                }
+                return data;
+            } catch (error) {
+                lastError = error;
+            }
+        }
+
+        throw lastError || new Error('Falha ao comunicar com o servidor.');
+    }
+
     function getLoggedUser() {
         try {
             const raw = localStorage.getItem('user');
@@ -97,6 +127,7 @@
         buildBackendUrl,
         buildBackendUrlCandidates,
         fetchJson,
+        fetchJsonDelete,
         getLoggedUser,
         requireLoggedUser,
     };

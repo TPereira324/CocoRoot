@@ -229,9 +229,39 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // ── Posts ─────────────────────────────────────────────────────────────────
+    const deletePost = async (postId) => {
+        if (!confirm('Tem a certeza que deseja apagar esta publicação? Esta ação não pode ser desfeita.')) {
+            return;
+        }
+
+        const user = api.getLoggedUser();
+        if (!user?.id) {
+            setError('Precisas de iniciar sessão.');
+            return;
+        }
+
+        try {
+            await api.fetchJsonDelete(`forum/deletarPublicacao/${postId}`, {
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ut_id: user.id,
+                }),
+            });
+            setError('');
+            // Remove do array local
+            allPosts = allPosts.filter(p => p.id !== postId);
+            renderStats(allPosts);
+            renderPosts();
+        } catch (error) {
+            setError(error.message || 'Não foi possível apagar a publicação.');
+        }
+    };
+
     const renderPosts = () => {
         if (!postsRoot) return;
         const list = getFilteredSorted();
+        const user = api.getLoggedUser();
+
         if (list.length === 0) {
             postsRoot.innerHTML = `
                 <div class="community-empty">
@@ -254,6 +284,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const trending = isTrendingPost(post);
             const rawExcerpt = String(post.conteudo || '').trim();
             const excerpt = rawExcerpt.length > 160 ? `${rawExcerpt.slice(0, 160).trim()}…` : rawExcerpt;
+            const isAuthor = user?.id === post.autor?.id;
+
             return `
                 <div class="community-post cat-${post.categoria || 'outros'}${trending ? ' post-trending' : ''}">
                     <a class="post-link-wrap" href="comunidade-post.html?id=${post.id}" aria-label="Ver: ${post.titulo || ''}">
@@ -279,13 +311,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                             </div>
                         </div>
                     </a>
-                    <button type="button" class="post-like-btn${liked ? ' is-liked' : ''}"
-                        data-post-id="${post.id}"
-                        aria-label="${liked ? 'Remover gosto' : 'Dar gosto'}"
-                        aria-pressed="${liked}">
-                        <span class="heart-icon" aria-hidden="true">${liked ? '♥' : '♡'}</span>
-                        <span class="post-like-count">${likeCount}</span>
-                    </button>
+                    <div class="post-actions">
+                        <button type="button" class="post-like-btn${liked ? ' is-liked' : ''}"
+                            data-post-id="${post.id}"
+                            aria-label="${liked ? 'Remover gosto' : 'Dar gosto'}"
+                            aria-pressed="${liked}">
+                            <span class="heart-icon" aria-hidden="true">${liked ? '♥' : '♡'}</span>
+                            <span class="post-like-count">${likeCount}</span>
+                        </button>
+                        ${isAuthor ? `<button type="button" class="post-delete-btn" data-post-id="${post.id}" aria-label="Apagar publicação" title="Apagar"><i class="bi bi-trash" aria-hidden="true"></i></button>` : ''}
+                    </div>
                 </div>`;
         }).join('');
 
@@ -305,6 +340,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (heart) heart.textContent = nowLiked ? '♥' : '♡';
                 btn.classList.add('like-pulse');
                 setTimeout(() => btn.classList.remove('like-pulse'), 300);
+            });
+        });
+
+        // Add delete button listeners
+        postsRoot.querySelectorAll('.post-delete-btn').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const id = btn.dataset.postId;
+                deletePost(id);
             });
         });
     };

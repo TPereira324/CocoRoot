@@ -2,7 +2,7 @@
 session_start();
 
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json; charset=utf-8');
 
@@ -93,6 +93,8 @@ $routes = [
             'detalhe' => ['method' => 'GET', 'handler' => 'detalhe', 'needs_id' => true],
             'comentarios' => ['method' => 'GET', 'handler' => 'comentarios', 'needs_id' => true],
             'comentar' => ['method' => 'POST', 'handler' => 'comentar', 'needs_id' => true],
+            'deletarPublicacao' => ['method' => 'DELETE', 'handler' => 'deletarPublicacao', 'needs_id' => true],
+            'deletarComentario' => ['method' => 'DELETE', 'handler' => 'deletarComentario', 'needs_id' => true],
         ],
     ],
     'clima' => [

@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const form = document.getElementById('community-comment-form');
     const textarea = document.getElementById('community-comment-input');
 
+    let currentPost = null;
+    let currentComments = [];
+
     const setError = (message) => {
         if (!errorEl) return;
         errorEl.hidden = !message;
@@ -34,8 +37,58 @@ document.addEventListener('DOMContentLoaded', async () => {
         }).format(date);
     };
 
+    const deleteComment = async (commentId) => {
+        if (!confirm('Tem a certeza que deseja apagar este comentário?')) {
+            return;
+        }
+
+        const user = api.getLoggedUser();
+        if (!user?.id) {
+            setError('Precisas de iniciar sessão.');
+            return;
+        }
+
+        try {
+            await api.fetchJsonDelete(`forum/deletarComentario/${commentId}`, {
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ut_id: user.id,
+                }),
+            });
+            setError('');
+            await loadPost();
+        } catch (error) {
+            setError(error.message || 'Não foi possível apagar o comentário.');
+        }
+    };
+
+    const deletePost = async () => {
+        if (!confirm('Tem a certeza que deseja apagar esta publicação? Esta ação não pode ser desfeita.')) {
+            return;
+        }
+
+        const user = api.getLoggedUser();
+        if (!user?.id) {
+            setError('Precisas de iniciar sessão.');
+            return;
+        }
+
+        try {
+            await api.fetchJsonDelete(`forum/deletarPublicacao/${postId}`, {
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ut_id: user.id,
+                }),
+            });
+            window.location.href = 'comunidade.html';
+        } catch (error) {
+            setError(error.message || 'Não foi possível apagar a publicação.');
+        }
+    };
+
     const renderComments = (comments) => {
         if (!commentsEl) return;
+        currentComments = comments;
         if (commentsTitleEl) {
             commentsTitleEl.textContent = `${Array.isArray(comments) ? comments.length : 0} Respostas`;
         }
@@ -44,13 +97,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        commentsEl.innerHTML = comments.map((comment) => `
+        const user = api.getLoggedUser();
+        commentsEl.innerHTML = comments.map((comment) => {
+            const isAuthor = user?.id === comment.autor?.id;
+            const deleteButton = isAuthor ? `<button class="community-reply-delete" onclick="if (window.deleteComment) window.deleteComment(${comment.id})" title="Apagar comentário"><i class="bi bi-trash" aria-hidden="true"></i></button>` : '';
+
+            return `
             <div class="community-reply">
                 <div class="community-reply-avatar"><i class="bi bi-person" aria-hidden="true"></i></div>
-                <div class="community-reply-text">${comment.conteudo || ''}</div>
-                <div class="community-reply-like"><i class="bi bi-heart" aria-hidden="true"></i></div>
+                <div class="community-reply-content">
+                    <div class="community-reply-text">${comment.conteudo || ''}</div>
+                    <div class="community-reply-meta">${comment.autor?.nome || 'Utilizador'} • ${formatDate(comment.data)}</div>
+                </div>
+                <div class="community-reply-actions">
+                    <div class="community-reply-like"><i class="bi bi-heart" aria-hidden="true"></i></div>
+                    ${deleteButton}
+                </div>
             </div>
-        `).join('');
+        `}).join('');
+
+        // Make deleteComment available to inline onclick
+        window.deleteComment = deleteComment;
     };
 
     const loadPost = async () => {
@@ -71,13 +138,29 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
+            currentPost = post;
+            const user = api.getLoggedUser();
+            const isAuthor = user?.id === post.autor?.id;
+
             if (titleEl) titleEl.textContent = post.titulo || 'Sem título';
             if (badgeEl) badgeEl.textContent = post.categoria_label || 'Outro';
-            if (metaEl) metaEl.textContent = `${post?.autor?.nome || 'Utilizador'}`;
+
+            // Render meta with delete button if author
+            if (metaEl) {
+                const deleteBtn = isAuthor ? `<button class="community-delete-post-btn" onclick="if (window.deletePost) window.deletePost()" title="Apagar publicação"><i class="bi bi-trash" aria-hidden="true"></i> Apagar</button>` : '';
+                metaEl.innerHTML = `${post?.autor?.nome || 'Utilizador'} ${deleteBtn}`;
+            }
+
             if (bodyEl) bodyEl.textContent = post.conteudo || 'Sem conteúdo.';
             document.title = `${post.titulo || 'Publicação'} - CocoRoot`;
 
             renderComments(Array.isArray(commentsResponse?.data) ? commentsResponse.data : []);
+
+            // Show/hide comment form
+            if (form) {
+                form.hidden = !user?.id;
+            }
+
             setError('');
         } catch (error) {
             renderComments([]);
@@ -114,6 +197,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             setError(error.message || 'Não foi possível enviar o comentário.');
         }
     });
+
+    // Make deletePost available to inline onclick
+    window.deletePost = deletePost;
 
     await loadPost();
 });
