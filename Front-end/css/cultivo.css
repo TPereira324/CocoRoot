@@ -256,16 +256,18 @@
     font-size: 18px;
     font-weight: 900;
     color: rgba(27, 27, 27, 0.96);
+    text-align: center;
 }
 
 .cultivo-summary-box {
     max-width: 360px;
-    margin: 0;
+    margin: 0 auto;
     padding: 8px 10px;
     border: 1px solid rgba(63, 142, 68, 0.42);
     border-radius: 6px;
     background: rgba(255, 255, 255, 0.52);
     gap: 0;
+    width: 100%;
 }
 
 .cultivo-summary-row {

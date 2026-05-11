@@ -13,6 +13,13 @@
     const btnNext = document.querySelector('[data-step-next]');
     const btnSave = document.querySelector('[data-step-save]');
 
+    const summaryTipo = document.querySelector('[data-summary-tipo]');
+    const summaryLargura = document.querySelector('[data-summary-largura]');
+    const summaryComprimento = document.querySelector('[data-summary-comprimento]');
+    const summaryProfundidade = document.querySelector('[data-summary-profundidade]');
+    const summarySubstrato = document.querySelector('[data-summary-substrato]');
+    const summaryMetodo = document.querySelector('[data-summary-metodo]');
+
     const substratePreview = document.querySelector('[data-substrate-preview]');
     const substrateLitrosEl = document.querySelector('[data-substrate-litros]');
 
@@ -129,6 +136,17 @@
         return '';
     };
 
+    const renderSummary = () => {
+        syncState();
+        const litros = calcSubstrateLitros();
+        if (summaryTipo) summaryTipo.textContent = state.tipo || '—';
+        if (summaryLargura) summaryLargura.textContent = state.largura || '—';
+        if (summaryComprimento) summaryComprimento.textContent = state.comprimento || '—';
+        if (summaryProfundidade) summaryProfundidade.textContent = state.profundidade || '—';
+        if (summarySubstrato) summarySubstrato.textContent = litros !== null ? `~${litros} L` : '—';
+        if (summaryMetodo) summaryMetodo.textContent = state.metodo || 'Hidroponia';
+    };
+
     const showStep = (n) => {
         const max = steps.length || 5;
         const clamped = Math.max(1, Math.min(max, n));
@@ -143,23 +161,35 @@
         if (btnNext) { btnNext.hidden = clamped === max; btnNext.style.display = clamped === max ? 'none' : ''; }
         if (btnSave) { btnSave.hidden = clamped !== max; btnSave.style.display = clamped === max ? '' : 'none'; }
 
+        if (clamped === max) renderSummary();
         setError('');
-        if (clamped !== 2) clearFieldErrors();
+        clearFieldErrors();
     };
 
     const next = () => {
+        const activeEl = document.querySelector('.cultivo-step.active[data-step]');
+        const activeStep = Number(activeEl?.dataset?.step || state.step || 1);
+        state.step = Number.isFinite(activeStep) ? activeStep : state.step;
         const err = validateStep(state.step);
         if (err) { setError(err); return; }
         showStep(state.step + 1);
     };
 
     const prev = () => {
+        const activeEl = document.querySelector('.cultivo-step.active[data-step]');
+        const activeStep = Number(activeEl?.dataset?.step || state.step || 1);
+        state.step = Number.isFinite(activeStep) ? activeStep : state.step;
         showStep(state.step - 1);
     };
 
     const save = async () => {
         const err = validateStep(1) || validateStep(2) || validateStep(3);
-        if (err) { setError(err); showStep(1); return; }
+        if (err) {
+            if (String(err).includes('Largura') || String(err).includes('Comprimento') || String(err).includes('Profundidade')) showStep(2);
+            else showStep(1);
+            setError(err);
+            return;
+        }
         syncState();
         const user = api?.requireLoggedUser?.();
         if (!user) return;
@@ -207,9 +237,22 @@
         }
     };
 
-    [el.largura, el.comprimento, el.profundidade].forEach((input) => {
-        input?.addEventListener('input', updateSubstratePreview);
+    el.tipo?.addEventListener('change', () => {
+        setError('');
     });
+
+    const bindMeasureInput = (input, fieldName) => {
+        if (!input) return;
+        input.addEventListener('input', () => {
+            setError('');
+            setFieldError(fieldName, '');
+            updateSubstratePreview();
+        });
+    };
+
+    bindMeasureInput(el.largura, 'largura');
+    bindMeasureInput(el.comprimento, 'comprimento');
+    bindMeasureInput(el.profundidade, 'profundidade');
 
     btnPrev?.addEventListener('click', (e) => { e.preventDefault(); prev(); });
     btnNext?.addEventListener('click', (e) => { e.preventDefault(); next(); });

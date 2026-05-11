@@ -17,7 +17,7 @@
             </div>
 
             <div class="cultivo-progress-shell">
-                <div class="cultivo-stepmeta" data-step-meta>Passo 1 de 5</div>
+                <div class="cultivo-stepmeta" data-step-meta>Passo 1 de 4</div>
                 <div class="cultivo-progress" aria-hidden="true">
                     <div class="cultivo-progress-fill" data-cultivo-progress></div>
                 </div>
@@ -26,6 +26,7 @@
             <div class="cultivo-error" data-cultivo-error role="alert" hidden></div>
 
             <form data-cultivo-form>
+                <input id="metodo" name="metodo" type="hidden" value="Hidroponia">
                 <section class="cultivo-step active" data-step="1" aria-label="Tipo de cultivo">
                     <div class="cultivo-card">
                         <div class="cultivo-step-heading">Escolher tipo de cultura</div>
@@ -48,13 +49,15 @@
                 <section class="cultivo-step" data-step="2" aria-label="Dimensões da parcela">
                     <div class="cultivo-card">
                         <div class="cultivo-step-heading">Preencher tamanho da Parcela</div>
-                        <div class="cultivo-step-subheading">Indique as dimensões da área para calcular e registar corretamente a parcela.</div>
+                        <div class="cultivo-step-subheading">Indique as dimensões da área para calcular e registar
+                            corretamente a parcela.</div>
 
                         <div class="field-row field-row-single">
                             <div class="form-group cultivo-form-group">
                                 <label for="largura">Largura</label>
                                 <div class="field-inline">
-                                    <input id="largura" name="largura" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00" required>
+                                    <input id="largura" name="largura" type="number" min="0" step="0.01"
+                                        inputmode="decimal" placeholder="0.00" required>
                                     <div class="field-unit">m</div>
                                 </div>
                                 <div class="field-error-hint" data-field-error="largura" hidden></div>
@@ -63,7 +66,8 @@
                             <div class="form-group cultivo-form-group">
                                 <label for="comprimento">Comprimento</label>
                                 <div class="field-inline">
-                                    <input id="comprimento" name="comprimento" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00" required>
+                                    <input id="comprimento" name="comprimento" type="number" min="0" step="0.01"
+                                        inputmode="decimal" placeholder="0.00" required>
                                     <div class="field-unit">m</div>
                                 </div>
                                 <div class="field-error-hint" data-field-error="comprimento" hidden></div>
@@ -72,7 +76,8 @@
                             <div class="form-group cultivo-form-group">
                                 <label for="profundidade">Profundidade</label>
                                 <div class="field-inline">
-                                    <input id="profundidade" name="profundidade" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00" required>
+                                    <input id="profundidade" name="profundidade" type="number" min="0" step="0.01"
+                                        inputmode="decimal" placeholder="0.00" required>
                                     <div class="field-unit">m</div>
                                 </div>
                                 <div class="field-error-hint" data-field-error="profundidade" hidden></div>
@@ -85,11 +90,42 @@
                 </section>
 
                 <section class="cultivo-step" data-step="3" aria-label="Método de cultivo">
-                    <div class="cultivo-card">
+                    <div class="cultivo-card cultivo-confirm-card">
                         <div class="cultivo-step-heading">Método de cultivo</div>
-                        <div class="cultivo-step-subheading">Este fluxo está configurado para cultivo em hidroponia.</div>
-                        <input id="metodo" name="metodo" type="hidden" value="Hidroponia">
-                        <div class="cultivo-method-pill">Hidroponia</div>
+                        <div class="cultivo-step-subheading">Este fluxo está configurado para cultivo em hidroponia.
+                        </div>
+                    </div>
+                </section>
+
+                <section class="cultivo-step" data-step="4" aria-label="Confirmar e guardar">
+                    <div class="cultivo-card cultivo-confirm-card">
+                        <div class="cultivo-confirm-heading">Confirma se está tudo correto:</div>
+                        <div class="cultivo-summary cultivo-summary-box" aria-label="Resumo">
+                            <div class="cultivo-summary-row">
+                                <div class="cultivo-summary-key">Tipo de cultura:</div>
+                                <div class="cultivo-summary-val" data-summary-tipo>—</div>
+                            </div>
+                            <div class="cultivo-summary-row">
+                                <div class="cultivo-summary-key">Largura:</div>
+                                <div class="cultivo-summary-val"><span data-summary-largura>—</span> m</div>
+                            </div>
+                            <div class="cultivo-summary-row">
+                                <div class="cultivo-summary-key">Comprimento:</div>
+                                <div class="cultivo-summary-val"><span data-summary-comprimento>—</span> m</div>
+                            </div>
+                            <div class="cultivo-summary-row">
+                                <div class="cultivo-summary-key">Profundidade:</div>
+                                <div class="cultivo-summary-val"><span data-summary-profundidade>—</span> m</div>
+                            </div>
+                            <div class="cultivo-summary-row">
+                                <div class="cultivo-summary-key">Substrato estimado:</div>
+                                <div class="cultivo-summary-val" data-summary-substrato>—</div>
+                            </div>
+                            <div class="cultivo-summary-row">
+                                <div class="cultivo-summary-key">Método:</div>
+                                <div class="cultivo-summary-val" data-summary-metodo>—</div>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -108,7 +144,7 @@
 
     <script src="../js/utils/config.js"></script>
     <script src="../js/utils/api.js"></script>
-    <script src="../js/controllers/registrarCultivo.js"></script>
+    <script src="../js/controllers/registrarCultivo.js?v=20260511-4"></script>
     <script src="../js/views/layout.js"></script>
 </body>
 
