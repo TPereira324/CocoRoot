@@ -86,29 +86,19 @@ function renderParcelas(parcelas, parcelasContainer) {
             if (iconClass === 'dash-cultivo-icon--flores') return '🌸';
             return cultivoNome.slice(0, 1).toUpperCase();
         })();
-        const ph = Number(cultivo?.ph ?? parcela?.ph);
-        const ec = Number(cultivo?.ec ?? parcela?.ec);
-        const humidade = Number(cultivo?.humidade ?? parcela?.humidade);
         const area = Number(parcela?.area_m2 || 0);
         const estado = String(parcela?.estado || parcela?.par_estado || 'Ativo');
-        const phText = Number.isFinite(ph) ? ph.toFixed(1) : '6.5';
-        const ecText = Number.isFinite(ec) ? `${ec.toFixed(1)}mS/cm` : '1.8mS/cm';
-        const humidadeText = Number.isFinite(humidade) ? `${Math.round(humidade)}%` : '55%';
         const areaText = area > 0 ? `${area.toFixed(0)}m²` : 'Sem área';
         return `
-            <article class="dash-cultivo-card">
+            <article class="dash-cultivo-card" data-parcela-id="${getParcelaId(parcela)}">
                 <div class="dash-cultivo-top">
                     <div class="dash-cultivo-icon ${iconClass}" aria-hidden="true">${cultivoIcon}</div>
                     <span class="dash-cultivo-badge">${estado}</span>
                 </div>
-                <div class="dash-cultivo-name">${cultivo?.nome || parcela.nome || 'Cultivo'}</div>
+                <div class="dash-cultivo-name">${cultivoNome || cultivo?.nome || 'Cultivo'}</div>
                 <div class="dash-cultivo-meta">${parcela.nome || 'Parcela'} · ${areaText}</div>
-                <div class="dash-cultivo-metrics">
-                    <div class="dash-cultivo-metric"><span>pH</span><strong>${phText}</strong></div>
-                    <div class="dash-cultivo-metric"><span>EC</span><strong>${ecText}</strong></div>
-                    <div class="dash-cultivo-metric"><span>Humidade</span><strong>${humidadeText}</strong></div>
-                </div>
-                <button type="button" class="dash-cultivo-link" data-parcela-id="${getParcelaId(parcela)}">Ver Detalhes</button>
+                <div class="dash-cultivo-info">Tipo de cultivo: <strong>${cultivoNome || '—'}</strong></div>
+                <button type="button" class="dash-cultivo-link" data-parcela-id="${getParcelaId(parcela)}">Ver detalhes</button>
             </article>`;
     }).join('');
     parcelasContainer.innerHTML = `${cards}<a href="registrar-cultivo.html" class="dash-add-card"><span class="dash-add-icon" aria-hidden="true">+</span><span>Adicionar cultivo</span></a>`;

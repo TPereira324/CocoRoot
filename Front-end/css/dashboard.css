@@ -194,6 +194,64 @@
     align-items: start;
 }
 
+.dash-farm-viz-shell {
+    margin-bottom: 22px;
+}
+
+.dash-farm-viz-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: rgba(27, 27, 27, 0.92);
+    margin: 0 0 12px;
+}
+
+.dash-farm-viz-canvas {
+    position: relative;
+    width: 100%;
+    height: 460px;
+    border-radius: 22px;
+    overflow: hidden;
+    background: radial-gradient(circle at top, #eaf5e7, #cfe5d0 45%, #d7e6d5 100%);
+    box-shadow: inset 0 0 0 1px rgba(24, 80, 20, 0.08), 0 18px 36px rgba(20, 58, 18, 0.12);
+}
+
+.dash-farm-viz-canvas canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.dash-farm-viz-info {
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    background: rgba(30, 20, 5, 0.88);
+    border: 2px solid #c8922a;
+    border-radius: 12px;
+    padding: 10px 22px;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    pointer-events: none;
+    white-space: nowrap;
+    max-width: calc(100% - 32px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dash-farm-viz-hint {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
 .dash-cultivo-card {
     min-height: 300px;
     padding: 14px 14px 18px;
@@ -203,6 +261,15 @@
     box-shadow: 0 8px 22px rgba(31, 60, 19, 0.06);
     display: flex;
     flex-direction: column;
+    cursor: pointer;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+@media (hover: hover) {
+    .dash-cultivo-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(31, 60, 19, 0.10);
+    }
 }
 
 .dash-cultivo-top {
@@ -276,27 +343,16 @@
     line-height: 1.5;
 }
 
-.dash-cultivo-metrics {
-    display: grid;
-    gap: 10px;
-    margin-top: auto;
-}
-
-.dash-cultivo-metric {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    font-size: 14px;
-}
-
-.dash-cultivo-metric span {
+.dash-cultivo-info {
+    margin: -10px 0 18px;
     color: rgba(27, 27, 27, 0.68);
+    font-size: 13px;
+    line-height: 1.4;
 }
 
-.dash-cultivo-metric strong {
-    font-size: 13px;
-    color: rgba(27, 27, 27, 0.96);
+.dash-cultivo-info strong {
+    color: rgba(27, 27, 27, 0.95);
+    font-weight: 800;
 }
 
 .dash-cultivo-link {
@@ -382,6 +438,29 @@
     color: rgba(27, 27, 27, 0.78);
     line-height: 1.7;
     font-size: 15px;
+}
+
+.dash-detail-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(27, 27, 27, 0.08);
+}
+
+.dash-detail-row:last-child {
+    border-bottom: 0;
+}
+
+.dash-detail-row span {
+    color: rgba(27, 27, 27, 0.64);
+    font-weight: 700;
+}
+
+.dash-detail-row strong {
+    color: rgba(27, 27, 27, 0.94);
+    font-weight: 900;
 }
 
 .dash-detail-fallback {

@@ -13,14 +13,6 @@
     const btnNext = document.querySelector('[data-step-next]');
     const btnSave = document.querySelector('[data-step-save]');
 
-    const summaryLargura = document.querySelector('[data-summary-largura]');
-    const summaryComprimento = document.querySelector('[data-summary-comprimento]');
-    const summaryProfundidade = document.querySelector('[data-summary-profundidade]');
-    const summarySubstrato = document.querySelector('[data-summary-substrato]');
-    const summaryTipo = document.querySelector('[data-summary-tipo]');
-    const summaryObjetivo = document.querySelector('[data-summary-objetivo]');
-    const summaryMetodo = document.querySelector('[data-summary-metodo]');
-
     const substratePreview = document.querySelector('[data-substrate-preview]');
     const substrateLitrosEl = document.querySelector('[data-substrate-litros]');
 
@@ -30,8 +22,8 @@
         comprimento: '',
         profundidade: '',
         tipo: '',
-        objetivo: '',
-        metodo: '',
+        objetivo: 'Consumo próprio',
+        metodo: 'Hidroponia',
     };
 
     const el = {
@@ -39,7 +31,6 @@
         comprimento: form.querySelector('[name="comprimento"]'),
         profundidade: form.querySelector('[name="profundidade"]'),
         tipo: form.querySelector('[name="tipo"]'),
-        objetivo: form.querySelector('[name="objetivo"]'),
         metodo: form.querySelector('[name="metodo"]'),
     };
 
@@ -107,13 +98,14 @@
         state.comprimento = (el.comprimento?.value || '').trim();
         state.profundidade = (el.profundidade?.value || '').trim();
         state.tipo = el.tipo?.value || '';
-        state.objetivo = el.objetivo?.value || '';
-        state.metodo = el.metodo?.value || '';
+        state.objetivo = 'Consumo próprio';
+        state.metodo = (el.metodo?.value || 'Hidroponia') || 'Hidroponia';
     };
 
     const validateStep = (step) => {
         syncState();
-        if (step === 1) {
+        if (step === 1 && !state.tipo) return 'Seleciona o tipo de cultivo.';
+        if (step === 2) {
             clearFieldErrors();
             const largura = getNumber(el.largura);
             const comprimento = getNumber(el.comprimento);
@@ -133,22 +125,8 @@
             }
             if (erros.length > 0) return `Corrija os campos: ${erros.join(', ')}.`;
         }
-        if (step === 2 && !state.tipo) return 'Seleciona o tipo de cultivo.';
-        if (step === 3 && !state.objetivo) return 'Seleciona o objetivo do cultivo.';
-        if (step === 4 && !state.metodo) return 'Seleciona o método de cultivo.';
+        if (step === 3 && !state.metodo) return 'Método de cultivo indisponível.';
         return '';
-    };
-
-    const renderSummary = () => {
-        syncState();
-        const litros = calcSubstrateLitros();
-        if (summaryLargura) summaryLargura.textContent = state.largura || '—';
-        if (summaryComprimento) summaryComprimento.textContent = state.comprimento || '—';
-        if (summaryProfundidade) summaryProfundidade.textContent = state.profundidade || '—';
-        if (summarySubstrato) summarySubstrato.textContent = litros !== null ? `~${litros} L` : '—';
-        if (summaryTipo) summaryTipo.textContent = state.tipo || '—';
-        if (summaryObjetivo) summaryObjetivo.textContent = state.objetivo || '—';
-        if (summaryMetodo) summaryMetodo.textContent = state.metodo || '—';
     };
 
     const showStep = (n) => {
@@ -165,9 +143,8 @@
         if (btnNext) { btnNext.hidden = clamped === max; btnNext.style.display = clamped === max ? 'none' : ''; }
         if (btnSave) { btnSave.hidden = clamped !== max; btnSave.style.display = clamped === max ? '' : 'none'; }
 
-        if (clamped === max) renderSummary();
         setError('');
-        if (clamped !== 1) clearFieldErrors();
+        if (clamped !== 2) clearFieldErrors();
     };
 
     const next = () => {
@@ -181,7 +158,7 @@
     };
 
     const save = async () => {
-        const err = validateStep(1) || validateStep(2) || validateStep(3) || validateStep(4);
+        const err = validateStep(1) || validateStep(2) || validateStep(3);
         if (err) { setError(err); showStep(1); return; }
         syncState();
         const user = api?.requireLoggedUser?.();
@@ -200,8 +177,8 @@
             profundidade,
             substrato_litros,
             tipo: state.tipo,
-            objetivo: state.objetivo,
-            metodo: state.metodo,
+            objetivo: state.objetivo || 'Consumo próprio',
+            metodo: state.metodo || 'Hidroponia',
         };
 
         try {
