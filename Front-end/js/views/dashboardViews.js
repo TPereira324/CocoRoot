@@ -19,7 +19,7 @@ function renderSkeleton(container, count = 3) {
 
 function renderParcelasSkeleton(parcelasContainer) {
     if (!parcelasContainer) return;
-    const cards = Array.from({ length: 4 }).map(() => `
+    const cards = Array.from({ length: 2 }).map(() => `
         <article class="dash-cultivo-card" aria-hidden="true">
             <div class="txt-block">
                 <div class="txt-line title w50"></div>

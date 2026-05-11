@@ -55,7 +55,7 @@ function normalizeText(value) {
 }
 
 function buildTaskId() {
-    try { if (window.crypto?.randomUUID) return window.crypto.randomUUID(); } catch {}
+    try { if (window.crypto?.randomUUID) return window.crypto.randomUUID(); } catch { }
     return `t_${Date.now()}_${Math.random().toString(16).slice(2)}`;
 }
 
@@ -78,7 +78,7 @@ function endOfDay(date) {
 }
 
 function getParcelaId(parcela) {
-    const id = parcela?.id ?? parcela?.par_id ?? parcela?.parcela_id ?? parcela?.parcelaId ?? parcela?.nome;
+    const id = parcela?.id ?? parcela?.par_id ?? parcela?.parcela_id ?? parcela?.parcelaId ?? parcela?.par_nome ?? parcela?.nome ?? parcela?.parcela_nome ?? parcela?.nome_parcela;
     return String(id || '');
 }
 

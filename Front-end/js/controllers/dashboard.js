@@ -56,6 +56,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderClimaSkeleton(climaContainer);
 
     const userId = String(user.id ?? 'anon');
+    const normalizeParcelasList = (raw) => {
+        const list = Array.isArray(raw) ? raw : [];
+        const uid = String(user.id);
+        const filtered = list.filter((p) => {
+            const candidates = [p?.ut_id, p?.user_id, p?.usuario_id, p?.id_usuario, p?.utilizador_id];
+            const any = candidates.some((v) => v !== undefined && v !== null && String(v) !== '');
+            if (!any) return true;
+            return candidates.some((v) => String(v) === uid);
+        });
+        const seen = new Set();
+        const out = [];
+        for (const p of filtered) {
+            const id = window.getParcelaId ? getParcelaId(p) : String(p?.id || '');
+            const key = String(id || '');
+            if (!key) { out.push(p); continue; }
+            if (seen.has(key)) continue;
+            seen.add(key);
+            out.push(p);
+        }
+        return out;
+    };
+
     const plantKey = `cocoRootParcelaPlanting:${userId}`;
     const readPlantStore = () => { try { const raw = localStorage.getItem(plantKey); return raw ? JSON.parse(raw) : {}; } catch { return {}; } };
     const writePlantStore = (store) => { try { localStorage.setItem(plantKey, JSON.stringify(store || {})); } catch { } };
@@ -176,7 +198,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const cached = readCache();
     if (cached) {
-        const parcelas = Array.isArray(cached.parcelas) ? cached.parcelas : [];
+        const parcelas = normalizeParcelasList(cached.parcelas);
         currentParcelas = parcelas;
         const tarefas = Array.isArray(cached.tarefas) ? cached.tarefas : [];
         const alertas = Array.isArray(cached.alertas) ? cached.alertas : [];
@@ -198,7 +220,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             fetchOptional(`usuarios/perfil/${user.id}`),
         ]);
 
-        const parcelas = Array.isArray(parcelasResponse?.data) ? parcelasResponse.data : [];
+        const parcelas = normalizeParcelasList(parcelasResponse?.data);
         const serverTarefas = Array.isArray(tarefasResponse?.data) ? tarefasResponse.data : [];
         const serverAlertas = Array.isArray(alertasResponse?.data) ? alertasResponse.data : [];
         const userProfile = userProfileResponse?.data || null;

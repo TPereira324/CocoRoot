@@ -2,7 +2,7 @@
     let scene, camera, renderer, controls, clock;
     let plots = [], initialized = false, cachedIds = '';
 
-    const PLOT_SIZE = 2.8, SPACING = 3.5, GROW_SEC = 3;
+    const PLOT_SIZE = 3.2, SPACING = 3.9, GROW_SEC = 3;
     const LABELS = ['Terra vazia', 'Semente', 'A nascer', 'Planta média', 'Crescida 🌿'];
 
     const makeCanvasTexture = (size, draw, { repeat = 1, colorEncoding = true } = {}) => {
@@ -294,20 +294,17 @@
 
     const buildGrid = (parcelas) => {
         plots.forEach(p => scene.remove(p)); plots = [];
-        const isDemo = parcelas.length === 0;
-        const list = isDemo
-            ? Array.from({ length: 6 }, (_, i) => ({ nome: `Parcela ${i + 1}` }))
-            : parcelas;
+        const list = Array.isArray(parcelas) ? parcelas : [];
+        const infoEl = document.getElementById('farm-viz-info');
+        if (list.length === 0) {
+            if (infoEl) infoEl.textContent = 'Sem parcelas registadas';
+            return;
+        }
         const cols = Math.min(4, list.length), half = ((cols - 1) * SPACING) / 2;
         list.forEach((p, i) => {
             const plot = createPlot((i % cols) * SPACING - half, Math.floor(i / cols) * SPACING, p);
-            if (isDemo) {
-                plot.userData.elapsed = (i % 4) * GROW_SEC * 0.85;
-                startGrow(plot, 4);
-            } else {
-                const ts = deriveState(p);
-                if (ts > 0) startGrow(plot, ts);
-            }
+            const ts = deriveState(p);
+            if (ts > 0) startGrow(plot, ts);
             plots.push(plot);
         });
     };
@@ -406,7 +403,7 @@
         renderer.setSize(w, h);
 
         camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 120);
-        camera.position.set(9, 13, 9);
+        camera.position.set(7.8, 11.3, 7.8);
         camera.lookAt(0, 0, 0);
 
         controls = new THREE.OrbitControls(camera, canvas);
