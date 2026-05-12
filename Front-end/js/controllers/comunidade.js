@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         {
             id: 'seed-1',
             titulo: 'Manchas brancas no substrato — fungo ou misélio?',
-            conteudo: 'Há 3 dias comecei a notar manchas brancas na fibra de coco. As plantas (alface) ainda parecem saudáveis, mas estou preocupado. Alguém já passou por isto? Vale a pena tratar com peróxido de hidrogénio diluído ou é melhor trocar o substrato?',
+            conteudo: 'Há 3 dias comecei a notar manchas brancas na fibra de coco. As plantas (tomate) ainda parecem saudáveis, mas estou preocupado. Alguém já passou por isto? Vale a pena tratar com peróxido de hidrogénio diluído ou é melhor trocar o substrato?',
             categoria: 'duvidas',
             autor: { nome: 'Miguel Ferreira' },
             data: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),

@@ -61,24 +61,13 @@ function generateTasksForParcela(parcela, cultivoName) {
         make(`Verificar humidade e ajustar rega${baseTitle}`, today, 'rega'),
         make(`Inspecionar pragas/doenças${baseTitle}`, addDays(today, 3), 'saude'),
     ];
-    if (category === 'folhosas') {
-        tasks.push(make(`Verificar crescimento e desbaste${baseTitle}`, addDays(today, 2), 'maneio'));
-        tasks.push(make(`Adubação leve (se necessário)${baseTitle}`, addDays(today, 7), 'nutricao'));
-    } else if (category === 'frutiferas') {
+    if (category === 'frutiferas') {
         tasks.push(make(`Verificar floração/frutificação${baseTitle}`, addDays(today, 2), 'maneio'));
         tasks.push(make(`Apoiar/tutorar plantas (se aplicável)${baseTitle}`, addDays(today, 5), 'maneio'));
         tasks.push(make(`Adubação (se necessário)${baseTitle}`, addDays(today, 10), 'nutricao'));
     } else if (category === 'ervas') {
         tasks.push(make(`Colheita seletiva e limpeza${baseTitle}`, addDays(today, 4), 'maneio'));
         tasks.push(make(`Podar para estimular rebrote${baseTitle}`, addDays(today, 8), 'maneio'));
-    } else if (category === 'raizes') {
-        tasks.push(make(`Verificar solo e compactação${baseTitle}`, addDays(today, 2), 'maneio'));
-        tasks.push(make(`Rega profunda (se necessário)${baseTitle}`, addDays(today, 4), 'rega'));
-        tasks.push(make(`Adubação de manutenção${baseTitle}`, addDays(today, 9), 'nutricao'));
-    } else if (category === 'flores') {
-        tasks.push(make(`Verificar floração e remover flores secas${baseTitle}`, addDays(today, 2), 'maneio'));
-        tasks.push(make(`Controlar humidade e evitar encharcamento${baseTitle}`, addDays(today, 5), 'rega'));
-        tasks.push(make(`Adubação específica para floração${baseTitle}`, addDays(today, 9), 'nutricao'));
     } else {
         tasks.push(make(`Registar observações no painel${baseTitle}`, addDays(today, 1), 'registo'));
         tasks.push(make(`Adubação (se necessário)${baseTitle}`, addDays(today, 8), 'nutricao'));
@@ -93,34 +82,9 @@ function generateTasksForParcela(parcela, cultivoName) {
             { titulo: `Tutorar e amarrar hastes${baseTitle}`, daysOffset: 4, tipo: 'maneio' },
             { titulo: `Desladinhar (remover rebentos axilares)${baseTitle}`, daysOffset: 7, tipo: 'maneio' },
         ],
-        mirtilo: [
-            { titulo: `Verificar pH do substrato (ideal 4.5–5.5)${baseTitle}`, daysOffset: 3, tipo: 'nutricao' },
-            { titulo: `Podar ramos improdutivos${baseTitle}`, daysOffset: 10, tipo: 'maneio' },
-        ],
-        cannabis: [
-            { titulo: `Verificar fase de crescimento/floração${baseTitle}`, daysOffset: 2, tipo: 'maneio' },
-            { titulo: `Controlar nutrientes (N-P-K por fase)${baseTitle}`, daysOffset: 5, tipo: 'nutricao' },
-            { titulo: `Inspecionar pragas e doenças fúngicas${baseTitle}`, daysOffset: 7, tipo: 'saude' },
-        ],
-        'pimentão': [
-            { titulo: `Verificar floração e polinização${baseTitle}`, daysOffset: 5, tipo: 'maneio' },
-            { titulo: `Tutorar se necessário${baseTitle}`, daysOffset: 8, tipo: 'maneio' },
-        ],
-        pepino: [
-            { titulo: `Guiar trepadeira e remover folhas velhas${baseTitle}`, daysOffset: 4, tipo: 'maneio' },
-            { titulo: `Verificar ácaros e pulgões${baseTitle}`, daysOffset: 6, tipo: 'saude' },
-        ],
-        'orquídeas': [
-            { titulo: `Regar com moderação e verificar raízes${baseTitle}`, daysOffset: 4, tipo: 'rega' },
-            { titulo: `Verificar sinais de podridão radicular${baseTitle}`, daysOffset: 8, tipo: 'saude' },
-        ],
-        rosas: [
-            { titulo: `Podar flores murchas e ramos secos${baseTitle}`, daysOffset: 5, tipo: 'maneio' },
-            { titulo: `Verificar pulgões e oídio${baseTitle}`, daysOffset: 7, tipo: 'saude' },
-        ],
-        microgreens: [
-            { titulo: `Verificar germinação e humidade uniforme${baseTitle}`, daysOffset: 1, tipo: 'rega' },
-            { titulo: `Avaliar ponto de colheita (cotilédones abertos)${baseTitle}`, daysOffset: 5, tipo: 'maneio' },
+        manjericao: [
+            { titulo: `Podar para estimular rebrote${baseTitle}`, daysOffset: 4, tipo: 'maneio' },
+            { titulo: `Colheita seletiva (sem stressar a planta)${baseTitle}`, daysOffset: 9, tipo: 'maneio' },
         ],
     };
     const cultivoKey = normalizeText(cultivo);
