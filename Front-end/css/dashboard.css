@@ -133,6 +133,25 @@
     box-shadow: 0 10px 24px rgba(40, 81, 34, 0.04);
 }
 
+.dash-stat-card.is-clickable {
+    cursor: pointer;
+    appearance: none;
+    font: inherit;
+}
+
+@media (hover: hover) {
+    .dash-stat-card.is-clickable:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(40, 81, 34, 0.06);
+        border-color: rgba(45, 106, 45, 0.28);
+    }
+}
+
+.dash-stat-card.is-clickable:focus-visible {
+    outline: 3px solid rgba(45, 106, 45, 0.22);
+    outline-offset: 2px;
+}
+
 .dash-stat-label {
     font-size: 15px;
     font-weight: 800;

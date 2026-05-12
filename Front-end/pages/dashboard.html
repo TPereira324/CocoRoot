@@ -31,20 +31,20 @@
             <div id="dashboard-error" class="dash-card dash-error" hidden></div>
 
             <div class="dash-stats-grid">
-                <div class="dash-stat-card">
+                <button class="dash-stat-card is-clickable" type="button" data-jump-tab="parcelas" aria-label="Ir para Parcelas">
                     <div class="dash-stat-label">Parcelas Ativas</div>
                     <div id="dashboard-parcelas-count" class="dash-value">0</div>
-                </div>
-                <div class="dash-stat-card">
+                </button>
+                <button class="dash-stat-card is-clickable" type="button" data-jump-tab="tarefas" aria-label="Ir para Tarefas">
                     <div class="dash-stat-label">Tarefas Pendentes</div>
                     <div id="dashboard-tarefas-count" class="dash-value">0</div>
                     <div id="dashboard-tarefas-label" class="dash-stat-meta">Sem tarefas</div>
-                </div>
-                <div class="dash-stat-card">
+                </button>
+                <button class="dash-stat-card is-clickable" type="button" data-jump-tab="tarefas" aria-label="Ir para Tarefas (Alertas)">
                     <div class="dash-stat-label">Alertas</div>
                     <div id="dashboard-alertas-count" class="dash-value">0</div>
                     <div id="dashboard-alertas-label" class="dash-stat-meta">Sem alertas</div>
-                </div>
+                </button>
             </div>
 
             <div class="tabs dash-tabs" role="tablist" aria-label="Dashboard">
@@ -240,6 +240,7 @@
         (function () {
             const tabs = Array.from(document.querySelectorAll('.tab[data-tab]'));
             const panels = Array.from(document.querySelectorAll('[data-panel]'));
+            const tabNames = new Set(tabs.map((t) => String(t.dataset.tab || '')).filter(Boolean));
             function setActive(name) {
                 tabs.forEach((t) => t.classList.toggle('active', t.dataset.tab === name));
                 panels.forEach((p) => {
@@ -247,13 +248,27 @@
                     if (isActive) p.removeAttribute('hidden');
                     else p.setAttribute('hidden', '');
                 });
+                try {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('tab', name);
+                    window.history.replaceState({}, '', url.toString());
+                } catch { }
                 requestAnimationFrame(() => {
                     if (name === 'parcelas') window.cocoRootFarmVisualizationResize?.();
                 });
             }
             tabs.forEach((t) => t.addEventListener('click', () => setActive(t.dataset.tab)));
+            Array.from(document.querySelectorAll('[data-jump-tab]')).forEach((el) => {
+                el.addEventListener('click', () => {
+                    const target = String(el.getAttribute('data-jump-tab') || '');
+                    if (!tabNames.has(target)) return;
+                    setActive(target);
+                });
+            });
             window.cocoRootSetDashTab = setActive;
-            setActive('parcelas');
+            const params = new URLSearchParams(window.location.search || '');
+            const initial = String(params.get('tab') || 'parcelas');
+            setActive(tabNames.has(initial) ? initial : 'parcelas');
         })();
     </script>
     <script src="../js/views/layout.js"></script>

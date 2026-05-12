@@ -463,6 +463,16 @@ summary {
         border-color: rgba(45, 106, 45, 0.20);
         transform: translateY(-3px);
     }
+
+    .card.card-static:hover {
+        box-shadow: var(--card-shadow);
+        border-color: rgba(45, 106, 45, 0.12);
+        transform: none;
+    }
+
+    .card.card-static:hover::after {
+        opacity: 0;
+    }
 }
 
 @media (hover: none) {
