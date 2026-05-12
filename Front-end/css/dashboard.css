@@ -1,68 +1,8 @@
-.step-checklist li {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 0;
-    border-bottom: 1px solid #e0e0e0;
-    cursor: pointer;
-    user-select: none;
-}
-
-.step-check {
-    width: 22px;
-    height: 22px;
-    border: 2px solid #222;
-    border-radius: 50%;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-}
-
-.step-check.done {
-    background: #222;
-    color: #fff;
-}
-
-.step-checklist li.active-step .step-check {
-    border-color: var(--primary);
-}
-
-.step-checklist li.active-step>div:last-child>div:first-child {
-    color: var(--primary);
-}
-
-.materiais-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 28px;
-}
-
-.materiais-list {
-    list-style: none;
-}
-
-.materiais-list li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 1px solid #e0e0e0;
-    font-size: 14px;
-}
-
-.bullet {
-    width: 8px;
-    height: 8px;
-    background: #222;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
 
 .dashboard-page .page-content {
-    max-width: 1280px;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
     padding-top: 36px;
     padding-bottom: 56px;
 }
@@ -133,6 +73,25 @@
     box-shadow: 0 10px 24px rgba(40, 81, 34, 0.04);
 }
 
+.dash-stat-card.is-clickable {
+    cursor: pointer;
+    appearance: none;
+    font: inherit;
+}
+
+@media (hover: hover) {
+    .dash-stat-card.is-clickable:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(40, 81, 34, 0.06);
+        border-color: rgba(45, 106, 45, 0.28);
+    }
+}
+
+.dash-stat-card.is-clickable:focus-visible {
+    outline: 3px solid rgba(45, 106, 45, 0.22);
+    outline-offset: 2px;
+}
+
 .dash-stat-label {
     font-size: 15px;
     font-weight: 800;
@@ -175,12 +134,25 @@
     font-size: 14px;
     font-weight: 800;
     box-shadow: none;
+    transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
 }
 
 .dash-tab.active {
     background: rgba(255, 255, 255, 0.95);
     color: rgba(27, 27, 27, 0.96);
     box-shadow: 0 6px 18px rgba(27, 27, 27, 0.08);
+}
+
+.dash-panel {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.dash-panel[hidden] {
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
 }
 
 .dash-panel {
@@ -194,6 +166,64 @@
     align-items: start;
 }
 
+.dash-farm-viz-shell {
+    margin-bottom: 22px;
+}
+
+.dash-farm-viz-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: rgba(27, 27, 27, 0.92);
+    margin: 0 0 12px;
+}
+
+.dash-farm-viz-canvas {
+    position: relative;
+    width: 100%;
+    height: 520px;
+    border-radius: 22px;
+    overflow: hidden;
+    background: radial-gradient(circle at top, #eaf5e7, #cfe5d0 45%, #d7e6d5 100%);
+    box-shadow: inset 0 0 0 1px rgba(24, 80, 20, 0.08), 0 18px 36px rgba(20, 58, 18, 0.12);
+}
+
+.dash-farm-viz-canvas canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.dash-farm-viz-info {
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    background: rgba(30, 20, 5, 0.88);
+    border: 2px solid #c8922a;
+    border-radius: 12px;
+    padding: 10px 22px;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    pointer-events: none;
+    white-space: nowrap;
+    max-width: calc(100% - 32px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dash-farm-viz-hint {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
 .dash-cultivo-card {
     min-height: 300px;
     padding: 14px 14px 18px;
@@ -203,6 +233,15 @@
     box-shadow: 0 8px 22px rgba(31, 60, 19, 0.06);
     display: flex;
     flex-direction: column;
+    cursor: pointer;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+@media (hover: hover) {
+    .dash-cultivo-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(31, 60, 19, 0.10);
+    }
 }
 
 .dash-cultivo-top {
@@ -234,20 +273,12 @@
     color: #fff;
 }
 
-.dash-cultivo-icon--folhosas {
-    background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0) 48%), linear-gradient(145deg, #44d96d, #1c7a36);
-    color: #fff;
-}
 
 .dash-cultivo-icon--ervas {
     background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0) 48%), linear-gradient(145deg, #1fbf9a, #0c6b55);
     color: #fff;
 }
 
-.dash-cultivo-icon--raizes {
-    background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0) 48%), linear-gradient(145deg, #ffb44a, #c96a00);
-    color: #fff;
-}
 
 .dash-cultivo-icon--geral {
     background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 55%), linear-gradient(145deg, #ffffff, #dcdcdc);
@@ -276,28 +307,18 @@
     line-height: 1.5;
 }
 
-.dash-cultivo-metrics {
-    display: grid;
-    gap: 10px;
-    margin-top: auto;
-}
-
-.dash-cultivo-metric {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    font-size: 14px;
-}
-
-.dash-cultivo-metric span {
+.dash-cultivo-info {
+    margin: -10px 0 18px;
     color: rgba(27, 27, 27, 0.68);
+    font-size: 13px;
+    line-height: 1.4;
 }
 
-.dash-cultivo-metric strong {
-    font-size: 13px;
-    color: rgba(27, 27, 27, 0.96);
+.dash-cultivo-info strong {
+    color: rgba(27, 27, 27, 0.95);
+    font-weight: 800;
 }
+
 
 .dash-cultivo-link {
     margin-top: 20px;
@@ -371,12 +392,6 @@
     white-space: nowrap;
 }
 
-.dash-detail-scene {
-    width: 100%;
-    min-height: 420px;
-    background: radial-gradient(circle at top, rgba(248, 255, 241, 0.95), rgba(235, 242, 229, 0.98));
-}
-
 .dash-detail-description {
     padding: 18px 28px 24px;
     color: rgba(27, 27, 27, 0.78);
@@ -384,78 +399,27 @@
     font-size: 15px;
 }
 
-.dash-detail-fallback {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    place-items: center;
-    text-align: center;
-    padding: 32px;
-}
-
-.dash-detail-fallback-icon {
-    font-size: 64px;
-    margin-bottom: 18px;
-}
-
-.farm-visualization-shell {
-    display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.8fr);
-    gap: 24px;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.farm-scene {
-    min-height: 520px;
-    border-radius: 24px;
-    overflow: hidden;
-    background: radial-gradient(circle at top, #eaf5e7, #cfe5d0 45%, #d7e6d5 100%);
-    box-shadow: inset 0 0 0 1px rgba(24, 80, 20, 0.08), 0 18px 36px rgba(20, 58, 18, 0.12);
-}
-
-.farm-info-card {
-    min-height: 520px;
-    padding: 24px;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 20px 40px rgba(18, 67, 24, 0.08);
+.dash-detail-row {
     display: flex;
-    flex-direction: column;
-    gap: 18px;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(27, 27, 27, 0.08);
 }
 
-.farm-info-title {
-    font-size: 22px;
-    font-weight: 800;
-    color: #16471a;
+.dash-detail-row:last-child {
+    border-bottom: 0;
 }
 
-.farm-info-status {
-    font-size: 15px;
-    color: rgba(20, 47, 20, 0.83);
-    line-height: 1.6;
+.dash-detail-row span {
+    color: rgba(27, 27, 27, 0.64);
+    font-weight: 700;
 }
 
-.farm-progress-bar {
-    width: 100%;
-    height: 16px;
-    border-radius: 999px;
-    background: rgba(23, 70, 28, 0.1);
-    overflow: hidden;
-}
-
-.farm-progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #57c260, #1f7d3f);
-    transition: width 0.4s ease;
-}
-
-.farm-info-note {
-    margin-top: auto;
-    font-size: 14px;
-    color: rgba(20, 47, 20, 0.68);
-    line-height: 1.7;
+.dash-detail-row strong {
+    color: rgba(27, 27, 27, 0.94);
+    font-weight: 900;
 }
 
 .dash-add-card {
@@ -899,88 +863,4 @@
     justify-content: center;
 }
 
-.chart-ph {
-    border: 1px solid rgba(27, 27, 27, 0.12);
-    background: rgba(31, 60, 19, 0.06);
-    width: 100%;
-    overflow: hidden;
-    border-radius: 14px;
-}
 
-.side-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.alert-list,
-.task-list {
-    list-style: none;
-}
-
-.alert-item,
-.task-item {
-    padding: 10px 0;
-    border-bottom: 1px solid #e0e0e0;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-@media (max-width: 1120px) {
-    .dash-cultivos-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .dash-stats-grid {
-        gap: 18px;
-    }
-
-    .monitor-cards-grid,
-    .weather-forecast-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 760px) {
-    .dashboard-page .page-content {
-        padding: 24px 18px 38px;
-    }
-
-    .dashboard-shell {
-        padding: 20px 16px 28px;
-        border-radius: 18px;
-    }
-
-    .dash-stats-grid,
-    .dash-cultivos-grid,
-    .dash-tabs {
-        grid-template-columns: 1fr;
-    }
-
-    .dash-tab {
-        width: 100%;
-    }
-
-    .dash-task-row {
-        align-items: flex-start;
-    }
-
-    .monitor-group-toggle {
-        align-items: flex-start;
-    }
-
-    .monitor-cards-grid,
-    .weather-hero-stats,
-    .weather-forecast-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .weather-hero {
-        grid-template-columns: 1fr;
-    }
-
-    .weather-hero-icon {
-        justify-content: flex-start;
-    }
-}

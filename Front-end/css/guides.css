@@ -25,6 +25,10 @@
     margin-top: 8px;
 }
 
+.guide-head .news-divider {
+    margin: 12px 0 18px;
+}
+
 .guide-status {
     display: inline-flex;
     align-items: center;
@@ -332,11 +336,6 @@
     object-position: center;
 }
 
-@media (max-width: 520px) {
-    .module-img img {
-        object-position: center 35%;
-    }
-}
 
 .module-body {
     display: grid;
@@ -475,33 +474,4 @@
 .module-empty-text {
     color: var(--muted);
     margin-bottom: 24px;
-}
-
-@media (max-width: 980px) {
-
-    .guide-head,
-    .module-header,
-    .module-body,
-    .guide-login-box {
-        grid-template-columns: 1fr;
-        flex-direction: column;
-    }
-
-    .modules-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-
-    .module-body {
-        display: flex;
-        gap: 22px;
-    }
-
-    .module-side {
-        padding-top: 0;
-    }
-
-    .module-img {
-        height: 220px;
-    }
 }

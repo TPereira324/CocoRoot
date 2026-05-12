@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notícias - CocoRoot</title>
+    <link rel="preload" href="../css/cocoroot.css" as="style">
     <link rel="stylesheet" href="../css/cocoroot.css">
 </head>
 
@@ -105,9 +105,9 @@
             };
 
             const pools = {
-                tips: ['../image/image%2013.png', '../image/image%2014.png', '../image/image%2015.png', '../image/planta.jpeg'],
-                news: ['../image/Coco.jpeg', '../image/Rectangle%2022.png', '../image/Frame%202.png'],
-                stories: ['../image/Frame%202.png', '../image/planta.jpeg', '../image/Rectangle%2022.png']
+                tips: ['../image/image%2013-1024w.png', '../image/image%2014-1024w.png', '../image/image%2015-1024w.png', '../image/planta-1024w.jpeg'],
+                news: ['../image/Coco-1024w.jpeg', '../image/Rectangle%2022-1024w.png', '../image/Frame%202-1024w.png'],
+                stories: ['../image/Frame%202-1024w.png', '../image/planta-1024w.jpeg', '../image/Rectangle%2022-1024w.png']
             };
 
             const dayKey = new Date().toISOString().slice(0, 10);
@@ -120,6 +120,32 @@
             const listRoot = document.getElementById('article-list');
             const filters = Array.from(document.querySelectorAll('.news-filter[data-filter]'));
             let activeFilter = 'all';
+
+            const renderSkeleton = () => {
+                if (!listRoot) return;
+                listRoot.innerHTML = Array.from({ length: 4 }, () => `
+                    <div class="article-item article-item--skel" aria-hidden="true">
+                        <div class="article-img img-ph"><div class="txt-line title w65" style="height:100%;border-radius:14px;"></div></div>
+                        <div class="article-content">
+                            <div class="txt-block">
+                                <div class="txt-line title w40"></div>
+                                <div class="txt-line w80"></div>
+                                <div class="txt-line w65"></div>
+                                <div class="txt-line w35"></div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            };
+
+            const renderEmpty = (message, sub) => {
+                if (!listRoot) return;
+                listRoot.innerHTML = `
+                    <div class="community-empty">
+                        <div class="community-empty-text">${message || 'Sem artigos para mostrar.'}</div>
+                        <div class="community-empty-sub">${sub || ''}</div>
+                    </div>`;
+            };
 
             const renderStats = () => {
                 const total = articles.length;
@@ -145,16 +171,28 @@
                     ? articles
                     : articles.filter((item) => item.category === activeFilter);
 
+                if (!filtered.length) {
+                    renderEmpty('Sem artigos nesta categoria.', 'Escolhe outro filtro para ver mais conteúdos.');
+                    return;
+                }
+
                 listRoot.innerHTML = filtered.map((article) => `
                     <a class="article-item" href="post.html?id=${article.id}">
                         <div class="article-img img-ph">
-                            <img src="${article.image}" alt="${article.title}" style="width:100%;height:100%;object-fit:cover;">
+                            <img src="${article.image}"
+                                alt="${article.title}"
+                                loading="lazy"
+                                decoding="async"
+                                width="176"
+                                height="142"
+                                style="width:100%;height:100%;object-fit:cover;">
                         </div>
                         <div class="article-content">
                             <div class="article-tag ${article.category === 'stories' ? 'story' : ''}">${article.label}</div>
                             <div class="article-title">${article.title}</div>
                             <div class="article-excerpt">${article.excerpt}</div>
                             <div class="article-meta"><i class="bi bi-calendar-event" aria-hidden="true"></i><span>${article.date}</span></div>
+                            <div class="article-more">Ler mais →</div>
                         </div>
                         <div class="article-heart ${favorites.has(article.id) ? 'is-liked' : ''}" data-id="${article.id}">
                             <button type="button" aria-label="${favorites.has(article.id) ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}">
@@ -195,8 +233,11 @@
                 });
             });
 
-            renderStats();
-            renderArticles();
+            renderSkeleton();
+            setTimeout(() => {
+                renderStats();
+                renderArticles();
+            }, 180);
         })();
     </script>
 </body>

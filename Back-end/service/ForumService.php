@@ -61,4 +61,46 @@ class ForumService {
 
         return ['id' => $this->forumRepository->comentar($postId, $usuarioId, trim($conteudo))];
     }
+
+    public function deletarPost(int $postId, int $usuarioId): void {
+        if ($postId <= 0) {
+            throw new Exception("Publicação inválida.");
+        }
+        if ($usuarioId <= 0) {
+            throw new Exception("Utilizador inválido.");
+        }
+
+        $autorId = $this->forumRepository->obterAutorPost($postId);
+        if (!$autorId) {
+            throw new Exception("Publicação não encontrada.");
+        }
+        if ($autorId !== $usuarioId) {
+            throw new Exception("Não tens permissão para apagar esta publicação.");
+        }
+
+        if (!$this->forumRepository->deletarPost($postId)) {
+            throw new Exception("Falha ao apagar a publicação.");
+        }
+    }
+
+    public function deletarComentario(int $comentarioId, int $usuarioId): void {
+        if ($comentarioId <= 0) {
+            throw new Exception("Comentário inválido.");
+        }
+        if ($usuarioId <= 0) {
+            throw new Exception("Utilizador inválido.");
+        }
+
+        $autorId = $this->forumRepository->obterAutorComentario($comentarioId);
+        if (!$autorId) {
+            throw new Exception("Comentário não encontrado.");
+        }
+        if ($autorId !== $usuarioId) {
+            throw new Exception("Não tens permissão para apagar este comentário.");
+        }
+
+        if (!$this->forumRepository->deletarComentario($comentarioId)) {
+            throw new Exception("Falha ao apagar o comentário.");
+        }
+    }
 }

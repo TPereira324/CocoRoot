@@ -14,7 +14,7 @@ body.auth-page {
     border-radius: var(--radius-lg);
     border: 1px solid rgba(27, 27, 27, 0.08);
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.10);
-    background-image: url('../image/Coco.jpeg');
+    background-image: url('../image/Coco-1024w.jpeg');
     background-size: cover;
     background-position: center;
     position: relative;
@@ -121,17 +121,6 @@ body.auth-page {
     margin-bottom: 34px;
 }
 
-.auth-form-title {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--deep);
-    margin-bottom: 8px;
-}
-
-.auth-form-subtitle {
-    color: var(--muted);
-    line-height: 1.5;
-}
 
 .auth-alt {
     width: 100%;
@@ -148,15 +137,9 @@ body.auth-page {
 }
 
 .auth-alt a:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
-.auth-form .btn,
-.auth-form .nav-btn,
-.auth-form .back-link {
-    width: 100%;
-    justify-content: center;
-}
 
 .auth-form .btn,
 .auth-form .nav-btn {

@@ -2,7 +2,7 @@
 session_start();
 
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json; charset=utf-8');
 
@@ -46,7 +46,7 @@ if ($path === '') {
     $jsonResponse([
         'success' => true,
         'message' => 'API online',
-    ]);
+    ], 200);
 }
 
 $segments = array_values(array_filter(explode('/', $path), static fn($segment) => $segment !== ''));
@@ -62,6 +62,9 @@ $routes = [
             'registar' => ['method' => 'POST', 'handler' => 'registar'],
             'registrar' => ['method' => 'POST', 'handler' => 'registar'],
             'perfil' => ['method' => 'GET', 'handler' => 'perfil', 'needs_id' => true],
+            'atualizar' => ['method' => 'POST', 'handler' => 'atualizar', 'needs_id' => true],
+            'alterar-password' => ['method' => 'POST', 'handler' => 'alterarPassword', 'needs_id' => true],
+            'upload-foto' => ['method' => 'POST', 'handler' => 'uploadFoto', 'needs_id' => true],
         ],
     ],
     'parcelas' => [
@@ -91,6 +94,8 @@ $routes = [
             'detalhe' => ['method' => 'GET', 'handler' => 'detalhe', 'needs_id' => true],
             'comentarios' => ['method' => 'GET', 'handler' => 'comentarios', 'needs_id' => true],
             'comentar' => ['method' => 'POST', 'handler' => 'comentar', 'needs_id' => true],
+            'deletarPublicacao' => ['method' => 'DELETE', 'handler' => 'deletarPublicacao', 'needs_id' => true],
+            'deletarComentario' => ['method' => 'DELETE', 'handler' => 'deletarComentario', 'needs_id' => true],
         ],
     ],
     'clima' => [

@@ -182,6 +182,18 @@
     font-size: 18px;
 }
 
+.cultivo-method-pill {
+    width: fit-content;
+    margin: 0 auto;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(47, 143, 61, 0.14);
+    border: 1.5px solid rgba(47, 143, 61, 0.45);
+    color: rgba(20, 60, 28, 0.92);
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
 .cultivo-actions {
     display: flex;
     justify-content: flex-end;
@@ -244,16 +256,18 @@
     font-size: 18px;
     font-weight: 900;
     color: rgba(27, 27, 27, 0.96);
+    text-align: center;
 }
 
 .cultivo-summary-box {
     max-width: 360px;
-    margin: 0;
+    margin: 0 auto;
     padding: 8px 10px;
     border: 1px solid rgba(63, 142, 68, 0.42);
     border-radius: 6px;
     background: rgba(255, 255, 255, 0.52);
     gap: 0;
+    width: 100%;
 }
 
 .cultivo-summary-row {
@@ -284,30 +298,31 @@
     border-bottom: 0;
 }
 
-@media (max-width: 760px) {
-    .cultivo-page .page-content {
-        padding: 24px 18px 38px;
-    }
-
-    .cultivo-wrapper {
-        padding: 22px 16px 18px;
-        border-radius: 18px;
-    }
-
-    .cultivo-card,
-    .field-row-single,
-    .cultivo-select-group {
-        max-width: 100%;
-    }
-
-    .cultivo-actions,
-    .cultivo-actions-right {
-        width: 100%;
-    }
-
-    .cultivo-actions .btn,
-    .cultivo-actions-right .btn {
-        width: 100%;
-        justify-content: center;
-    }
+.field-error-hint {
+    color: #b42318;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 6px;
+    padding-left: 2px;
+    line-height: 1.4;
 }
+
+.cultivo-form-group input.field-invalid {
+    border-color: #b42318;
+    background: rgba(180, 35, 24, 0.05);
+}
+
+.cultivo-substrate-preview {
+    max-width: 470px;
+    margin: 16px auto 0;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: rgba(47, 143, 61, 0.09);
+    border: 1px solid rgba(47, 143, 61, 0.28);
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(27, 27, 27, 0.82);
+    text-align: center;
+    letter-spacing: 0;
+}
+

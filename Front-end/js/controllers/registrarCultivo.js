@@ -13,12 +13,15 @@
     const btnNext = document.querySelector('[data-step-next]');
     const btnSave = document.querySelector('[data-step-save]');
 
+    const summaryTipo = document.querySelector('[data-summary-tipo]');
     const summaryLargura = document.querySelector('[data-summary-largura]');
     const summaryComprimento = document.querySelector('[data-summary-comprimento]');
     const summaryProfundidade = document.querySelector('[data-summary-profundidade]');
-    const summaryTipo = document.querySelector('[data-summary-tipo]');
-    const summaryObjetivo = document.querySelector('[data-summary-objetivo]');
+    const summarySubstrato = document.querySelector('[data-summary-substrato]');
     const summaryMetodo = document.querySelector('[data-summary-metodo]');
+
+    const substratePreview = document.querySelector('[data-substrate-preview]');
+    const substrateLitrosEl = document.querySelector('[data-substrate-litros]');
 
     const state = {
         step: 1,
@@ -26,8 +29,8 @@
         comprimento: '',
         profundidade: '',
         tipo: '',
-        objetivo: '',
-        metodo: '',
+        objetivo: 'Consumo próprio',
+        metodo: 'Hidroponia',
     };
 
     const el = {
@@ -35,28 +38,34 @@
         comprimento: form.querySelector('[name="comprimento"]'),
         profundidade: form.querySelector('[name="profundidade"]'),
         tipo: form.querySelector('[name="tipo"]'),
-        objetivo: form.querySelector('[name="objetivo"]'),
         metodo: form.querySelector('[name="metodo"]'),
+    };
+
+    const fieldErrors = {
+        largura: document.querySelector('[data-field-error="largura"]'),
+        comprimento: document.querySelector('[data-field-error="comprimento"]'),
+        profundidade: document.querySelector('[data-field-error="profundidade"]'),
     };
 
     const setError = (msg) => {
         if (!errorBox) return;
-        if (!msg) {
-            errorBox.hidden = true;
-            errorBox.textContent = '';
-            return;
-        }
+        if (!msg) { errorBox.hidden = true; errorBox.textContent = ''; return; }
         errorBox.hidden = false;
         errorBox.textContent = msg;
     };
 
+    const setFieldError = (field, msg) => {
+        const hint = fieldErrors[field];
+        if (hint) { hint.textContent = msg || ''; hint.hidden = !msg; }
+        if (el[field]) el[field].classList.toggle('field-invalid', !!msg);
+    };
+
+    const clearFieldErrors = () => {
+        Object.keys(fieldErrors).forEach((f) => setFieldError(f, ''));
+    };
+
     const readAlertsStore = () => {
-        try {
-            const raw = localStorage.getItem(alertsStorageKey);
-            return raw ? JSON.parse(raw) : {};
-        } catch {
-            return {};
-        }
+        try { const raw = localStorage.getItem(alertsStorageKey); return raw ? JSON.parse(raw) : {}; } catch { return {}; }
     };
 
     const writeAlertsStore = (store) => {
@@ -77,42 +86,65 @@
         return Number.isFinite(n) ? n : NaN;
     };
 
+    const calcSubstrateLitros = () => {
+        const l = getNumber(el.largura);
+        const c = getNumber(el.comprimento);
+        const p = getNumber(el.profundidade);
+        if ([l, c, p].every((n) => Number.isFinite(n) && n > 0)) return Math.round(l * c * p * 1000);
+        return null;
+    };
+
+    const updateSubstratePreview = () => {
+        const litros = calcSubstrateLitros();
+        if (substratePreview) substratePreview.hidden = litros === null;
+        if (substrateLitrosEl && litros !== null) substrateLitrosEl.textContent = litros;
+    };
+
     const syncState = () => {
         state.largura = (el.largura?.value || '').trim();
         state.comprimento = (el.comprimento?.value || '').trim();
         state.profundidade = (el.profundidade?.value || '').trim();
         state.tipo = el.tipo?.value || '';
-        state.objetivo = el.objetivo?.value || '';
-        state.metodo = el.metodo?.value || '';
+        state.objetivo = 'Consumo próprio';
+        state.metodo = (el.metodo?.value || 'Hidroponia') || 'Hidroponia';
     };
 
     const validateStep = (step) => {
         syncState();
-        if (step === 1) {
+        if (step === 1 && !state.tipo) return 'Seleciona o tipo de cultivo.';
+        if (step === 2) {
+            clearFieldErrors();
             const largura = getNumber(el.largura);
             const comprimento = getNumber(el.comprimento);
             const profundidade = getNumber(el.profundidade);
-            if (![largura, comprimento, profundidade].every((n) => Number.isFinite(n) && n > 0)) {
-                return 'Preenche as dimensões da parcela com valores maiores que 0.';
+            const erros = [];
+            if (!Number.isFinite(largura) || largura <= 0) {
+                setFieldError('largura', 'Largura deve ser maior que 0.');
+                erros.push('Largura');
             }
+            if (!Number.isFinite(comprimento) || comprimento <= 0) {
+                setFieldError('comprimento', 'Comprimento deve ser maior que 0.');
+                erros.push('Comprimento');
+            }
+            if (!Number.isFinite(profundidade) || profundidade <= 0) {
+                setFieldError('profundidade', 'Profundidade deve ser maior que 0.');
+                erros.push('Profundidade');
+            }
+            if (erros.length > 0) return `Corrija os campos: ${erros.join(', ')}.`;
         }
-        if (step === 2 && !state.tipo) return 'Seleciona o tipo de cultivo.';
-        if (step === 3 && !state.objetivo) return 'Seleciona o objetivo do cultivo.';
-        if (step === 4 && !state.metodo) return 'Seleciona o método de cultivo.';
+        if (step === 3 && !state.metodo) return 'Método de cultivo indisponível.';
         return '';
     };
 
     const renderSummary = () => {
         syncState();
-        const largura = String(state.largura).trim();
-        const comprimento = String(state.comprimento).trim();
-        const profundidade = String(state.profundidade).trim();
-        if (summaryLargura) summaryLargura.textContent = largura || '—';
-        if (summaryComprimento) summaryComprimento.textContent = comprimento || '—';
-        if (summaryProfundidade) summaryProfundidade.textContent = profundidade || '—';
+        const litros = calcSubstrateLitros();
         if (summaryTipo) summaryTipo.textContent = state.tipo || '—';
-        if (summaryObjetivo) summaryObjetivo.textContent = state.objetivo || '—';
-        if (summaryMetodo) summaryMetodo.textContent = state.metodo || '—';
+        if (summaryLargura) summaryLargura.textContent = state.largura || '—';
+        if (summaryComprimento) summaryComprimento.textContent = state.comprimento || '—';
+        if (summaryProfundidade) summaryProfundidade.textContent = state.profundidade || '—';
+        if (summarySubstrato) summarySubstrato.textContent = litros !== null ? `~${litros} L` : '—';
+        if (summaryMetodo) summaryMetodo.textContent = state.metodo || 'Hidroponia';
     };
 
     const showStep = (n) => {
@@ -125,41 +157,37 @@
         if (stepMeta) stepMeta.textContent = `Passo ${clamped} de ${max}`;
         if (progressBar) progressBar.style.width = `${(clamped / max) * 100}%`;
 
-        if (btnPrev) {
-            btnPrev.hidden = clamped === 1;
-            btnPrev.style.display = clamped === 1 ? 'none' : '';
-        }
-        if (btnNext) {
-            btnNext.hidden = clamped === max;
-            btnNext.style.display = clamped === max ? 'none' : '';
-        }
-        if (btnSave) {
-            btnSave.hidden = clamped !== max;
-            btnSave.style.display = clamped === max ? '' : 'none';
-        }
+        if (btnPrev) { btnPrev.hidden = clamped === 1; btnPrev.style.display = clamped === 1 ? 'none' : ''; }
+        if (btnNext) { btnNext.hidden = clamped === max; btnNext.style.display = clamped === max ? 'none' : ''; }
+        if (btnSave) { btnSave.hidden = clamped !== max; btnSave.style.display = clamped === max ? '' : 'none'; }
 
         if (clamped === max) renderSummary();
         setError('');
+        clearFieldErrors();
     };
 
     const next = () => {
+        const activeEl = document.querySelector('.cultivo-step.active[data-step]');
+        const activeStep = Number(activeEl?.dataset?.step || state.step || 1);
+        state.step = Number.isFinite(activeStep) ? activeStep : state.step;
         const err = validateStep(state.step);
-        if (err) {
-            setError(err);
-            return;
-        }
+        if (err) { setError(err); return; }
         showStep(state.step + 1);
     };
 
     const prev = () => {
+        const activeEl = document.querySelector('.cultivo-step.active[data-step]');
+        const activeStep = Number(activeEl?.dataset?.step || state.step || 1);
+        state.step = Number.isFinite(activeStep) ? activeStep : state.step;
         showStep(state.step - 1);
     };
 
     const save = async () => {
-        const err = validateStep(1) || validateStep(2) || validateStep(3) || validateStep(4);
+        const err = validateStep(1) || validateStep(2) || validateStep(3);
         if (err) {
+            if (String(err).includes('Largura') || String(err).includes('Comprimento') || String(err).includes('Profundidade')) showStep(2);
+            else showStep(1);
             setError(err);
-            showStep(1);
             return;
         }
         syncState();
@@ -169,6 +197,7 @@
         const largura = Number(String(state.largura).replace(',', '.'));
         const comprimento = Number(String(state.comprimento).replace(',', '.'));
         const profundidade = Number(String(state.profundidade).replace(',', '.'));
+        const substrato_litros = Math.round(largura * comprimento * profundidade * 1000);
         const payload = {
             ut_id: user.id,
             par_nome: `${state.tipo || 'Cultivo'} ${new Date().toLocaleDateString('pt-PT')}`,
@@ -176,9 +205,10 @@
             largura,
             comprimento,
             profundidade,
+            substrato_litros,
             tipo: state.tipo,
-            objetivo: state.objetivo,
-            metodo: state.metodo,
+            objetivo: state.objetivo || 'Consumo próprio',
+            metodo: state.metodo || 'Hidroponia',
         };
 
         try {
@@ -207,20 +237,26 @@
         }
     };
 
-    btnPrev?.addEventListener('click', (e) => {
-        e.preventDefault();
-        prev();
+    el.tipo?.addEventListener('change', () => {
+        setError('');
     });
 
-    btnNext?.addEventListener('click', (e) => {
-        e.preventDefault();
-        next();
-    });
+    const bindMeasureInput = (input, fieldName) => {
+        if (!input) return;
+        input.addEventListener('input', () => {
+            setError('');
+            setFieldError(fieldName, '');
+            updateSubstratePreview();
+        });
+    };
 
-    btnSave?.addEventListener('click', (e) => {
-        e.preventDefault();
-        save();
-    });
+    bindMeasureInput(el.largura, 'largura');
+    bindMeasureInput(el.comprimento, 'comprimento');
+    bindMeasureInput(el.profundidade, 'profundidade');
+
+    btnPrev?.addEventListener('click', (e) => { e.preventDefault(); prev(); });
+    btnNext?.addEventListener('click', (e) => { e.preventDefault(); next(); });
+    btnSave?.addEventListener('click', (e) => { e.preventDefault(); save(); });
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();

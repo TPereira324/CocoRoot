@@ -1,9 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registrar Cultivo — CocoRoot</title>
     <link rel="stylesheet" href="../css/cocoroot.css">
     <link rel="stylesheet" href="../css/cultivo.css">
@@ -17,7 +16,7 @@
             </div>
 
             <div class="cultivo-progress-shell">
-                <div class="cultivo-stepmeta" data-step-meta>Passo 1 de 5</div>
+                <div class="cultivo-stepmeta" data-step-meta>Passo 1 de 4</div>
                 <div class="cultivo-progress" aria-hidden="true">
                     <div class="cultivo-progress-fill" data-cultivo-progress></div>
                 </div>
@@ -26,7 +25,27 @@
             <div class="cultivo-error" data-cultivo-error role="alert" hidden></div>
 
             <form data-cultivo-form>
-                <section class="cultivo-step active" data-step="1" aria-label="Dimensões da parcela">
+                <input id="metodo" name="metodo" type="hidden" value="Hidroponia">
+                <section class="cultivo-step active" data-step="1" aria-label="Tipo de cultivo">
+                    <div class="cultivo-card">
+                        <div class="cultivo-step-heading">Escolher tipo de cultura</div>
+                        <div class="cultivo-step-subheading">Selecione o tipo de cultura para esta parcela.</div>
+                        <div class="form-group cultivo-form-group cultivo-select-group">
+                            <label for="tipo">Selecione o tipo de cultura</label>
+                            <div class="cultivo-select-wrap">
+                                <select id="tipo" name="tipo" class="cultivo-select" required>
+                                    <option value="" selected>Selecionar</option>
+                                    <option value="Tomate">Tomate</option>
+                                    <option value="Morango">Morango</option>
+                                    <option value="Manjericão">Manjericão</option>
+                                </select>
+                                <i class="bi bi-chevron-down" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="cultivo-step" data-step="2" aria-label="Dimensões da parcela">
                     <div class="cultivo-card">
                         <div class="cultivo-step-heading">Preencher tamanho da Parcela</div>
                         <div class="cultivo-step-subheading">Indique as dimensões da área para calcular e registar
@@ -40,6 +59,7 @@
                                         inputmode="decimal" placeholder="0.00" required>
                                     <div class="field-unit">m</div>
                                 </div>
+                                <div class="field-error-hint" data-field-error="largura" hidden></div>
                             </div>
 
                             <div class="form-group cultivo-form-group">
@@ -49,6 +69,7 @@
                                         inputmode="decimal" placeholder="0.00" required>
                                     <div class="field-unit">m</div>
                                 </div>
+                                <div class="field-error-hint" data-field-error="comprimento" hidden></div>
                             </div>
 
                             <div class="form-group cultivo-form-group">
@@ -58,79 +79,31 @@
                                         inputmode="decimal" placeholder="0.00" required>
                                     <div class="field-unit">m</div>
                                 </div>
+                                <div class="field-error-hint" data-field-error="profundidade" hidden></div>
                             </div>
+                        </div>
+                        <div class="cultivo-substrate-preview" data-substrate-preview hidden>
+                            Substrato estimado: ~<span data-substrate-litros>0</span>&nbsp;L
                         </div>
                     </div>
                 </section>
 
-                <section class="cultivo-step" data-step="2" aria-label="Tipo de cultivo">
-                    <div class="cultivo-card">
-                        <div class="cultivo-step-heading">Escolher tipo de cultura</div>
-                        <div class="cultivo-step-subheading">Selecione o tipo de cultura</div>
-                        <div class="form-group cultivo-form-group cultivo-select-group">
-                            <label for="tipo">Selecione o tipo de cultura</label>
-                            <div class="cultivo-select-wrap">
-                                <select id="tipo" name="tipo" class="cultivo-select" required>
-                                    <option value="" selected>Selecionar</option>
-                                    <option value="Morango">Morango</option>
-                                    <option value="Tomate">Tomate</option>
-                                    <option value="Pimento">Pimento</option>
-                                    <option value="Pepino">Pepino</option>
-                                    <option value="Alface">Alface</option>
-                                    <option value="Ervas aromáticas">Ervas aromáticas</option>
-                                </select>
-                                <i class="bi bi-chevron-down" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="cultivo-step" data-step="3" aria-label="Objetivo do cultivo">
-                    <div class="cultivo-card">
-                        <div class="cultivo-step-heading">Escolher objetivo do cultivo</div>
-                        <div class="cultivo-step-subheading">Selecione o objetivo do cultivo</div>
-                        <div class="form-group cultivo-form-group cultivo-select-group">
-                            <label for="objetivo">Selecione o objetivo do cultivo</label>
-                            <div class="cultivo-select-wrap">
-                                <select id="objetivo" name="objetivo" class="cultivo-select" required>
-                                    <option value="" selected>Selecionar</option>
-                                    <option value="Consumo próprio">Consumo próprio</option>
-                                    <option value="Venda local">Venda local</option>
-                                    <option value="Exportação">Exportação</option>
-                                    <option value="Investigação">Investigação</option>
-                                    <option value="Educação">Educação</option>
-                                    <option value="Hobby">Hobby</option>
-                                </select>
-                                <i class="bi bi-chevron-down" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="cultivo-step" data-step="4" aria-label="Método de cultivo">
-                    <div class="cultivo-card">
-                        <div class="cultivo-step-heading">Escolher método de cultivo</div>
-                        <div class="cultivo-step-subheading">Selecione o método do cultivo</div>
-                        <div class="form-group cultivo-form-group cultivo-select-group">
-                            <label for="metodo">Selecione o método do cultivo</label>
-                            <div class="cultivo-select-wrap">
-                                <select id="metodo" name="metodo" class="cultivo-select" required>
-                                    <option value="" selected>Selecionar</option>
-                                    <option value="Vasos">Vasos</option>
-                                    <option value="Hidroponia">Hidroponia</option>
-                                    <option value="Canteiros">Canteiros</option>
-                                </select>
-                                <i class="bi bi-chevron-down" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="cultivo-step" data-step="5" aria-label="Confirmar e guardar">
+                <section class="cultivo-step" data-step="3" aria-label="Método de cultivo">
                     <div class="cultivo-card cultivo-confirm-card">
-                        <div class="cultivo-confirm-heading">Por favor, confirme as informações:</div>
+                        <div class="cultivo-step-heading">Método de cultivo</div>
+                        <div class="cultivo-step-subheading">Este fluxo está configurado para cultivo em hidroponia.
+                        </div>
+                    </div>
+                </section>
 
+                <section class="cultivo-step" data-step="4" aria-label="Confirmar e guardar">
+                    <div class="cultivo-card cultivo-confirm-card">
+                        <div class="cultivo-confirm-heading">Confirma se está tudo correto:</div>
                         <div class="cultivo-summary cultivo-summary-box" aria-label="Resumo">
+                            <div class="cultivo-summary-row">
+                                <div class="cultivo-summary-key">Tipo de cultura:</div>
+                                <div class="cultivo-summary-val" data-summary-tipo>—</div>
+                            </div>
                             <div class="cultivo-summary-row">
                                 <div class="cultivo-summary-key">Largura:</div>
                                 <div class="cultivo-summary-val"><span data-summary-largura>—</span> m</div>
@@ -144,12 +117,8 @@
                                 <div class="cultivo-summary-val"><span data-summary-profundidade>—</span> m</div>
                             </div>
                             <div class="cultivo-summary-row">
-                                <div class="cultivo-summary-key">Tipo de cultura:</div>
-                                <div class="cultivo-summary-val" data-summary-tipo>—</div>
-                            </div>
-                            <div class="cultivo-summary-row">
-                                <div class="cultivo-summary-key">Objetivo:</div>
-                                <div class="cultivo-summary-val" data-summary-objetivo>—</div>
+                                <div class="cultivo-summary-key">Substrato estimado:</div>
+                                <div class="cultivo-summary-val" data-summary-substrato>—</div>
                             </div>
                             <div class="cultivo-summary-row">
                                 <div class="cultivo-summary-key">Método:</div>
@@ -174,7 +143,7 @@
 
     <script src="../js/utils/config.js"></script>
     <script src="../js/utils/api.js"></script>
-    <script src="../js/controllers/registrarCultivo.js"></script>
+    <script src="../js/controllers/registrarCultivo.js?v=20260511-4"></script>
     <script src="../js/views/layout.js"></script>
 </body>
 

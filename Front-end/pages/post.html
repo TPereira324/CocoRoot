@@ -1,9 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artigo - CocoRoot</title>
     <link rel="stylesheet" href="../css/cocoroot.css">
 </head>
@@ -36,7 +35,7 @@
 
             <div class="news-detail-body">
                 <div id="post-body" class="news-article-copy"></div>
-                <a href="noticias.html" class="news-more">ler mais...</a>
+                <a href="noticias.html" class="news-more">Voltar às notícias</a>
             </div>
         </section>
     </div>
@@ -48,28 +47,49 @@
             const data = {
                 '1': {
                     title: 'Como Maximizar a Produção de Morangos em Fibra de Coco',
-                    img: '../image/planta.jpeg',
-                    body: 'Cultivar morangos usando técnicas de hidroponia oferece uma maneira única de desfrutar de frutas frescas e saborosas durante todo o ano. Este método acelera o crescimento das plantas e aumenta a produção em comparação com o cultivo tradicional no solo. Você também pode cultivar morangos em ambientes internos ou em espaços pequenos, o que o torna perfeito para iniciantes. Sistema Hidropônico Utilizamos água de forma eficiente, reduzindo o desperdício e promovendo a sustentabilidade. Ao adotar essa abordagem, você contribui para práticas ecologicamente corretas e, ao mesmo tempo, desfruta da satisfação de cultivar seus próprios alimentos.'
+                    img: '../image/planta-1024w.jpeg',
+                    body: [
+                        'A fibra de coco é um substrato muito estável para morango: retém água, mantém boa oxigenação e permite rega frequente com controlo. A diferença aparece quando existe rotina: pH e EC consistentes, drenagem correta e uma fertirrega ajustada à fase da planta.',
+                        'Para começar bem, use coco lavado e, se possível, tamponado (buffered). No arranque, o coco pode “segurar” cálcio e magnésio, por isso faz sentido trabalhar com uma solução completa que inclua Ca/Mg.',
+                        'Na prática, o que mais melhora a produção é rega em pulsos com algum escoamento (runoff). Isto ajuda a evitar acumulação de sais, mantém o substrato mais homogéneo e reduz stress na planta.',
+                        'No CocoRoot, registe a rotina (horários, pH/EC, notas) e ajuste com base no que vê no escoamento e no comportamento das folhas. Pequenos ajustes semanais costumam valer mais do que mudanças grandes e raras.'
+                    ]
                 },
                 '2': {
                     title: 'Novidades: Sistema de Monitorização Automática Disponível',
-                    img: '../image/Coco.jpeg',
-                    body: 'A CocoRoot lança um novo sistema de monitorização automática pensado para agricultores que precisam de acompanhar humidade, temperatura e comportamento do substrato ao longo do dia. A novidade permite mais controlo, decisões mais rápidas e menos desperdício de recursos. Com relatórios simples e alertas em tempo real, o processo torna-se mais previsível e eficiente.'
+                    img: '../image/Coco-1024w.jpeg',
+                    body: [
+                        'A CocoRoot lança um sistema de monitorização automática pensado para acompanhar humidade, temperatura e comportamento do substrato ao longo do dia.',
+                        'Com alertas em tempo real e uma visão rápida do estado das parcelas, fica mais simples reagir cedo e reduzir desperdício de água e nutrientes.',
+                        'A ideia é transformar dados em decisões rápidas: identificar padrões de rega, detetar desvios e manter o cultivo mais previsível.'
+                    ]
                 },
                 '3': {
                     title: 'História de Sucesso: Agricultor Duplica Produção em 6 Meses',
-                    img: '../image/planta.jpeg',
-                    body: 'Pedro Costa começou com uma pequena área experimental e, ao adaptar corretamente a drenagem, o plano de rega e a rotina de acompanhamento, conseguiu duplicar a produção em apenas seis meses. O caso mostra como pequenas melhorias operacionais, aliadas a dados consistentes, podem transformar uma exploração agrícola e criar uma operação mais estável e rentável.'
+                    img: '../image/planta-1024w.jpeg',
+                    body: [
+                        'Pedro Costa começou com uma pequena área experimental e, ao ajustar drenagem, plano de rega e rotina de acompanhamento, conseguiu duplicar a produção em seis meses.',
+                        'A mudança principal foi a consistência: regas curtas e frequentes, controlo de pH/EC e atenção ao escoamento para evitar sais acumulados.',
+                        'O caso mostra como pequenas melhorias operacionais, apoiadas por dados, podem tornar a exploração mais estável e rentável.'
+                    ]
                 },
                 '4': {
                     title: 'Preparação do Substrato: Erros Comuns e Como Evitá-los',
-                    img: '../image/Coco.jpeg',
-                    body: 'A preparação do substrato continua a ser uma das etapas mais críticas no arranque do cultivo em fibra de coco. Erros simples, como excesso de água, drenagem deficiente ou falta de uniformidade na hidratação, comprometem o desempenho da plantação. Com um processo bem definido, é possível garantir estabilidade, melhor absorção de nutrientes e maior previsibilidade no desenvolvimento das culturas.'
+                    img: '../image/Coco-1024w.jpeg',
+                    body: [
+                        'A preparação do substrato é uma das etapas mais críticas no arranque do cultivo em fibra de coco. Erros simples comprometem o desenvolvimento logo nas primeiras semanas.',
+                        'Os mais comuns: hidratar mal (zonas secas), pouca drenagem, não lavar quando necessário e ignorar o tamponamento (Ca/Mg) em coco não preparado.',
+                        'Com um processo simples — hidratar, lavar/escorrer, estabilizar pH/EC e evitar compactar — o cultivo fica mais previsível e uniforme.'
+                    ]
                 },
                 '5': {
                     title: 'Comunidade CocoRoot Recebe Novos Guias Interativos',
-                    img: '../image/planta.jpeg',
-                    body: 'Os novos guias interativos da CocoRoot foram desenvolvidos para simplificar tarefas e ajudar produtores em diferentes estágios de aprendizagem. O objetivo é criar um percurso prático, visual e fácil de seguir, com recomendações úteis, passos claros e conteúdos diretamente aplicáveis ao dia a dia de quem trabalha com substrato de fibra de coco.'
+                    img: '../image/planta-1024w.jpeg',
+                    body: [
+                        'Os novos guias interativos da CocoRoot foram feitos para simplificar tarefas e apoiar produtores em diferentes fases de aprendizagem.',
+                        'O objetivo é um percurso prático e fácil de seguir, com passos claros e recomendações aplicáveis ao dia a dia de quem cultiva em fibra de coco.',
+                        'Os módulos ajudam a começar com o básico (substrato, pH/EC, rega e manutenção) e a evoluir com consistência.'
+                    ]
                 }
             };
             const post = data[id] || data['1'];
@@ -78,12 +98,20 @@
 
             const img = document.querySelector('.detalhe-img');
             if (img) {
-                img.innerHTML = `<img src="${post.img}" style="width:100%;height:100%;object-fit:cover;" alt="${post.title}">`;
+                img.innerHTML = `<img src="${post.img}" width="980" height="420" loading="eager" decoding="async" style="width:100%;height:100%;object-fit:cover;" alt="${post.title}">`;
             }
 
             const bodyRoot = document.getElementById('post-body');
             if (bodyRoot) {
-                bodyRoot.textContent = post.body;
+                bodyRoot.innerHTML = '';
+                const parts = Array.isArray(post.body)
+                    ? post.body
+                    : String(post.body || '').split(/\n\s*\n/g);
+                parts.map((p) => String(p || '').trim()).filter(Boolean).forEach((p) => {
+                    const el = document.createElement('p');
+                    el.textContent = p;
+                    bodyRoot.appendChild(el);
+                });
             }
 
             const key = 'cocoRootFavorites';

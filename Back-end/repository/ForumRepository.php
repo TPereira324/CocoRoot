@@ -102,6 +102,38 @@ class ForumRepository {
         return (int)$this->db->lastInsertId();
     }
 
+    public function obterAutorPost(int $postId): ?int {
+        $stmt = $this->db->prepare("SELECT post_ut_id FROM post WHERE post_id = ?");
+        $stmt->execute([$postId]);
+        $result = $stmt->fetch();
+        return $result ? (int)$result['post_ut_id'] : null;
+    }
+
+    public function obterAutorComentario(int $comentarioId): ?int {
+        $stmt = $this->db->prepare("SELECT com_ut_id FROM comentario WHERE com_id = ?");
+        $stmt->execute([$comentarioId]);
+        $result = $stmt->fetch();
+        return $result ? (int)$result['com_ut_id'] : null;
+    }
+
+    public function deletarPost(int $postId): bool {
+        // Primeiro deleta todos os comentários do post
+        $stmtComentarios = $this->db->prepare("DELETE FROM comentario WHERE com_post_id = ?");
+        $stmtComentarios->execute([$postId]);
+        
+        // Depois deleta o post
+        $stmtPost = $this->db->prepare("DELETE FROM post WHERE post_id = ?");
+        $stmtPost->execute([$postId]);
+        
+        return $stmtPost->rowCount() > 0;
+    }
+
+    public function deletarComentario(int $comentarioId): bool {
+        $stmt = $this->db->prepare("DELETE FROM comentario WHERE com_id = ?");
+        $stmt->execute([$comentarioId]);
+        return $stmt->rowCount() > 0;
+    }
+
     private function mapPost(array $row): array {
         return [
             'id' => (int)$row['post_id'],

@@ -55,7 +55,7 @@ function normalizeText(value) {
 }
 
 function buildTaskId() {
-    try { if (window.crypto?.randomUUID) return window.crypto.randomUUID(); } catch {}
+    try { if (window.crypto?.randomUUID) return window.crypto.randomUUID(); } catch { }
     return `t_${Date.now()}_${Math.random().toString(16).slice(2)}`;
 }
 
@@ -78,7 +78,7 @@ function endOfDay(date) {
 }
 
 function getParcelaId(parcela) {
-    const id = parcela?.id ?? parcela?.par_id ?? parcela?.parcela_id ?? parcela?.parcelaId ?? parcela?.nome;
+    const id = parcela?.id ?? parcela?.par_id ?? parcela?.parcela_id ?? parcela?.parcelaId ?? parcela?.par_nome ?? parcela?.nome ?? parcela?.parcela_nome ?? parcela?.nome_parcela;
     return String(id || '');
 }
 
@@ -95,10 +95,8 @@ function pickCultivoCategory(cultivoName) {
     const t = normalizeText(cultivoName);
     if (!t) return 'geral';
     const has = (...words) => words.some((w) => t.includes(normalizeText(w)));
-    if (has('alface', 'couve', 'espinafre', 'rúcula', 'rucula', 'repolho')) return 'folhosas';
-    if (has('tomate', 'pimento', 'pepino', 'abobrinha', 'courgette', 'beringela', 'melancia', 'melao', 'melão', 'morango')) return 'frutiferas';
-    if (has('manjericão', 'manjericao', 'hortelã', 'hortela', 'salsa', 'coentros', 'alecrim', 'orégãos', 'oregãos', 'oregano', 'cebolinho')) return 'ervas';
-    if (has('batata', 'cenoura', 'beterraba', 'nabo', 'rabanete')) return 'raizes';
+    if (has('tomate', 'morango')) return 'frutiferas';
+    if (has('manjericão', 'manjericao')) return 'ervas';
     return 'geral';
 }
 

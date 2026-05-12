@@ -3,66 +3,92 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comunidade - CocoRoot</title>
+    <link rel="preload" href="../css/cocoroot.css" as="style">
     <link rel="stylesheet" href="../css/cocoroot.css">
 </head>
 
 <body class="app-page cr-sheet">
     <div class="page-content">
         <section class="community-shell">
+
             <div class="community-head">
-                <div class="community-title">Comunidade</div>
-                <div class="community-subtitle">Rede de agricultores</div>
-                <div class="community-divider"></div>
-                <div style="display:flex;justify-content:flex-end;margin-bottom:18px;">
-                    <button id="publish-toggle-btn" class="btn cr-tooltip cr-tt-publicar" type="button">Fazer pergunta</button>
+                <div class="community-head-row">
+                    <div class="community-head-text">
+                        <div class="community-title">Comunidade</div>
+                        <div class="community-subtitle">Partilha experiências, tira dúvidas e aprende com outros
+                            agricultores</div>
+                    </div>
+                    <button id="publish-toggle-btn" class="btn community-compose-btn cr-tooltip cr-tt-publicar"
+                        type="button">
+                        <span>Nova publicação</span>
+                    </button>
                 </div>
+                <div class="community-divider"></div>
             </div>
 
             <div id="community-error" class="dash-card" style="margin-bottom:16px;color:#8a1f11;" hidden></div>
 
-            <div id="publish-form-section" style="margin-bottom:18px;" hidden>
-                <div class="dash-card">
-                    <div class="dash-card-title" style="margin-bottom:14px;">Nova Publicação</div>
-                    <div id="publish-error" style="color:#8a1f11;margin-bottom:10px;" hidden></div>
+            <div id="publish-form-section" style="margin-bottom:20px;" hidden>
+                <div class="community-compose-card">
+                    <div class="community-compose-header">
+                        <span class="community-compose-title">Nova Publicação</span>
+                    </div>
+                    <div id="publish-error" class="community-compose-error" hidden></div>
                     <form id="community-publish-form">
                         <div class="form-group">
                             <label for="publish-titulo">Título</label>
-                            <input type="text" id="publish-titulo" placeholder="Título da publicação..." required>
+                            <input type="text" id="publish-titulo"
+                                placeholder="Ex: Como evitar fungos no morango em fibra de coco?" required>
                         </div>
                         <div class="form-group">
                             <label for="publish-conteudo">Conteúdo</label>
-                            <textarea id="publish-conteudo" rows="4" placeholder="Escreve aqui..."
+                            <textarea id="publish-conteudo" rows="4"
+                                placeholder="Partilha a tua experiência, dúvida ou dica com a comunidade..."
                                 style="resize:vertical;width:100%;box-sizing:border-box;"></textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="publish-categoria">Categoria</label>
-                            <select id="publish-categoria" class="btn"
-                                style="width:100%;text-align:left;letter-spacing:1px;text-transform:none;font-weight:bold;">
-                                <option value="duvidas">Dúvida</option>
-                                <option value="dicas">Dica</option>
-                                <option value="experiencias">Experiência</option>
-                            </select>
-                        </div>
-                        <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:10px;">
-                            <button type="button" id="publish-cancel-btn" class="btn">Cancelar</button>
-                            <button type="submit" id="publish-submit-btn" class="btn cr-tooltip cr-tt-publicar">Publicar</button>
+                        <div class="community-compose-footer">
+                            <div class="community-compose-cat-row">
+                                <span class="community-compose-cat-label">Categoria:</span>
+                                <select id="publish-categoria" class="community-cat-select">
+                                    <option value="duvidas">Dúvida</option>
+                                    <option value="dicas">Dica</option>
+                                    <option value="experiencias">Experiência</option>
+                                </select>
+                            </div>
+                            <div class="community-compose-actions">
+                                <span id="publish-char-counter" class="publish-char-counter">0 / 1200</span>
+                                <button type="button" id="publish-cancel-btn" class="btn outline sm">Cancelar</button>
+                                <button type="submit" id="publish-submit-btn" class="btn sm">Publicar</button>
+                            </div>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <div id="community-stats" class="stats-row" aria-label="Estatísticas"></div>
+            <div id="community-stats" class="community-stats-strip" aria-label="Estatísticas da comunidade"></div>
 
-            <div class="tabs" role="tablist" aria-label="Categorias">
+            <div class="community-toolbar">
+                <div class="community-search-wrap">
+                    <input type="search" id="community-search" class="community-search-input"
+                        placeholder="Pesquisar publicações...">
+                </div>
+                <div class="community-sort-btns" role="group" aria-label="Ordenar por">
+                    <button class="sort-pill active" type="button" data-sort="recentes">Recentes</button>
+                    <button class="sort-pill" type="button" data-sort="populares">Populares</button>
+                    <button class="sort-pill" type="button" data-sort="sem-resposta">Sem resposta</button>
+                </div>
+            </div>
+
+            <div class="tabs community-tabs" role="tablist" aria-label="Categorias">
                 <button class="tab active" type="button" data-cat="todos">Todos</button>
-                <button class="tab" type="button" data-cat="duvidas">Dúvidas</button>
-                <button class="tab" type="button" data-cat="dicas">Dicas</button>
-                <button class="tab" type="button" data-cat="experiencias">Experiências</button>
+                <button class="tab tab-duvidas" type="button" data-cat="duvidas">Dúvidas</button>
+                <button class="tab tab-dicas" type="button" data-cat="dicas">Dicas</button>
+                <button class="tab tab-experiencias" type="button" data-cat="experiencias">Experiências</button>
             </div>
 
             <div id="posts" class="community-posts"></div>
+
         </section>
     </div>
 

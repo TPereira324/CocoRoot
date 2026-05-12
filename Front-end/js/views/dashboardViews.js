@@ -3,6 +3,46 @@ function renderEmpty(container, message) {
     container.innerHTML = `<div class="card"><div style="color:var(--muted);line-height:1.6;">${message}</div></div>`;
 }
 
+function renderSkeleton(container, count = 3) {
+    if (!container) return;
+    const blocks = Array.from({ length: Math.max(1, count) }).map(() => `
+        <div class="card" aria-hidden="true">
+            <div class="txt-block">
+                <div class="txt-line title w65"></div>
+                <div class="txt-line w80"></div>
+                <div class="txt-line w50"></div>
+            </div>
+        </div>
+    `).join('');
+    container.innerHTML = blocks;
+}
+
+function renderParcelasSkeleton(parcelasContainer) {
+    if (!parcelasContainer) return;
+    const cards = Array.from({ length: 2 }).map(() => `
+        <article class="dash-cultivo-card" aria-hidden="true">
+            <div class="txt-block">
+                <div class="txt-line title w50"></div>
+                <div class="txt-line w65"></div>
+                <div class="txt-line w40"></div>
+            </div>
+        </article>
+    `).join('');
+    parcelasContainer.innerHTML = `${cards}<a href="registrar-cultivo.html" class="dash-add-card"><span class="dash-add-icon" aria-hidden="true">+</span><span>Adicionar cultivo</span></a>`;
+}
+
+function renderTasksSkeleton(tarefasContainer) {
+    renderSkeleton(tarefasContainer, 2);
+}
+
+function renderMonitorSkeleton(monitorizacaoContainer) {
+    renderSkeleton(monitorizacaoContainer, 2);
+}
+
+function renderClimaSkeleton(climaContainer) {
+    renderSkeleton(climaContainer, 1);
+}
+
 function renderParcelas(parcelas, parcelasContainer) {
     if (!parcelasContainer) return;
     const list = Array.isArray(parcelas) ? parcelas : [];
@@ -18,49 +58,31 @@ function renderParcelas(parcelas, parcelasContainer) {
         const cultivoNome = String(cultivo?.nome ?? parcela?.tipo ?? parcela?.cultivo ?? parcela?.cultivo_nome ?? parcela?.nome ?? '').trim();
         const cultivoNorm = normalizeText(cultivoNome);
         const has = (...words) => words.some((w) => cultivoNorm.includes(normalizeText(w)));
-        const iconClass = has('alface', 'couve', 'espinafre', 'rúcula', 'rucula', 'repolho') ? 'dash-cultivo-icon--folhosas'
-            : has('tomate', 'pimento', 'pepino', 'abobrinha', 'courgette', 'beringela', 'melancia', 'melao', 'melão', 'morango') ? 'dash-cultivo-icon--frutiferas'
-                : has('manjericão', 'manjericao', 'hortelã', 'hortela', 'salsa', 'coentros', 'alecrim', 'orégãos', 'oregãos', 'oregano', 'cebolinho') ? 'dash-cultivo-icon--ervas'
-                    : has('batata', 'cenoura', 'beterraba', 'nabo', 'rabanete') ? 'dash-cultivo-icon--raizes' : 'dash-cultivo-icon--geral';
+        const iconClass = (has('tomate') || has('morango')) ? 'dash-cultivo-icon--frutiferas'
+            : has('manjericão', 'manjericao') ? 'dash-cultivo-icon--ervas'
+                : 'dash-cultivo-icon--geral';
         const cultivoIcon = (() => {
             if (!cultivoNome) return 'C';
             if (has('morango')) return '🍓';
             if (has('tomate')) return '🍅';
-            if (has('pimento')) return '🫑';
-            if (has('pepino')) return '🥒';
-            if (has('alface', 'couve', 'espinafre', 'rúcula', 'rucula', 'repolho')) return '🥬';
-            if (has('manjericão', 'manjericao', 'hortelã', 'hortela', 'salsa', 'coentros', 'alecrim', 'orégãos', 'oregãos', 'oregano', 'cebolinho')) return '🌿';
-            if (has('batata')) return '🥔';
-            if (has('cenoura', 'beterraba', 'nabo', 'rabanete')) return '🥕';
+            if (has('manjericão', 'manjericao')) return '🌿';
             if (iconClass === 'dash-cultivo-icon--frutiferas') return '🍅';
-            if (iconClass === 'dash-cultivo-icon--folhosas') return '🥬';
             if (iconClass === 'dash-cultivo-icon--ervas') return '🌿';
-            if (iconClass === 'dash-cultivo-icon--raizes') return '🥕';
             return cultivoNome.slice(0, 1).toUpperCase();
         })();
-        const ph = Number(cultivo?.ph ?? parcela?.ph);
-        const ec = Number(cultivo?.ec ?? parcela?.ec);
-        const humidade = Number(cultivo?.humidade ?? parcela?.humidade);
         const area = Number(parcela?.area_m2 || 0);
         const estado = String(parcela?.estado || parcela?.par_estado || 'Ativo');
-        const phText = Number.isFinite(ph) ? ph.toFixed(1) : '6.5';
-        const ecText = Number.isFinite(ec) ? `${ec.toFixed(1)}mS/cm` : '1.8mS/cm';
-        const humidadeText = Number.isFinite(humidade) ? `${Math.round(humidade)}%` : '55%';
         const areaText = area > 0 ? `${area.toFixed(0)}m²` : 'Sem área';
         return `
-            <article class="dash-cultivo-card">
+            <article class="dash-cultivo-card" data-parcela-id="${getParcelaId(parcela)}">
                 <div class="dash-cultivo-top">
                     <div class="dash-cultivo-icon ${iconClass}" aria-hidden="true">${cultivoIcon}</div>
                     <span class="dash-cultivo-badge">${estado}</span>
                 </div>
-                <div class="dash-cultivo-name">${cultivo?.nome || parcela.nome || 'Cultivo'}</div>
+                <div class="dash-cultivo-name">${cultivoNome || cultivo?.nome || 'Cultivo'}</div>
                 <div class="dash-cultivo-meta">${parcela.nome || 'Parcela'} · ${areaText}</div>
-                <div class="dash-cultivo-metrics">
-                    <div class="dash-cultivo-metric"><span>pH</span><strong>${phText}</strong></div>
-                    <div class="dash-cultivo-metric"><span>EC</span><strong>${ecText}</strong></div>
-                    <div class="dash-cultivo-metric"><span>Humidade</span><strong>${humidadeText}</strong></div>
-                </div>
-                <button type="button" class="dash-cultivo-link" data-parcela-id="${getParcelaId(parcela)}">Ver Detalhes</button>
+                <div class="dash-cultivo-info">Tipo de cultivo: <strong>${cultivoNome || '—'}</strong></div>
+                <button type="button" class="dash-cultivo-link" data-parcela-id="${getParcelaId(parcela)}">Ver detalhes</button>
             </article>`;
     }).join('');
     parcelasContainer.innerHTML = `${cards}<a href="registrar-cultivo.html" class="dash-add-card"><span class="dash-add-icon" aria-hidden="true">+</span><span>Adicionar cultivo</span></a>`;

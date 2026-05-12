@@ -67,4 +67,52 @@ class UsuarioController extends Controller
             $this->erro($e->getMessage(), 404);
         }
     }
+
+    public function atualizar(int $id): void
+    {
+        try {
+            $dados = $this->input();
+            $user = $this->usuarioService->atualizar($id, $dados);
+            $this->success($user, 'Perfil atualizado com sucesso.');
+        } catch (Exception $e) {
+            $this->erro($e->getMessage());
+        }
+    }
+
+    public function alterarPassword(int $id): void
+    {
+        try {
+            $dados = $this->input();
+            $this->usuarioService->alterarPassword(
+                $id,
+                $dados['password_atual'] ?? '',
+                $dados['password_nova'] ?? ''
+            );
+            $this->success(null, 'Password alterada com sucesso.');
+        } catch (Exception $e) {
+            $this->erro($e->getMessage());
+        }
+    }
+
+    public function uploadFoto(int $id): void
+    {
+        try {
+            if (!isset($_FILES['foto'])) {
+                throw new Exception('Nenhum arquivo foi enviado.');
+            }
+            if ($_FILES['foto']['error'] === UPLOAD_ERR_INI_SIZE) {
+                throw new Exception('A imagem excede o tamanho máximo permitido pelo servidor.');
+            }
+            if ($_FILES['foto']['error'] !== UPLOAD_ERR_OK) {
+                throw new Exception('Erro no upload. Código do servidor: ' . $_FILES['foto']['error']);
+            }
+
+            $uploadService = new \App\Service\FileUploadService();
+            $fotoCaminho = $uploadService->uploadUserAvatar($id, $_FILES['foto']);
+
+            $this->success(['foto' => $fotoCaminho], 'Foto de perfil atualizada com sucesso.');
+        } catch (Exception $e) {
+            $this->erro($e->getMessage(), 400);
+        }
+    }
 }

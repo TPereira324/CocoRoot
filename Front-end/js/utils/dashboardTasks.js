@@ -61,24 +61,37 @@ function generateTasksForParcela(parcela, cultivoName) {
         make(`Verificar humidade e ajustar rega${baseTitle}`, today, 'rega'),
         make(`Inspecionar pragas/doenças${baseTitle}`, addDays(today, 3), 'saude'),
     ];
-    if (category === 'folhosas') {
-        tasks.push(make(`Verificar crescimento e desbaste${baseTitle}`, addDays(today, 2), 'maneio'));
-        tasks.push(make(`Adubação leve (se necessário)${baseTitle}`, addDays(today, 7), 'nutricao'));
-    } else if (category === 'frutiferas') {
+    if (category === 'frutiferas') {
         tasks.push(make(`Verificar floração/frutificação${baseTitle}`, addDays(today, 2), 'maneio'));
         tasks.push(make(`Apoiar/tutorar plantas (se aplicável)${baseTitle}`, addDays(today, 5), 'maneio'));
         tasks.push(make(`Adubação (se necessário)${baseTitle}`, addDays(today, 10), 'nutricao'));
     } else if (category === 'ervas') {
         tasks.push(make(`Colheita seletiva e limpeza${baseTitle}`, addDays(today, 4), 'maneio'));
         tasks.push(make(`Podar para estimular rebrote${baseTitle}`, addDays(today, 8), 'maneio'));
-    } else if (category === 'raizes') {
-        tasks.push(make(`Verificar solo e compactação${baseTitle}`, addDays(today, 2), 'maneio'));
-        tasks.push(make(`Rega profunda (se necessário)${baseTitle}`, addDays(today, 4), 'rega'));
-        tasks.push(make(`Adubação de manutenção${baseTitle}`, addDays(today, 9), 'nutricao'));
     } else {
         tasks.push(make(`Registar observações no painel${baseTitle}`, addDays(today, 1), 'registo'));
         tasks.push(make(`Adubação (se necessário)${baseTitle}`, addDays(today, 8), 'nutricao'));
     }
+
+    const CULTIVO_EXTRAS = {
+        morango: [
+            { titulo: `Verificar sinais de fungos/oídio${baseTitle}`, daysOffset: 5, tipo: 'saude' },
+            { titulo: `Retirar estolhos em excesso${baseTitle}`, daysOffset: 10, tipo: 'maneio' },
+        ],
+        tomate: [
+            { titulo: `Tutorar e amarrar hastes${baseTitle}`, daysOffset: 4, tipo: 'maneio' },
+            { titulo: `Desladinhar (remover rebentos axilares)${baseTitle}`, daysOffset: 7, tipo: 'maneio' },
+        ],
+        manjericao: [
+            { titulo: `Podar para estimular rebrote${baseTitle}`, daysOffset: 4, tipo: 'maneio' },
+            { titulo: `Colheita seletiva (sem stressar a planta)${baseTitle}`, daysOffset: 9, tipo: 'maneio' },
+        ],
+    };
+    const cultivoKey = normalizeText(cultivo);
+    (CULTIVO_EXTRAS[cultivoKey] || []).forEach(({ titulo, daysOffset, tipo: ekind }) => {
+        tasks.push(make(titulo, addDays(today, daysOffset), ekind));
+    });
+
     return tasks;
 }
 
