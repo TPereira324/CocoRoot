@@ -210,6 +210,19 @@ body.app-page {
     transform: scale(1.04);
 }
 
+.article-item--skel {
+    pointer-events: none;
+}
+
+.article-item--skel .article-content {
+    display: flex;
+    align-items: center;
+}
+
+.article-item--skel .txt-line {
+    border-radius: 10px;
+}
+
 .article-content {
     flex: 1;
     display: flex;

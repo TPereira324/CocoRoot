@@ -13,6 +13,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentCategory = 'todos';
     let currentSort = 'recentes';
     let searchQuery = '';
+    const cacheKey = (() => {
+        const user = api.getLoggedUser();
+        const uid = user?.id ? String(user.id) : 'anon';
+        return `cocoRootCommunityCache:${uid}`;
+    })();
 
     const SEED_POSTS = [
         {
@@ -219,6 +224,23 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
                 <div style="width:52px;border-left:1px solid rgba(27,27,27,0.07);"></div>
             </div>`).join('');
+    };
+
+    const readCache = () => {
+        try {
+            const raw = localStorage.getItem(cacheKey);
+            if (!raw) return null;
+            const parsed = JSON.parse(raw);
+            if (!parsed || typeof parsed !== 'object') return null;
+            if (Date.now() - Number(parsed.ts || 0) > 5 * 60 * 1000) return null;
+            return parsed;
+        } catch {
+            return null;
+        }
+    };
+
+    const writeCache = (posts) => {
+        try { localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), posts: Array.isArray(posts) ? posts : [] })); } catch { }
     };
 
     const renderStats = (posts) => {
@@ -504,6 +526,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     renderSkeleton();
+    const cached = readCache();
+    if (cached?.posts) {
+        allPosts = normalizePosts(Array.isArray(cached.posts) ? cached.posts : []);
+        renderStats(allPosts);
+        renderPosts();
+    }
     try {
         const response = await api.fetchJson('forum/listar');
         const apiPosts = Array.isArray(response?.data) ? response.data : [];
@@ -512,6 +540,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderStats(allPosts);
         renderPosts();
         setError('');
+        writeCache(allPosts);
     } catch {
         allPosts = SEED_POSTS;
         renderStats(allPosts);

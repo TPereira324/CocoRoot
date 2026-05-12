@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - CocoRoot</title>
+    <link rel="preload" href="../css/cocoroot.css" as="style">
     <link rel="stylesheet" href="../css/cocoroot.css">
 </head>
 
@@ -246,7 +247,9 @@
                     if (isActive) p.removeAttribute('hidden');
                     else p.setAttribute('hidden', '');
                 });
-                if (name === 'parcelas') window.cocoRootFarmVisualizationResize?.();
+                requestAnimationFrame(() => {
+                    if (name === 'parcelas') window.cocoRootFarmVisualizationResize?.();
+                });
             }
             tabs.forEach((t) => t.addEventListener('click', () => setActive(t.dataset.tab)));
             window.cocoRootSetDashTab = setActive;

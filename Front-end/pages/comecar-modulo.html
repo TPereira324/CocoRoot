@@ -208,7 +208,12 @@
             if (imgPlaceholder) {
                 const src = chosenImage?.src ? encodeURI(chosenImage.src) : '';
                 const alt = chosenImage?.alt || current.title;
-                imgPlaceholder.innerHTML = `<img src="${src}" style="width:100%;height:100%;object-fit:cover;" alt="${alt}">`;
+                const withWidth = (url, w) => String(url || '').replace(/(\.[a-z0-9]+)$/i, `-${w}w$1`);
+                const isPlanta = src.includes('planta.jpeg');
+                const widths = isPlanta ? [320, 640, 1024, 1600] : [320, 640, 1024];
+                const srcset = widths.map((w) => `${withWidth(src, w)} ${w}w`).join(', ');
+                const sizes = '(max-width: 980px) 92vw, 980px';
+                imgPlaceholder.innerHTML = `<img src="${withWidth(src, 1024)}" srcset="${srcset}" sizes="${sizes}" loading="eager" decoding="async" alt="${alt}">`;
             }
 
             const next = mod + 1;

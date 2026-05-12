@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notícias - CocoRoot</title>
+    <link rel="preload" href="../css/cocoroot.css" as="style">
     <link rel="stylesheet" href="../css/cocoroot.css">
 </head>
 
@@ -121,6 +122,32 @@
             const filters = Array.from(document.querySelectorAll('.news-filter[data-filter]'));
             let activeFilter = 'all';
 
+            const renderSkeleton = () => {
+                if (!listRoot) return;
+                listRoot.innerHTML = Array.from({ length: 4 }, () => `
+                    <div class="article-item article-item--skel" aria-hidden="true">
+                        <div class="article-img img-ph"><div class="txt-line title w65" style="height:100%;border-radius:14px;"></div></div>
+                        <div class="article-content">
+                            <div class="txt-block">
+                                <div class="txt-line title w40"></div>
+                                <div class="txt-line w80"></div>
+                                <div class="txt-line w65"></div>
+                                <div class="txt-line w35"></div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            };
+
+            const renderEmpty = (message, sub) => {
+                if (!listRoot) return;
+                listRoot.innerHTML = `
+                    <div class="community-empty">
+                        <div class="community-empty-text">${message || 'Sem artigos para mostrar.'}</div>
+                        <div class="community-empty-sub">${sub || ''}</div>
+                    </div>`;
+            };
+
             const renderStats = () => {
                 const total = articles.length;
                 const newsCount = articles.filter((item) => item.category === 'news').length;
@@ -145,10 +172,31 @@
                     ? articles
                     : articles.filter((item) => item.category === activeFilter);
 
+                if (!filtered.length) {
+                    renderEmpty('Sem artigos nesta categoria.', 'Escolhe outro filtro para ver mais conteúdos.');
+                    return;
+                }
+
+                const withWidth = (url, w) => String(url || '').replace(/(\.[a-z0-9]+)$/i, `-${w}w$1`);
+                const buildSrcset = (url) => {
+                    const base = String(url || '');
+                    const widths = base.includes('planta.jpeg') ? [320, 640, 1024, 1600] : [320, 640, 1024];
+                    return widths.map((w) => `${withWidth(base, w)} ${w}w`).join(', ');
+                };
+                const buildSizes = () => '(max-width: 760px) 92vw, 176px';
+
                 listRoot.innerHTML = filtered.map((article) => `
                     <a class="article-item" href="post.html?id=${article.id}">
                         <div class="article-img img-ph">
-                            <img src="${article.image}" alt="${article.title}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;">
+                            <img src="${withWidth(article.image, 640)}"
+                                srcset="${buildSrcset(article.image)}"
+                                sizes="${buildSizes()}"
+                                alt="${article.title}"
+                                loading="lazy"
+                                decoding="async"
+                                width="176"
+                                height="142"
+                                style="width:100%;height:100%;object-fit:cover;">
                         </div>
                         <div class="article-content">
                             <div class="article-tag ${article.category === 'stories' ? 'story' : ''}">${article.label}</div>
@@ -196,8 +244,11 @@
                 });
             });
 
-            renderStats();
-            renderArticles();
+            renderSkeleton();
+            setTimeout(() => {
+                renderStats();
+                renderArticles();
+            }, 180);
         })();
     </script>
 </body>

@@ -175,12 +175,25 @@
     font-size: 14px;
     font-weight: 800;
     box-shadow: none;
+    transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
 }
 
 .dash-tab.active {
     background: rgba(255, 255, 255, 0.95);
     color: rgba(27, 27, 27, 0.96);
     box-shadow: 0 6px 18px rgba(27, 27, 27, 0.08);
+}
+
+.dash-panel {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.dash-panel[hidden] {
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
 }
 
 .dash-panel {

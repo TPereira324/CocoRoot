@@ -99,7 +99,11 @@
 
             const img = document.querySelector('.detalhe-img');
             if (img) {
-                img.innerHTML = `<img src="${post.img}" loading="eager" decoding="async" style="width:100%;height:100%;object-fit:cover;" alt="${post.title}">`;
+                const withWidth = (url, w) => String(url || '').replace(/(\.[a-z0-9]+)$/i, `-${w}w$1`);
+                const widths = String(post.img || '').includes('planta.jpeg') ? [320, 640, 1024, 1600] : [320, 640, 1024];
+                const srcset = widths.map((w) => `${withWidth(post.img, w)} ${w}w`).join(', ');
+                const sizes = '(max-width: 980px) 92vw, 980px';
+                img.innerHTML = `<img src="${withWidth(post.img, 1024)}" srcset="${srcset}" sizes="${sizes}" width="980" height="420" loading="eager" decoding="async" style="width:100%;height:100%;object-fit:cover;" alt="${post.title}">`;
             }
 
             const bodyRoot = document.getElementById('post-body');
