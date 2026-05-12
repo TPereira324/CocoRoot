@@ -1,65 +1,3 @@
-.step-checklist li {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 0;
-    border-bottom: 1px solid #e0e0e0;
-    cursor: pointer;
-    user-select: none;
-}
-
-.step-check {
-    width: 22px;
-    height: 22px;
-    border: 2px solid #222;
-    border-radius: 50%;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-}
-
-.step-check.done {
-    background: #222;
-    color: #fff;
-}
-
-.step-checklist li.active-step .step-check {
-    border-color: var(--primary);
-}
-
-.step-checklist li.active-step>div:last-child>div:first-child {
-    color: var(--primary);
-}
-
-.materiais-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 28px;
-}
-
-.materiais-list {
-    list-style: none;
-}
-
-.materiais-list li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 1px solid #e0e0e0;
-    font-size: 14px;
-}
-
-.bullet {
-    width: 8px;
-    height: 8px;
-    background: #222;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
 
 .dashboard-page .page-content {
     max-width: none;
@@ -335,20 +273,12 @@
     color: #fff;
 }
 
-.dash-cultivo-icon--folhosas {
-    background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0) 48%), linear-gradient(145deg, #44d96d, #1c7a36);
-    color: #fff;
-}
 
 .dash-cultivo-icon--ervas {
     background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0) 48%), linear-gradient(145deg, #1fbf9a, #0c6b55);
     color: #fff;
 }
 
-.dash-cultivo-icon--raizes {
-    background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0) 48%), linear-gradient(145deg, #ffb44a, #c96a00);
-    color: #fff;
-}
 
 .dash-cultivo-icon--geral {
     background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 55%), linear-gradient(145deg, #ffffff, #dcdcdc);
@@ -389,10 +319,6 @@
     font-weight: 800;
 }
 
-.dash-cultivo-metrics,
-.dash-cultivo-metric {
-    display: none !important;
-}
 
 .dash-cultivo-link {
     margin-top: 20px;
@@ -937,31 +863,4 @@
     justify-content: center;
 }
 
-.chart-ph {
-    border: 1px solid rgba(27, 27, 27, 0.12);
-    background: rgba(31, 60, 19, 0.06);
-    width: 100%;
-    overflow: hidden;
-    border-radius: 14px;
-}
-
-.side-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.alert-list,
-.task-list {
-    list-style: none;
-}
-
-.alert-item,
-.task-item {
-    padding: 10px 0;
-    border-bottom: 1px solid #e0e0e0;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
 

@@ -105,12 +105,6 @@
     width: 100%;
 }
 
-.next-row {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-}
-
 .btn.prev-step {
     background: rgba(255, 255, 255, 0.92);
     color: var(--primary-2);

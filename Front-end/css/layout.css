@@ -105,14 +105,4 @@
     color: rgba(27, 27, 27, 0.92);
 }
 
-.footer-divider {
-    display: none;
-}
-
-@media (min-width: 980px) {
-    .footer-inner > *:not(:first-child) {
-        border-left: 2px solid rgba(47, 143, 61, 0.22);
-        padding-left: 22px;
-    }
-}
 

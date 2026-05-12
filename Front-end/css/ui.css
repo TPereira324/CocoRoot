@@ -150,12 +150,6 @@ body.cr-sheet .page-content>* {
     letter-spacing: 0.2px;
 }
 
-.nav-user-info {
-    font-size: 13px;
-    color: var(--muted);
-    font-weight: 700;
-}
-
 .nav-logout {
     color: rgba(190, 30, 30, 0.92);
     font-weight: 900;

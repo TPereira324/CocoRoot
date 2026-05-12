@@ -188,14 +188,6 @@ body.home-page {
     margin-top: 6px;
 }
 
-.section-label {
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 8px;
-}
 
 .section-title {
     font-size: 22px;
@@ -275,16 +267,6 @@ body.home-page {
     box-shadow: 0 10px 20px rgba(47, 111, 59, 0.18);
 }
 
-.step-lines {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: center;
-}
-
-.step-lines .txt-line {
-    background: #bbb;
-}
 
 .porque {
     display: flex;
@@ -334,137 +316,6 @@ body.home-page {
     color: rgba(27, 27, 27, 0.86);
 }
 
-.check-line {
-    height: 3px;
-    background: #999;
-    border-radius: 2px;
-    flex: 1;
-}
-
-.section-coco {
-    background: rgba(240, 250, 238, 0.72);
-}
-
-.coco-intro {
-    text-align: center;
-    max-width: 680px;
-    margin: 0 auto 36px;
-    color: rgba(27, 27, 27, 0.68);
-    line-height: 1.75;
-    font-size: 15px;
-}
-
-.coco-props-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-bottom: 28px;
-}
-
-.coco-prop {
-    padding: 24px 18px 20px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.90);
-    border: 1px solid rgba(47, 143, 61, 0.16);
-    text-align: center;
-    box-shadow: 0 4px 18px rgba(40, 81, 34, 0.05);
-    transition: transform 150ms, box-shadow 150ms;
-}
-
-.coco-prop:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(40, 81, 34, 0.10);
-}
-
-.coco-prop-icon {
-    font-size: 34px;
-    margin-bottom: 12px;
-    line-height: 1;
-    display: block;
-}
-
-.coco-prop-title {
-    font-size: 14px;
-    font-weight: 900;
-    margin-bottom: 8px;
-    color: rgba(27, 27, 27, 0.92);
-}
-
-.coco-prop-desc {
-    font-size: 13px;
-    color: rgba(27, 27, 27, 0.58);
-    line-height: 1.65;
-}
-
-.coco-how {
-    background: rgba(255, 255, 255, 0.90);
-    border: 1px solid rgba(47, 143, 61, 0.18);
-    border-radius: 18px;
-    padding: 28px 32px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 18px rgba(40, 81, 34, 0.04);
-}
-
-.coco-how-title {
-    font-size: 15px;
-    font-weight: 900;
-    margin-bottom: 18px;
-    color: rgba(27, 27, 27, 0.90);
-    letter-spacing: -0.2px;
-}
-
-.coco-steps {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-.coco-step {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-}
-
-.coco-step-num {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: rgba(47, 143, 61, 0.90);
-    color: #fff;
-    display: grid;
-    place-items: center;
-    font-size: 13px;
-    font-weight: 900;
-    flex-shrink: 0;
-    margin-top: 1px;
-}
-
-.coco-step-text {
-    font-size: 14px;
-    color: rgba(27, 27, 27, 0.72);
-    line-height: 1.65;
-    padding-top: 3px;
-}
-
-.coco-fact {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    padding: 18px 22px;
-    border-radius: 12px;
-    background: rgba(47, 143, 61, 0.07);
-    border: 1px solid rgba(47, 143, 61, 0.22);
-    font-size: 14px;
-    color: rgba(27, 27, 27, 0.72);
-    line-height: 1.65;
-}
-
-.coco-fact-icon {
-    font-size: 20px;
-    color: rgba(47, 143, 61, 0.80);
-    flex-shrink: 0;
-    margin-top: 2px;
-}
 
 
 .cta-section {

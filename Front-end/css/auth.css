@@ -121,17 +121,6 @@ body.auth-page {
     margin-bottom: 34px;
 }
 
-.auth-form-title {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--deep);
-    margin-bottom: 8px;
-}
-
-.auth-form-subtitle {
-    color: var(--muted);
-    line-height: 1.5;
-}
 
 .auth-alt {
     width: 100%;
@@ -151,12 +140,6 @@ body.auth-page {
     text-decoration: none;
 }
 
-.auth-form .btn,
-.auth-form .nav-btn,
-.auth-form .back-link {
-    width: 100%;
-    justify-content: center;
-}
 
 .auth-form .btn,
 .auth-form .nav-btn {
