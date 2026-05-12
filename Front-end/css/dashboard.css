@@ -62,7 +62,9 @@
 }
 
 .dashboard-page .page-content {
-    max-width: 1280px;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
     padding-top: 36px;
     padding-bottom: 56px;
 }

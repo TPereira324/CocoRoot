@@ -211,7 +211,7 @@
             }
 
             const next = mod + 1;
-            const nextBtn = document.getElementById('next-module');
+            let nextBtn = document.getElementById('next-module');
             const finishBtn = document.getElementById('finish-module');
             const statusEl = document.getElementById('modulo-status');
             const stepsRoot = document.getElementById('module-steps');
@@ -363,10 +363,8 @@
                 }
                 if (nextBtn) {
                     if (mod >= lastModuleId) {
-                        nextBtn.hidden = true;
-                        nextBtn.textContent = '';
-                        nextBtn.removeAttribute('href');
-                        nextBtn.classList.remove('is-disabled');
+                        nextBtn.remove();
+                        nextBtn = null;
                     } else if (modules[next]) {
                         nextBtn.hidden = false;
                         nextBtn.setAttribute('href', 'comecar-modulo.html?mod=' + next);
