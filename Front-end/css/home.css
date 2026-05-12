@@ -8,7 +8,7 @@ body.home-page {
     position: relative;
     padding: 92px 80px;
     min-height: 62vh;
-    --hero-image: url('../image/planta.jpeg');
+    --hero-image: url('../image/planta-1024w.jpeg');
     --hero-parallax: 0px;
     background-image: radial-gradient(900px 420px at 20% 0%, rgba(245, 252, 245, 0.42), rgba(230, 240, 230, 0.10) 55%, transparent 70%), var(--hero-image);
     background-size: cover;
@@ -300,7 +300,7 @@ body.home-page {
     flex: 1;
     min-height: 320px;
     border-radius: var(--radius);
-    background-image: url('../image/planta.jpeg');
+    background-image: url('../image/planta-1024w.jpeg');
     background-size: cover;
     background-position: center;
     border: 1px solid rgba(47, 111, 59, 0.14);
@@ -466,21 +466,6 @@ body.home-page {
     margin-top: 2px;
 }
 
-@media (max-width: 960px) {
-    .coco-props-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    .coco-props-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .coco-how {
-        padding: 20px 18px;
-    }
-}
 
 .cta-section {
     text-align: center;

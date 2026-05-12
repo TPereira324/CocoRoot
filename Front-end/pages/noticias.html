@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notícias - CocoRoot</title>
     <link rel="preload" href="../css/cocoroot.css" as="style">
     <link rel="stylesheet" href="../css/cocoroot.css">
@@ -106,9 +105,9 @@
             };
 
             const pools = {
-                tips: ['../image/image%2013.png', '../image/image%2014.png', '../image/image%2015.png', '../image/planta.jpeg'],
-                news: ['../image/Coco.jpeg', '../image/Rectangle%2022.png', '../image/Frame%202.png'],
-                stories: ['../image/Frame%202.png', '../image/planta.jpeg', '../image/Rectangle%2022.png']
+                tips: ['../image/image%2013-1024w.png', '../image/image%2014-1024w.png', '../image/image%2015-1024w.png', '../image/planta-1024w.jpeg'],
+                news: ['../image/Coco-1024w.jpeg', '../image/Rectangle%2022-1024w.png', '../image/Frame%202-1024w.png'],
+                stories: ['../image/Frame%202-1024w.png', '../image/planta-1024w.jpeg', '../image/Rectangle%2022-1024w.png']
             };
 
             const dayKey = new Date().toISOString().slice(0, 10);
@@ -177,20 +176,10 @@
                     return;
                 }
 
-                const withWidth = (url, w) => String(url || '').replace(/(\.[a-z0-9]+)$/i, `-${w}w$1`);
-                const buildSrcset = (url) => {
-                    const base = String(url || '');
-                    const widths = base.includes('planta.jpeg') ? [320, 640, 1024, 1600] : [320, 640, 1024];
-                    return widths.map((w) => `${withWidth(base, w)} ${w}w`).join(', ');
-                };
-                const buildSizes = () => '(max-width: 760px) 92vw, 176px';
-
                 listRoot.innerHTML = filtered.map((article) => `
                     <a class="article-item" href="post.html?id=${article.id}">
                         <div class="article-img img-ph">
-                            <img src="${withWidth(article.image, 640)}"
-                                srcset="${buildSrcset(article.image)}"
-                                sizes="${buildSizes()}"
+                            <img src="${article.image}"
                                 alt="${article.title}"
                                 loading="lazy"
                                 decoding="async"

@@ -30,15 +30,14 @@ document.addEventListener("DOMContentLoaded", () => {
             Object.entries(extra).forEach(([k, v]) => el.setAttribute(k, v));
         };
 
-        ensureLink('icon', `${assetPrefix}image/logo.jpeg`, { type: 'image/jpeg' });
-        ensureMeta('theme-color', '#2f6f3b');
+        ensureLink('icon', `${assetPrefix}image/logo-256w.jpeg`, { type: 'image/jpeg' });
         ensureMeta('description', 'CocoRoot: plataforma de agricultura digital para gerir, monitorizar e otimizar cultivos em fibra de coco.');
         ensureMeta('og:site_name', 'CocoRoot', 'property');
         ensureMeta('og:title', document.title || 'CocoRoot', 'property');
         ensureMeta('og:description', 'Ferramentas para decidir melhor, todos os dias.', 'property');
         ensureMeta('og:type', 'website', 'property');
         ensureMeta('og:url', window.location.href, 'property');
-        ensureMeta('og:image', `${assetPrefix}image/logo.jpeg`, 'property');
+        ensureMeta('og:image', `${assetPrefix}image/logo-256w.jpeg`, 'property');
     };
 
     ensureHeadAssets();
@@ -46,7 +45,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const headerHTML = `
     <nav class="nav" data-cr-nav>
         <a href="principal.html" class="nav-logo" aria-label="CocoRoot">
-            <img src="${assetPrefix}image/logo.jpeg" alt="CocoRoot" class="nav-brand" loading="eager" decoding="async" fetchpriority="high">
+            <img src="${assetPrefix}image/logo-256w.jpeg"
+                width="28"
+                height="28"
+                alt="CocoRoot"
+                class="nav-brand"
+                loading="eager"
+                decoding="async"
+                fetchpriority="high">
             <span class="nav-title">CocoRoot</span>
         </a>
         <button class="nav-btn nav-toggle" type="button" aria-controls="cr-nav-collapse" aria-expanded="false"
@@ -84,7 +90,13 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="footer-inner">
             <div>
                 <div class="footer-brand">
-                    <img src="${assetPrefix}image/logo.jpeg" alt="CocoRoot" class="nav-brand" loading="lazy" decoding="async">
+                    <img src="${assetPrefix}image/logo-256w.jpeg"
+                        width="28"
+                        height="28"
+                        alt="CocoRoot"
+                        class="nav-brand"
+                        loading="lazy"
+                        decoding="async">
                     <div class="footer-brand-name">CocoRoot</div>
                 </div>
             </div>
@@ -294,40 +306,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const scrollBus = createScrollBus();
 
-    const cleanupServiceWorker = () => {
-        if (!('serviceWorker' in navigator)) return;
-        navigator.serviceWorker.getRegistrations().then((regs) => {
-            const ours = regs.filter((r) => String(r?.active?.scriptURL || r?.installing?.scriptURL || r?.waiting?.scriptURL || '').includes('/sw.js'));
-            return Promise.all(ours.map((r) => r.unregister().catch(() => false)));
-        }).catch(() => { });
-        if ('caches' in window) {
-            caches.keys().then((keys) => Promise.all(keys.filter((k) => String(k).startsWith('cocoroot-')).map((k) => caches.delete(k)))).catch(() => { });
-        }
-    };
-
-    cleanupServiceWorker();
-
-    const hashText = (text) => {
-        const s = String(text || '');
-        let h = 0;
-        for (let i = 0; i < s.length; i += 1) h = ((h << 5) - h) + s.charCodeAt(i);
-        return Math.abs(h);
-    };
-
-    const pickFrom = (list, seed) => {
-        const arr = Array.isArray(list) ? list : [];
-        if (arr.length === 0) return null;
-        return arr[hashText(seed) % arr.length];
-    };
-
     const setupHomeImageVariation = () => {
         if (!document.body.classList.contains('home-page')) return;
         const hero = document.querySelector('.hero');
         const aside = document.querySelector('.porque-right.img-ph');
         if (!hero && !aside) return;
 
-        const heroPick = `${assetPrefix}image/planta.jpeg`;
-        const asidePick = `${assetPrefix}image/image%2013.png`;
+        const heroPick = `${assetPrefix}image/planta-1024w.jpeg`;
+        const asidePick = `${assetPrefix}image/image%2013-1024w.png`;
 
         if (hero) hero.style.setProperty('--hero-image', `url('${heroPick}')`);
         if (aside) aside.style.backgroundImage = `url('${asidePick}')`;

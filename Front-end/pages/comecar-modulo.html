@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Módulo - CocoRoot</title>
     <link rel="stylesheet" href="../css/cocoroot.css">
 </head>
@@ -89,8 +88,8 @@
                 1: {
                     title: 'Introdução',
                     imgs: [
-                        { src: '../image/image 13.png', alt: 'Vasos com ervas aromáticas num ambiente de cultivo doméstico organizado' },
-                        { src: '../image/Coco.jpeg', alt: 'Cocos e fibras, referência ao cultivo em fibra de coco' }
+                        { src: '../image/image 13-1024w.png', alt: 'Vasos com ervas aromáticas num ambiente de cultivo doméstico organizado' },
+                        { src: '../image/Coco-1024w.jpeg', alt: 'Cocos e fibras, referência ao cultivo em fibra de coco' }
                     ],
                     steps: [
                         { title: 'Perceber a fibra de coco', description: 'É um substrato inerte: retém água e areja bem, mas a nutrição depende da solução que fornece.' },
@@ -110,8 +109,8 @@
                 2: {
                     title: 'Preparação do substrato',
                     imgs: [
-                        { src: '../image/image 14.png', alt: 'Fibra de coco (substrato) com textura visível, close-up' },
-                        { src: '../image/Coco.jpeg', alt: 'Cocos e fibras, base do substrato de fibra de coco' }
+                        { src: '../image/image 14-1024w.png', alt: 'Fibra de coco (substrato) com textura visível, close-up' },
+                        { src: '../image/Coco-1024w.jpeg', alt: 'Cocos e fibras, base do substrato de fibra de coco' }
                     ],
                     steps: [
                         { title: 'Hidratar e expandir', description: 'Se for em bloco, hidrate com água limpa até expandir por completo, sem zonas secas.' },
@@ -133,7 +132,7 @@
                 3: {
                     title: 'Plantio e rega',
                     imgs: [
-                        { src: '../image/planta.jpeg', alt: 'Muda a crescer em substrato, início do plantio' }
+                        { src: '../image/planta-1024w.jpeg', alt: 'Muda a crescer em substrato, início do plantio' }
                     ],
                     steps: [
                         { title: 'Plantar com estabilidade', description: 'Transplante sem enterrar o colo. Assente a planta e mantenha o substrato solto.' },
@@ -154,8 +153,8 @@
                 4: {
                     title: 'Manutenção',
                     imgs: [
-                        { src: '../image/Frame 2.png', alt: 'Manutenção: colheita/inspeção com tesoura de poda em plantas' },
-                        { src: '../image/Rectangle 22.png', alt: 'Campo agrícola com agricultor a inspecionar a plantação' }
+                        { src: '../image/Frame 2-1024w.png', alt: 'Manutenção: colheita/inspeção com tesoura de poda em plantas' },
+                        { src: '../image/Rectangle 22-1024w.png', alt: 'Campo agrícola com agricultor a inspecionar a plantação' }
                     ],
                     steps: [
                         { title: 'Verificar pH/EC do escoamento', description: 'Faça medições regulares para detetar cedo salinização ou desvios de pH.' },
@@ -208,12 +207,7 @@
             if (imgPlaceholder) {
                 const src = chosenImage?.src ? encodeURI(chosenImage.src) : '';
                 const alt = chosenImage?.alt || current.title;
-                const withWidth = (url, w) => String(url || '').replace(/(\.[a-z0-9]+)$/i, `-${w}w$1`);
-                const isPlanta = src.includes('planta.jpeg');
-                const widths = isPlanta ? [320, 640, 1024, 1600] : [320, 640, 1024];
-                const srcset = widths.map((w) => `${withWidth(src, w)} ${w}w`).join(', ');
-                const sizes = '(max-width: 980px) 92vw, 980px';
-                imgPlaceholder.innerHTML = `<img src="${withWidth(src, 1024)}" srcset="${srcset}" sizes="${sizes}" loading="eager" decoding="async" alt="${alt}">`;
+                imgPlaceholder.innerHTML = `<img src="${src}" loading="eager" decoding="async" alt="${alt}">`;
             }
 
             const next = mod + 1;

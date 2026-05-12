@@ -52,7 +52,7 @@ body {
 
 .img-ph {
     display: block;
-    background-image: url('../image/planta.jpeg');
+    background-image: url('../image/planta-1024w.jpeg');
     background-size: cover;
     background-position: center;
     border-radius: var(--radius);
