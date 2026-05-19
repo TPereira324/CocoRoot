@@ -82,7 +82,7 @@ function generateAlerts({ parcelas, tarefas, clima }) {
     const now = new Date();
 
     if (!Array.isArray(parcelas) || parcelas.length === 0) {
-        add('info', 'Sistema', 'Sem parcelas registadas', 'Registe um cultivo para começar a receber tarefas e alertas.');
+        // Não gerar alertas quando o utilizador ainda não tem parcelas
         return alerts;
     }
     parcelas.forEach((parcela) => {
