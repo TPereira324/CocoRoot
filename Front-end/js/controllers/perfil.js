@@ -25,8 +25,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const inputName = document.getElementById('profile-input-name');
     const inputEmail = document.getElementById('profile-input-email');
-    const inputPhone = document.getElementById('profile-input-phone');
-    const inputLocation = document.getElementById('profile-input-location');
     const saveBtn = document.getElementById('profile-save-btn');
     const saveStatus = document.getElementById('profile-save-status');
     const unsavedBadge = document.getElementById('profile-unsaved');
@@ -70,7 +68,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         isDirty = false;
         if (unsavedBadge) unsavedBadge.hidden = true;
     };
-    [inputName, inputEmail, inputPhone, inputLocation].forEach((el) => {
+    [inputName, inputEmail].forEach((el) => {
         el?.addEventListener('input', markDirty);
     });
 
@@ -217,8 +215,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const ext = readJson(extProfileKey, {});
         if (inputName) inputName.value = liveUser.nome || '';
         if (inputEmail) inputEmail.value = liveUser.email || '';
-        if (inputPhone) inputPhone.value = ext.telefone || liveUser.telefone || '';
-        if (inputLocation) inputLocation.value = ext.localizacao || liveUser.localizacao || '';
 
         applyAvatarColor(colorIdx);
 
@@ -373,8 +369,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const saveProfile = async () => {
         const nome = inputName?.value.trim() || '';
         const email = inputEmail?.value.trim() || '';
-        const telefone = inputPhone?.value.trim() || '';
-        const localizacao = inputLocation?.value.trim() || '';
 
         if (!nome) throw new Error('O nome é obrigatório.');
         if (!email) throw new Error('O email é obrigatório.');
@@ -386,9 +380,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         if (response?.success === false) throw new Error(response?.message || 'Erro ao guardar.');
 
-        writeJson(extProfileKey, { telefone, localizacao });
-
-        liveUser = toUserShape({ ...liveUser, nome, email, telefone, localizacao }, liveUser);
+        liveUser = toUserShape({ ...liveUser, nome, email }, liveUser);
         localStorage.setItem('user', JSON.stringify(liveUser));
         updateIdentityUI();
         markClean();

@@ -3,7 +3,7 @@ class UtilizadorController {
         this.model = model;
         this.view = view;
         this.currentStep = 1;
-        this.maxStep = 6;
+        this.maxStep = 5;
     }
 
     init() {
@@ -38,27 +38,6 @@ class UtilizadorController {
 
         const fields = currentStepEl.querySelectorAll('input, select');
         for (const field of fields) {
-            if (field.id === 'country_code') {
-                const code = (field.value || '').trim();
-                if (!code) {
-                    const countryError = document.getElementById('country-error');
-                    if (countryError) countryError.style.display = 'block';
-                    field.style.borderColor = 'red';
-                    field.focus();
-                    return false;
-                }
-            }
-            if (field.id === 'phone') {
-                const phone = (field.value || '').trim();
-                const validPhonePattern = /^[0-9]{9}$/;
-                if (!validPhonePattern.test(phone)) {
-                    const phoneError = document.getElementById('phone-error');
-                    if (phoneError) phoneError.style.display = 'block';
-                    field.style.borderColor = 'red';
-                    field.reportValidity();
-                    return false;
-                }
-            }
             if (!field.checkValidity()) {
                 field.reportValidity();
                 return false;
@@ -102,10 +81,6 @@ class UtilizadorController {
         const userData = Object.fromEntries(formData.entries());
 
         try {
-            if (userData.country_code && userData.phone) {
-                userData.phone = `${userData.country_code}${String(userData.phone).trim()}`;
-                delete userData.country_code;
-            }
             if (this.model && typeof this.model.register === 'function') {
                 const result = await this.model.register(userData);
                 if (!result || result.success !== true) {

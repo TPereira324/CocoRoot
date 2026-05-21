@@ -1,17 +1,29 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS historico_tarefa;
+
 DROP TABLE IF EXISTS historico_parcela;
+
 DROP TABLE IF EXISTS monitorizacao;
+
 DROP TABLE IF EXISTS alerta;
+
 DROP TABLE IF EXISTS tarefa;
+
 DROP TABLE IF EXISTS parcela_cultivo;
+
 DROP TABLE IF EXISTS cultivo;
+
 DROP TABLE IF EXISTS parcela;
+
 DROP TABLE IF EXISTS notificacao;
+
 DROP TABLE IF EXISTS comentario;
+
 DROP TABLE IF EXISTS post;
+
 DROP TABLE IF EXISTS utilizador;
+
 DROP TABLE IF EXISTS cidade;
 
 SET FOREIGN_KEY_CHECKS = 1;
@@ -43,12 +55,10 @@ CREATE TABLE utilizador (
 CREATE TABLE parcela (
     par_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     par_nome VARCHAR(100) NOT NULL,
-    par_area DECIMAL(6,2),
-    par_estado VARCHAR(50) NOT NULL, 
+    par_area DECIMAL(6, 2),
+    par_estado VARCHAR(50) NOT NULL,
     par_ut_id BIGINT NOT NULL,
-    CONSTRAINT parcela_fk_utilizador
-        FOREIGN KEY (par_ut_id) REFERENCES utilizador(ut_id)
-        ON DELETE CASCADE
+    CONSTRAINT parcela_fk_utilizador FOREIGN KEY (par_ut_id) REFERENCES utilizador (ut_id) ON DELETE CASCADE
 );
 
 -- ============================================
@@ -67,14 +77,10 @@ CREATE TABLE parcela_cultivo (
     pc_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     pc_par_id BIGINT NOT NULL,
     pc_cult_id BIGINT NOT NULL,
-    pc_metodo_cultivo VARCHAR(50),  
-    pc_objetivo VARCHAR(100),       
-    CONSTRAINT pc_fk_parcela
-        FOREIGN KEY (pc_par_id) REFERENCES parcela(par_id)
-        ON DELETE CASCADE,
-    CONSTRAINT pc_fk_cultivo
-        FOREIGN KEY (pc_cult_id) REFERENCES cultivo(cult_id)
-        ON DELETE CASCADE
+    pc_metodo_cultivo VARCHAR(50),
+    pc_objetivo VARCHAR(100),
+    CONSTRAINT pc_fk_parcela FOREIGN KEY (pc_par_id) REFERENCES parcela (par_id) ON DELETE CASCADE,
+    CONSTRAINT pc_fk_cultivo FOREIGN KEY (pc_cult_id) REFERENCES cultivo (cult_id) ON DELETE CASCADE
 );
 
 -- ============================================
@@ -86,16 +92,12 @@ CREATE TABLE tarefa (
     tar_descricao TEXT,
     tar_data_inicio DATE,
     tar_data_fim DATE,
-    tar_estado VARCHAR(50) NOT NULL,  
-    tar_prioridade VARCHAR(50),      
+    tar_estado VARCHAR(50) NOT NULL,
+    tar_prioridade VARCHAR(50),
     tar_par_id BIGINT NOT NULL,
     tar_ut_id BIGINT NOT NULL,
-    CONSTRAINT tarefa_fk_parcela
-        FOREIGN KEY (tar_par_id) REFERENCES parcela(par_id)
-        ON DELETE CASCADE,
-    CONSTRAINT tarefa_fk_utilizador
-        FOREIGN KEY (tar_ut_id) REFERENCES utilizador(ut_id)
-        ON DELETE CASCADE
+    CONSTRAINT tarefa_fk_parcela FOREIGN KEY (tar_par_id) REFERENCES parcela (par_id) ON DELETE CASCADE,
+    CONSTRAINT tarefa_fk_utilizador FOREIGN KEY (tar_ut_id) REFERENCES utilizador (ut_id) ON DELETE CASCADE
 );
 
 -- ============================================
@@ -108,12 +110,8 @@ CREATE TABLE historico_tarefa (
     ht_estado_novo VARCHAR(50),
     ht_data DATETIME DEFAULT CURRENT_TIMESTAMP,
     ht_ut_id BIGINT,
-    CONSTRAINT ht_fk_tarefa
-        FOREIGN KEY (ht_tar_id) REFERENCES tarefa(tar_id)
-        ON DELETE CASCADE,
-    CONSTRAINT ht_fk_utilizador
-        FOREIGN KEY (ht_ut_id) REFERENCES utilizador(ut_id)
-        ON DELETE SET NULL
+    CONSTRAINT ht_fk_tarefa FOREIGN KEY (ht_tar_id) REFERENCES tarefa (tar_id) ON DELETE CASCADE,
+    CONSTRAINT ht_fk_utilizador FOREIGN KEY (ht_ut_id) REFERENCES utilizador (ut_id) ON DELETE SET NULL
 );
 
 -- ============================================
@@ -124,9 +122,7 @@ CREATE TABLE monitorizacao (
     mon_par_id BIGINT NOT NULL,
     mon_observacao TEXT,
     mon_data DATETIME DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT mon_fk_parcela
-        FOREIGN KEY (mon_par_id) REFERENCES parcela(par_id)
-        ON DELETE CASCADE
+    CONSTRAINT mon_fk_parcela FOREIGN KEY (mon_par_id) REFERENCES parcela (par_id) ON DELETE CASCADE
 );
 
 -- ============================================
@@ -134,13 +130,11 @@ CREATE TABLE monitorizacao (
 -- ============================================
 CREATE TABLE alerta (
     alt_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    alt_tipo VARCHAR(50),            
+    alt_tipo VARCHAR(50),
     alt_mensagem VARCHAR(255),
     alt_data DATETIME DEFAULT CURRENT_TIMESTAMP,
     alt_par_id BIGINT NOT NULL,
-    CONSTRAINT alerta_fk_parcela
-        FOREIGN KEY (alt_par_id) REFERENCES parcela(par_id)
-        ON DELETE CASCADE
+    CONSTRAINT alerta_fk_parcela FOREIGN KEY (alt_par_id) REFERENCES parcela (par_id) ON DELETE CASCADE
 );
 
 -- ============================================
@@ -152,9 +146,7 @@ CREATE TABLE historico_parcela (
     hp_estado_anterior VARCHAR(50),
     hp_estado_novo VARCHAR(50),
     hp_data DATETIME DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT hp_fk_parcela
-        FOREIGN KEY (hp_par_id) REFERENCES parcela(par_id)
-        ON DELETE CASCADE
+    CONSTRAINT hp_fk_parcela FOREIGN KEY (hp_par_id) REFERENCES parcela (par_id) ON DELETE CASCADE
 );
 
 -- ============================================
@@ -166,9 +158,7 @@ CREATE TABLE notificacao (
     not_mensagem VARCHAR(255),
     not_lida BOOLEAN DEFAULT FALSE,
     not_data DATETIME DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT notificacao_fk_utilizador
-        FOREIGN KEY (not_ut_id) REFERENCES utilizador(ut_id)
-        ON DELETE CASCADE
+    CONSTRAINT notificacao_fk_utilizador FOREIGN KEY (not_ut_id) REFERENCES utilizador (ut_id) ON DELETE CASCADE
 );
 
 -- ============================================
@@ -179,11 +169,9 @@ CREATE TABLE post (
     post_ut_id BIGINT NOT NULL,
     post_titulo VARCHAR(255) NOT NULL,
     post_conteudo TEXT,
-    post_categoria VARCHAR(50), 
+    post_categoria VARCHAR(50),
     post_data DATETIME DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT post_fk_utilizador
-        FOREIGN KEY (post_ut_id) REFERENCES utilizador(ut_id)
-        ON DELETE CASCADE
+    CONSTRAINT post_fk_utilizador FOREIGN KEY (post_ut_id) REFERENCES utilizador (ut_id) ON DELETE CASCADE
 );
 
 -- ============================================
@@ -195,10 +183,6 @@ CREATE TABLE comentario (
     com_ut_id BIGINT NOT NULL,
     com_conteudo TEXT NOT NULL,
     com_data DATETIME DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT com_fk_post
-        FOREIGN KEY (com_post_id) REFERENCES post(post_id)
-        ON DELETE CASCADE,
-    CONSTRAINT com_fk_utilizador
-        FOREIGN KEY (com_ut_id) REFERENCES utilizador(ut_id)
-        ON DELETE CASCADE
+    CONSTRAINT com_fk_post FOREIGN KEY (com_post_id) REFERENCES post (post_id) ON DELETE CASCADE,
+    CONSTRAINT com_fk_utilizador FOREIGN KEY (com_ut_id) REFERENCES utilizador (ut_id) ON DELETE CASCADE
 );

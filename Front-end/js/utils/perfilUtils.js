@@ -26,14 +26,11 @@ function toUserShape(raw, liveUser) {
         role: source.role ?? source.ut_role ?? liveUser.role,
         nome: source.nome ?? source.ut_nome ?? source.name ?? liveUser.nome ?? '',
         email: source.email ?? source.ut_email ?? liveUser.email ?? '',
-        telefone: source.telefone ?? source.phone ?? source.ut_phone ?? liveUser.telefone ?? '',
-        localizacao: source.localizacao ?? source.cidade ?? source.morada ?? source.endereco ?? liveUser.localizacao ?? '',
     };
 }
 
 function calcProgress(parcelas, tarefasPendentes, modulosConcluidos) {
-    const parcelaScore = Math.min(100, parcelas * 20);
-    const moduloScore = Math.min(100, modulosConcluidos * 25);
-    const taskScore = Math.max(0, 100 - (tarefasPendentes * 8));
-    return Math.round((parcelaScore * 0.35) + (moduloScore * 0.35) + (taskScore * 0.3));
+    const totalModules = 4;
+    const completedModules = Math.max(0, Math.min(totalModules, modulosConcluidos));
+    return Math.round((completedModules / totalModules) * 100);
 }
