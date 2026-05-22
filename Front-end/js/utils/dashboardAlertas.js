@@ -19,11 +19,15 @@ function getAlertCategory(alerta) {
 function buildAlertKey(alerta) {
     return `${normalizeText(getAlertTitle(alerta))}::${normalizeText(getAlertText(alerta))}::${normalizeText(alerta?.parcela_nome || alerta?.parcela || '')}::${normalizeText(getAlertCategory(alerta))}`;
 }
+function isRegaAlert(alerta) {
+    return normalizeText(String(alerta?.categoria || alerta?.cat || alerta?.origem || alerta?.source || '')).trim() === 'rega';
+}
 function mergeAlerts(...groups) {
     const seen = new Set();
     const merged = [];
     groups.flat().forEach((alerta) => {
         if (!alerta) return;
+        if (isRegaAlert(alerta)) return;
         const key = buildAlertKey(alerta);
         if (seen.has(key)) return;
         seen.add(key);
@@ -133,19 +137,9 @@ function generateAlerts({ parcelas, tarefas, clima }) {
         const cultivoNome = getCultivoLabel(parcela);
         const profile = getCultivoProfile(cultivoNome);
         const cultivoLabel = cultivoNome || profile.label;
-        const hasSoilHumidity = Number.isFinite(soilHumidity), hasEt0 = Number.isFinite(et0);
-        const hasRain = Number.isFinite(rainToday), hasVpd = Number.isFinite(vpd);
-        const isRainy = hasRain && rainToday >= profile.skipRainMm;
-        const isHotDryDay = (tempMax !== null && tempMax >= profile.hotTemp) || (hasEt0 && et0 >= profile.highEt0);
-        const isCriticalDryDay = (tempMax !== null && tempMax >= profile.hotTemp + 3) || (hasEt0 && et0 >= profile.criticalEt0);
-        const lowSoilHumidity = hasSoilHumidity && soilHumidity <= profile.minSoilHumidity;
-        const nearLimitSoilHumidity = hasSoilHumidity && soilHumidity <= profile.minSoilHumidity + 5;
+        const hasVpd = Number.isFinite(vpd);
 
-        if (isRainy && hasEt0 && et0 < profile.highEt0) add('info', 'Rega', 'Evitar rega pesada', `${parcelaNome} (${cultivoLabel}) tem ${fixed(rainToday)} mm chuva e ET0 ${fixed(et0)} mm. Reduzir/adiar rega.`, { parcela_nome: parcelaNome });
-        else if (lowSoilHumidity && isCriticalDryDay) add('danger', 'Rega', 'Reforçar rega hoje', `${parcelaNome} (${cultivoLabel}) humidade solo ${fixed(soilHumidity)}%. Rega reforçada para evitar stress hídrico.`, { parcela_nome: parcelaNome });
-        else if ((lowSoilHumidity || nearLimitSoilHumidity) && isHotDryDay) add('warning', 'Rega', 'Planear rega', `${parcelaNome} (${cultivoLabel}) maior consumo hídrico. ${hasEt0 ? `ET0 ${fixed(et0)} mm` : ''}${hasSoilHumidity ? ` humidade ${fixed(soilHumidity)}%` : ''}. Verifique a rega.`, { parcela_nome: parcelaNome });
         if (hasVpd && vpd >= 1.6 && tempMax !== null && tempMax >= profile.hotTemp) add(vpd >= 2.2 ? 'danger' : 'warning', 'Stress hídrico', 'Risco de stress hídrico', `${parcelaNome} (${cultivoLabel}) VPD ${fixed(vpd)} kPa, máxima ${tempMax}°C.`, { parcela_nome: parcelaNome });
-        if (hasEt0 && hasRain && et0 <= 2.2 && rainToday >= profile.skipRainMm + 2) add('info', 'Rega', 'Baixa necessidade de água', `${parcelaNome} (${cultivoLabel}) ET0 ${fixed(et0)} mm e chuva ${fixed(rainToday)} mm. Evite excesso de rega.`, { parcela_nome: parcelaNome });
         if (Number.isFinite(soilTemp) && soilTemp <= 10 && profile.category !== 'raizes') add('info', 'Solo', 'Solo frio', `${parcelaNome} (${cultivoLabel}) temperatura solo ${fixed(soilTemp)}°C. Crescimento mais lento.`, { parcela_nome: parcelaNome });
     });
     return alerts;
