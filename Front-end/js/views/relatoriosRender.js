@@ -31,7 +31,13 @@ function relRenderBars(values, labels, barsRoot) {
 
 function relRenderLine(values, labels, els) {
     const { lineChart, linePointsRoot, lineTooltip } = els;
-    if (!lineChart || values.length === 0) return;
+    if (!lineChart) return;
+    if (!Array.isArray(values) || values.length === 0) {
+        lineChart.style.setProperty('--reports-line', 'polygon(0% 100%, 100% 100%)');
+        if (linePointsRoot) linePointsRoot.innerHTML = '';
+        if (lineTooltip) lineTooltip.hidden = true;
+        return;
+    }
     const points = values.map((value, index) => {
         const x = Math.round((index / Math.max(1, values.length - 1)) * 100);
         const y = 100 - relClamp(value, 10, 95);
@@ -68,6 +74,13 @@ function relRenderLine(values, labels, els) {
 function relRenderDonut(score, label, els) {
     const { donut, donutValue, donutLabel } = els;
     if (!donut || !donutValue || !donutLabel) return;
+    if (!Number.isFinite(Number(score))) {
+        donut.classList.remove('reports-loading-line');
+        donut.style.setProperty('--score', '0');
+        donutValue.textContent = '--';
+        donutLabel.textContent = label || 'Sem dados';
+        return;
+    }
     const safeScore = relClamp(relRound(score), 0, 100);
     donut.classList.remove('reports-loading-line');
     donut.style.setProperty('--score', String(safeScore));
@@ -86,7 +99,7 @@ function relRenderSummary(lines, summaryList) {
 }
 
 function relRenderDatasetView(data, els) {
-    const { statProd, statRega, statTasks, barsRoot, summaryCopy, summaryList } = els;
+    const { statProd, statRega, statTasks, barsRoot, summaryCopy, summaryList, loadingPills } = els;
     if (statProd) statProd.textContent = data.produtividade;
     if (statRega) statRega.textContent = data.rega;
     if (statTasks) statTasks.textContent = data.tarefas;
@@ -95,6 +108,9 @@ function relRenderDatasetView(data, els) {
     relRenderDonut(data.performanceScore, data.performanceText, els);
     relRenderSummary(data.summary, summaryList);
     if (summaryCopy) summaryCopy.textContent = data.helper;
+    if (Array.isArray(loadingPills) && loadingPills.length) {
+        loadingPills.forEach((pill) => { pill.textContent = data?.empty ? 'Sem dados' : 'Atualizado'; });
+    }
 }
 
 function relAnimateDatasetTransition(from, to, els, onDone, duration = 420) {

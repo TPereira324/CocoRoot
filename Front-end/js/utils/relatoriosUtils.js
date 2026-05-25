@@ -87,6 +87,25 @@ function relComputeDataset(sourceData, periodKey, focus, daysByPeriod) {
     const allTasks = Array.isArray(sourceData.tarefas) ? sourceData.tarefas : [];
     const allAlerts = Array.isArray(sourceData.alertas) ? sourceData.alertas : [];
     const parcelas = Array.isArray(sourceData.parcelas) ? sourceData.parcelas : [];
+    if (parcelas.length === 0) {
+        const bucketLabels = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6'];
+        return {
+            empty: true,
+            produtividade: '—',
+            rega: '—',
+            tarefas: '—',
+            bars: [],
+            line: [],
+            bucketLabels,
+            performanceScore: null,
+            performanceText: 'Sem dados',
+            summary: [
+                'Sem parcelas registadas.',
+                'Regista uma parcela para ver relatórios.',
+            ],
+            helper: 'Sem dados para apresentar.',
+        };
+    }
 
     const filterFocusTask = (task) => {
         if (focus === 'geral') return true;
