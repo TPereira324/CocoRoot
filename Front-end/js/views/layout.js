@@ -1,5 +1,8 @@
+/* Layout: scripts comuns. */
+
 document.addEventListener("DOMContentLoaded", () => {
     const currentPath = window.location.pathname.split('/').pop() || 'principal.html';
+    /* Sessão do utilizador (localStorage). */
     const user = JSON.parse(localStorage.getItem('user'));
     const isInPages = window.location.pathname.includes('/pages/');
     const assetPrefix = isInPages ? '../' : '';
@@ -763,3 +766,5 @@ document.addEventListener("DOMContentLoaded", () => {
     setupScrollAnimations();
     setupCounters();
 });
+
+

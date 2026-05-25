@@ -1,3 +1,5 @@
+/* Comunidade: controlador. */
+
 document.addEventListener('DOMContentLoaded', async () => {
     const api = window.CocoRootApi;
     if (!api) return;
@@ -13,6 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentCategory = 'todos';
     let currentSort = 'recentes';
     let searchQuery = '';
+    /* Cache de posts por utilizador (localStorage). */
     const cacheKey = (() => {
         const user = api.getLoggedUser();
         const uid = user?.id ? String(user.id) : 'anon';
@@ -88,6 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         experiencias: { label: 'Experiência', color: '#d97706', bg: 'rgba(217,119,6,0.09)', border: 'rgba(217,119,6,0.30)' },
     };
 
+    /* Likes locais (localStorage). */
     const LIKES_KEY = 'cocoRootPostLikes';
     const readLikes = () => { try { return JSON.parse(localStorage.getItem(LIKES_KEY) || '{}'); } catch { return {}; } };
     const writeLikes = (obj) => localStorage.setItem(LIKES_KEY, JSON.stringify(obj));
@@ -103,6 +107,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return isLiked(post.id) ? base + 1 : base;
     };
 
+    /* Posts escondidos por utilizador (localStorage). */
     const HIDDEN_KEY = 'cocoRootHiddenPosts';
     const getHiddenKey = () => {
         const user = api.getLoggedUser();
@@ -547,3 +552,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderPosts();
     }
 });
+
+

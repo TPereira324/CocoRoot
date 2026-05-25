@@ -1,3 +1,6 @@
+/* Perfil: utilitários simples. */
+
+/* Lê JSON do localStorage e devolve fallback se falhar. */
 function readJson(key, fallback) {
     try {
         const raw = localStorage.getItem(key);
@@ -7,10 +10,12 @@ function readJson(key, fallback) {
     }
 }
 
+/* Guarda JSON no localStorage. */
 function writeJson(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
 }
 
+/* Devolve uma mensagem amigável para erros comuns de rede. */
 function friendlyError(error, fallback) {
     const text = String(error?.message || '').toLowerCase();
     if (text.includes('failed to fetch') || text.includes('networkerror') || text.includes('load failed')) {
@@ -19,6 +24,7 @@ function friendlyError(error, fallback) {
     return error?.message || fallback;
 }
 
+/* Normaliza o objeto do utilizador (vários nomes de campo possíveis). */
 function toUserShape(raw, liveUser) {
     const source = raw && typeof raw === 'object' ? raw : {};
     return {
@@ -29,8 +35,11 @@ function toUserShape(raw, liveUser) {
     };
 }
 
+/* Calcula progresso do perfil (percentagem por módulos concluídos). */
 function calcProgress(parcelas, tarefasPendentes, modulosConcluidos) {
     const totalModules = 4;
     const completedModules = Math.max(0, Math.min(totalModules, modulosConcluidos));
     return Math.round((completedModules / totalModules) * 100);
 }
+
+

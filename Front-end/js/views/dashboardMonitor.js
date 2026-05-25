@@ -1,3 +1,5 @@
+/* Dashboard: monitorização (view). */
+
 function createMonitorMetric({ icon, label, value, detail, tone = 'neutral', available = false, badge = null }) {
     return `
         <div class="monitor-card monitor-${tone} ${available ? '' : 'is-empty'}">
@@ -81,3 +83,5 @@ function renderMonitorizacao(parcelas, clima, alertas, weatherByParcelaId, monit
         });
     }
 }
+
+

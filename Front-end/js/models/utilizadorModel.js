@@ -1,3 +1,5 @@
+/* Registo: modelo. */
+
 class UtilizadorModel {
     async register(userData) {
         try {
@@ -26,3 +28,5 @@ class UtilizadorModel {
         }
     }
 }
+
+

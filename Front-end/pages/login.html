@@ -92,6 +92,7 @@
                     }).then((response) => response.json());
 
                 if (data.success) {
+                    /* Sessão do utilizador (localStorage). */
                     localStorage.setItem('user', JSON.stringify(data.user));
                     window.location.href = 'dashboard.html';
                 } else {

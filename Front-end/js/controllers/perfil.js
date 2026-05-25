@@ -1,3 +1,5 @@
+/* Perfil: controlador. */
+
 document.addEventListener('DOMContentLoaded', async () => {
     const api = window.CocoRootApi;
     if (!api) return;
@@ -300,6 +302,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const remoteProfile = perfilResponse?.data || perfilResponse?.user || null;
         if (remoteProfile) {
             liveUser = toUserShape(remoteProfile, liveUser);
+            /* Atualiza a sessão (localStorage). */
             localStorage.setItem('user', JSON.stringify(liveUser));
             updateIdentityUI();
             markClean();
@@ -381,6 +384,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (response?.success === false) throw new Error(response?.message || 'Erro ao guardar.');
 
         liveUser = toUserShape({ ...liveUser, nome, email }, liveUser);
+        /* Atualiza a sessão (localStorage). */
         localStorage.setItem('user', JSON.stringify(liveUser));
         updateIdentityUI();
         markClean();
@@ -473,3 +477,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     initInterests();
     try { await loadStats(); } catch { }
 });
+
+

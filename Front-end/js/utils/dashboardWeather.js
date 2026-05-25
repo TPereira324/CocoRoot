@@ -1,3 +1,5 @@
+/* Dashboard: clima. */
+
 async function fetchWeatherFromOpenMeteo(city) {
     const name = String(city || '').trim() || 'Lisboa';
     const geoUrl = new URL('https://geocoding-api.open-meteo.com/v1/search');
@@ -123,3 +125,5 @@ async function fetchWeatherByLocations(api, parcelas, profile, currentUser) {
     );
     return { defaultClima, weatherByParcelaId, defaultLocation };
 }
+
+

@@ -1,6 +1,9 @@
+/* Dashboard: tarefas (helpers + localStorage). */
+
 const tasksStorageKey = 'cocoRootTasks';
 const alertsStorageKey = 'cocoRootDashboardAlerts';
 
+/* Lê/guarda tarefas e alertas no localStorage. */
 function readTasksStore() { try { const raw = localStorage.getItem(tasksStorageKey); return raw ? JSON.parse(raw) : {}; } catch { return {}; } }
 function writeTasksStore(store) { localStorage.setItem(tasksStorageKey, JSON.stringify(store || {})); }
 function readAlertsStore() { try { const raw = localStorage.getItem(alertsStorageKey); return raw ? JSON.parse(raw) : {}; } catch { return {}; } }
@@ -9,6 +12,7 @@ function writeAlertsStore(store) { localStorage.setItem(alertsStorageKey, JSON.s
 function isTaskDone(task) { return String(task?.estado || '').toLowerCase().includes('conclu'); }
 function getTaskDueDate(task) { const date = new Date(task?.data_inicio || task?.dueDate || 0); return Number.isNaN(date.getTime()) ? null : date; }
 
+/* Separa tarefas em: atrasadas/hoje, próximas e sem data. */
 function classifyTasks(tasks) {
     const all = Array.isArray(tasks) ? tasks : [];
     const cutoff = endOfDay(new Date());
@@ -28,6 +32,7 @@ function classifyTasks(tasks) {
 
 function formatTaskSectionTitle(base, list) { return list.length ? `${base} (${list.length})` : base; }
 
+/* Cria o HTML de uma linha de tarefa. */
 function createTaskRowMarkup(tarefa, interactive = true) {
     const dueText = formatShortDateTime(tarefa.data_inicio);
     const tipo = String(tarefa?.tipo || tarefa?.categoria || 'Tarefa').trim();
@@ -117,6 +122,7 @@ function getUserLocalAlerts(userId) {
     const store = readAlertsStore();
     const now = Date.now();
     const maxAgeMs = 7 * 24 * 60 * 60 * 1000;
+    /* Mantém só alertas recentes (até 7 dias) para evitar crescimento infinito do storage. */
     const alerts = (Array.isArray(store?.[userId]) ? store[userId] : []).filter((alerta) => {
         const createdAt = new Date(alerta?.created_at || alerta?.data || alerta?.date || 0).getTime();
         return !Number.isFinite(createdAt) || now - createdAt <= maxAgeMs;
@@ -124,3 +130,5 @@ function getUserLocalAlerts(userId) {
     if ((store?.[userId] || []).length !== alerts.length) writeAlertsStore({ ...store, [userId]: alerts });
     return alerts;
 }
+
+

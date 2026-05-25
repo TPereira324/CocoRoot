@@ -1,3 +1,5 @@
+/* Config: URLs e paths. */
+
 (() => {
     const manualConfig = {
         backendOrigin: '',
@@ -93,3 +95,5 @@
         apiBaseCandidates,
     };
 })();
+
+

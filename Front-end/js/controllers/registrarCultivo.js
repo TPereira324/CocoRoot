@@ -1,8 +1,11 @@
+/* Registar cultivo: controlador do formulário. */
+
 (() => {
     const form = document.querySelector('[data-cultivo-form]');
     if (!form) return;
     const api = window.CocoRootApi;
     const alertsStorageKey = 'cocoRootDashboardAlerts';
+    /* Guarda alertas locais para o dashboard (localStorage). */
 
     const stepMeta = document.querySelector('[data-step-meta]');
     const progressBar = document.querySelector('[data-cultivo-progress]');
@@ -75,6 +78,7 @@
     const persistLocalAlert = (userId, alerta) => {
         const store = readAlertsStore();
         const current = Array.isArray(store?.[userId]) ? store[userId] : [];
+        /* Cap de 20 itens para limitar o tamanho do localStorage por utilizador. */
         store[userId] = [alerta, ...current].slice(0, 20);
         writeAlertsStore(store);
     };
@@ -266,3 +270,5 @@
 
     showStep(1);
 })();
+
+

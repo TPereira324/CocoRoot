@@ -1,3 +1,5 @@
+/* Relatórios: controlador. */
+
 document.addEventListener('DOMContentLoaded', async () => {
     const api = window.CocoRootApi;
     if (!api) return;
@@ -23,7 +25,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const loadingPills = Array.from(document.querySelectorAll('.reports-loading-pill'));
     const els = { statProd, statRega, statTasks, barsRoot, lineWave, lineChart, linePointsRoot, lineTooltip, donut, donutValue, donutLabel, summaryCopy, summaryList, loadingPills, refreshBtn };
 
+    /* Store de tarefas (fallback local). */
     const tasksStorageKey = 'cocoRootTasks';
+    /* Preferências dos relatórios por utilizador (localStorage). */
     const reportsPrefsKey = `cocoRootReportsPrefs:${String(user.id ?? 'anon')}`;
     const daysByPeriod = { '7d': 7, '30d': 30, '90d': 90 };
     let sourceData = { parcelas: [], tarefas: [], alertas: [] };
@@ -32,6 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const fetchOptional = async (path) => { try { return await api.fetchJson(path); } catch { return null; } };
 
+    /* Lê/grava preferências no localStorage. */
     const readPreferences = () => { try { const raw = localStorage.getItem(reportsPrefsKey); return raw ? JSON.parse(raw) : {}; } catch { return {}; } };
     const writePreferences = () => localStorage.setItem(reportsPrefsKey, JSON.stringify({ period: periodSelect?.value || '30d', focus: focusSelect?.value || 'geral' }));
 
@@ -106,3 +111,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     refreshBtn?.addEventListener('click', async () => { setLoading(true); await loadSources().catch(() => null); applyDataWithDelay(); });
     applyDataWithDelay();
 });
+
+

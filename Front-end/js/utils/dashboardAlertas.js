@@ -1,3 +1,5 @@
+/* Dashboard: alertas. */
+
 function getAlertText(alerta) { return String(alerta?.mensagem || alerta?.message || '').trim(); }
 function getAlertTitle(alerta) { return String(alerta?.titulo || alerta?.title || 'Alerta').trim(); }
 function getAlertLevel(alerta) {
@@ -144,3 +146,5 @@ function generateAlerts({ parcelas, tarefas, clima }) {
     });
     return alerts;
 }
+
+

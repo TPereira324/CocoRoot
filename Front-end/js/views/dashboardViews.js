@@ -1,3 +1,5 @@
+/* Dashboard: views. */
+
 function renderEmpty(container, message) {
     if (!container) return;
     container.innerHTML = `<div class="card"><div style="color:var(--muted);line-height:1.6;">${message}</div></div>`;
@@ -150,3 +152,5 @@ function renderTasks(tasks, options, tarefasContainer) {
     if (sections.unscheduled.length > 0) blocks.push(`<section class="dash-task-section"><div class="dash-task-section-title">${formatTaskSectionTitle('Sem data definida', sections.unscheduled)}</div>${sections.unscheduled.map((t) => createTaskRowMarkup(t, interactive)).join('')}</section>`);
     tarefasContainer.innerHTML = `<div class="dash-task-summary">${summaryText}</div><div class="dash-task-sections">${blocks.join('')}</div>`;
 }
+
+

@@ -1,3 +1,5 @@
+/* Comunidade: post. */
+
 document.addEventListener('DOMContentLoaded', async () => {
     const api = window.CocoRootApi;
     if (!api) return;
@@ -24,6 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         errorEl.textContent = message || '';
     };
 
+    /* Posts escondidos por utilizador (localStorage). */
     const HIDDEN_KEY = 'cocoRootHiddenPosts';
     const getHiddenKey = () => {
         const user = api.getLoggedUser();
@@ -228,3 +231,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await loadPost();
 });
+
+

@@ -1,3 +1,5 @@
+/* Dashboard: utilitários. */
+
 function weatherCodeToText(code) {
     const n = Number(code);
     if (!Number.isFinite(n)) return 'Sem descrição';
@@ -119,3 +121,5 @@ function pickFirstText(sources, keys) {
     }
     return '';
 }
+
+

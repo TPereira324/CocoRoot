@@ -1,3 +1,5 @@
+/* Relatórios: render. */
+
 function relSetLoading(active, els) {
     const { statProd, statRega, statTasks, loadingPills, lineWave, linePointsRoot, lineTooltip, donut, donutValue, refreshBtn } = els;
     [statProd, statRega, statTasks].forEach((node) => {
@@ -117,3 +119,5 @@ function relAnimateDatasetTransition(from, to, els, onDone, duration = 420) {
     };
     requestAnimationFrame(step);
 }
+
+

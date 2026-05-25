@@ -1,3 +1,5 @@
+/* Dashboard: controlador principal. */
+
 document.addEventListener('DOMContentLoaded', async () => {
     const api = window.CocoRootApi;
     if (!api) return;
@@ -79,6 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     const plantKey = `cocoRootParcelaPlanting:${userId}`;
+    /* Datas de plantio por parcela (localStorage). */
     const readPlantStore = () => { try { const raw = localStorage.getItem(plantKey); return raw ? JSON.parse(raw) : {}; } catch { return {}; } };
     const writePlantStore = (store) => { try { localStorage.setItem(plantKey, JSON.stringify(store || {})); } catch { } };
 
@@ -180,6 +183,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const cacheKey = `cocoRootDashCache:${userId}`;
+    /* Cache do dashboard (localStorage, ~10 min). */
     const readCache = () => {
         try {
             const raw = localStorage.getItem(cacheKey);
@@ -298,3 +302,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         setError(error.message || 'Erro ao carregar o dashboard.');
     }
 });
+
+

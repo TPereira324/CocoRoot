@@ -1,3 +1,5 @@
+/* API: pedidos e helpers de sessão. */
+
 (() => {
     const config = window.CocoRootConfig || {};
     const backendBaseUrl = String(config.backendBaseUrl || new URL('../Back-end/', window.location.href).toString());
@@ -105,6 +107,7 @@
         throw lastError || new Error('Falha ao comunicar com o servidor.');
     }
 
+    /* Sessão (user) guardada no localStorage. */
     function getLoggedUser() {
         try {
             const raw = localStorage.getItem('user');
@@ -132,3 +135,5 @@
         requireLoggedUser,
     };
 })();
+
+

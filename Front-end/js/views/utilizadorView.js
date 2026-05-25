@@ -1,3 +1,5 @@
+/* Registo: view. */
+
 class UtilizadorView {
     constructor() {
         this.app = document.getElementById('app');
@@ -19,3 +21,5 @@ class UtilizadorView {
         alert(message);
     }
 }
+
+

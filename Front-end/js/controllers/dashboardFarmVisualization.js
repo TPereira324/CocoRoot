@@ -1,3 +1,5 @@
+/* Dashboard: visualização. */
+
 (function () {
     let scene, camera, renderer, controls, clock;
     let plots = [], initialized = false, cachedIds = '';
@@ -470,3 +472,5 @@
         if (!initialized) { init(); } else { requestAnimationFrame(resize); }
     };
 })();
+
+

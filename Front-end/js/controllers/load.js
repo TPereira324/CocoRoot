@@ -1,3 +1,5 @@
+/* App: inicialização. */
+
 document.addEventListener('DOMContentLoaded', () => {
     const model = new UtilizadorModel();
     const view = new UtilizadorView();
@@ -27,3 +29,5 @@ document.addEventListener('DOMContentLoaded', () => {
     controller.init();
     console.log('Aplicação CocoRoot carregada!');
 });
+
+

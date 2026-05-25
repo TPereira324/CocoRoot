@@ -1,3 +1,5 @@
+/* Relatórios: utilitários. */
+
 function relParseDate(value) {
     const d = new Date(value || 0);
     return Number.isNaN(d.getTime()) ? null : d;
@@ -69,6 +71,7 @@ function relInRange(date, range) { return date && date >= range.start && date <=
 
 function relGetLocalTasks(tasksStorageKey, userId) {
     try {
+        /* Store de tarefas (localStorage). */
         const raw = localStorage.getItem(tasksStorageKey);
         const store = raw ? JSON.parse(raw) : {};
         return Array.isArray(store?.[userId]) ? store[userId] : [];
@@ -147,3 +150,5 @@ function relComputeDataset(sourceData, periodKey, focus, daysByPeriod) {
         helper: `Dados reais de ${parcelas.length} parcela(s), ${allTasks.length} tarefa(s) e ${allAlerts.length} alerta(s).`,
     };
 }
+
+
